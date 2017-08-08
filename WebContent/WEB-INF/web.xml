@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  <display-name>Explorient Web App</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <servlet>
+    <servlet-name>Login</servlet-name>
+    <servlet-class>com.login.Login</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>Login</servlet-name>
+    <url-pattern>/LoginDao</url-pattern>
+  </servlet-mapping>
+  
+  <context-param>
+    <param-name>database.login</param-name>
+    <param-value>SELECT * FROM Users WHERE email = ? AND password = ?;</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>database.username</param-name>
+    <param-value>Richard</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>database.password</param-name>
+    <param-value>jay.yang.kwak</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>database.url</param-name>
+    <param-value>jdbc:mysql://db.explorient.com:3306/ExplorientDB</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>user.email</param-name>
+    <param-value>email</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>user.password</param-name>
+    <param-value>password</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>failed</param-name>
+    <param-value>Email or password is incorrect.</param-value>
+  </context-param>
+  
+</web-app>

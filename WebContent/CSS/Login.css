@@ -1,0 +1,79 @@
+@charset "ISO-8859-1";
+
+body{
+	background-image: url("http://www.explorient.com/wp-content/uploads/2015/03/Background2.jpg");
+	background-color: black;
+	font-family: "calibri";
+	font-size: 1.5em;
+}
+
+#logo{
+	display: block;
+	padding-left: 4em;
+	padding-top: 2em;
+	margin: 0 auto;
+	width: 15em;
+	
+}
+
+#login_div{
+	margin: 0 auto; /* center itself */
+	text-align: center;  /* center the form */
+}
+
+form{	 
+    display: inline-block;  /* width wraps around inner content */
+	margin: 0 auto; /* center itself inside #login_div */
+	text-align: left; 
+}
+
+fieldset{
+
+	border-width: 0.05em;
+	border-style: solid;
+	border-color: #8b7116;
+	background-color: transparent;
+}
+
+#legend{
+	font-weight: bold;
+	font-size: 1em;
+	text-align: center;
+	color: #8b7116;
+}
+
+#login_message{
+	color: #ff8080;
+	font-size: 0.8em;
+}
+
+#explorient_header{
+	text-align: center;
+	color: #8b7116;
+}
+
+.buttons {
+  border-radius: 0.4em;
+  background-color: #8b7116;
+  border: none;
+  color: white;
+  text-align: center;
+  font-size: 0.9em;
+  padding: 0.5em;
+  width: 97%;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.textfields{
+	
+	border-style: solid;
+	border-color: black;
+	padding: 1.5em;
+	font-size: 0.8em;
+	width:300px;
+	height: 20px;
+	background-color: black;
+    color: white;
+ 
+}
