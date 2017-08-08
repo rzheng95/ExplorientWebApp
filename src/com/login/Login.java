@@ -1,13 +1,9 @@
 package com.login;
 
-import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import java.io.*;
+import javax.servlet.annotation.*;
+import javax.servlet.*;  
+import javax.servlet.http.*;  
 import javax.websocket.Session;
 
 
@@ -16,6 +12,11 @@ public class Login extends HttpServlet {
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ServletContext sc = this.getServletContext();
+		String db_username = sc.getInitParameter(LoginDao.DB_USERNAME);
+		
+		System.out.println("the username is: "+db_username);
+		
 		LoginDao dao = new LoginDao();
 		HttpSession session = request.getSession();
 		

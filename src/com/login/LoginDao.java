@@ -1,14 +1,8 @@
 package com.login;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServlet;
+import java.sql.*;
+import javax.servlet.*;  
+import javax.servlet.http.*;  
 import org.mariadb.jdbc.Driver;
 
 
@@ -36,7 +30,7 @@ public class LoginDao extends HttpServlet
 	
 	public void init()
 	{
-		
+
 		try {
 			ServletContext sc = this.getServletContext();
 			db_username = sc.getInitParameter(DB_USERNAME);
@@ -47,6 +41,7 @@ public class LoginDao extends HttpServlet
 			failed = sc.getInitParameter(FAILED);
 			query = sc.getInitParameter(LOGIN_QUERY);
 						
+			System.out.println("db_username is: "+db_username);
 			//Class.forName("org.mariadb.jdbc.Driver");
 			DriverManager.registerDriver(new Driver());
 			conn = DriverManager.getConnection(db_url, db_username, db_password);			
@@ -97,6 +92,7 @@ public class LoginDao extends HttpServlet
 	
 	public static void main(String [] args)
 	{
+		
 		/*
 		try {
 			DriverManager.registerDriver(new Driver());
