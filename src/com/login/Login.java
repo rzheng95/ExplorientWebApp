@@ -32,7 +32,7 @@ public class Login extends HttpServlet {
 		{
 			// cookies for email
 			// add cookie before redirect to other jsp page
-			Cookie emailCookie = new Cookie("Explorient.email", email);
+			Cookie emailCookie = new Cookie("Explorient.email", email); 
 			emailCookie.setMaxAge(60*60*24*365);
 			response.addCookie(emailCookie);
 			

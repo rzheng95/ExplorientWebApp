@@ -7,7 +7,6 @@
         String email = LoginDao.getEmail();
         String password = LoginDao.getPassword();
         String failed = (String)session.getAttribute(LoginDao.FAILED);
-        
 
         if(failed == null)
 		{
@@ -47,7 +46,7 @@
 				<br/>
 				<input class="textfields" type="text" name=<%=email%> value="<%=emailCookie%>" placeholder="Email">  <br/>
 
-				<input class="textfields" type="password" name=<%=email%> placeholder="Password"> <br/><br/>
+				<input class="textfields" type="password" name=<%=password%> placeholder="Password"> <br/><br/>
 
 				<input class="buttons" type="submit" name="sumbit" value="Log in">
 				

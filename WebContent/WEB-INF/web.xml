@@ -16,10 +16,11 @@
     <load-on-startup>0</load-on-startup>
   </servlet>
   
-  <servlet-mapping>
-    <servlet-name>Login</servlet-name>
-    <url-pattern>/LoginDao</url-pattern>
-  </servlet-mapping>
+  <servlet>
+    <servlet-name>LoginDao</servlet-name>
+    <servlet-class>com.login.LoginDao</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
   
   <context-param>
     <param-name>database.login</param-name>
