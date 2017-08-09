@@ -11,22 +11,13 @@ import javax.websocket.Session;
 public class Login extends HttpServlet {
 
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServletContext sc = this.getServletContext();
-		String db_username = sc.getInitParameter(LoginDao.DB_USERNAME);
-		
-		System.out.println("the username is: "+db_username);
-		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
 		LoginDao dao = new LoginDao();
 		HttpSession session = request.getSession();
 		
 		String email = request.getParameter(LoginDao.getEmail());
 		String password = request.getParameter(LoginDao.getPassword());
 		
-		System.out.println("LoginDao.getEmail() is: "+LoginDao.getEmail()+"\nLoginDao.getPassword() is: "+LoginDao.getPassword());	
-		
-		
-		System.out.println("email is: " +email+"\npassword is: "+ password);
 		
 		if(dao.check(email, password))
 		{
