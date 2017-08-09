@@ -20,41 +20,43 @@
 		<title>Insert title here</title>
 	</head>
 <body>
-	<img id="logo" src="Image/explorient logo1.png" alt="logo" />  <br/><br/><br/><br/><br/>
+	<img id="logo" src="Image/explorient logo1.png" alt="logo" />  
 	
-	<div id="login_div">
-		<form action="Login" method="post">
-				<fieldset>
-				<legend id="legend" align= "center"><img id="legend_img" src="Image/Logo grey.png" style="width:3em;height:3em;"></legend>
-				<%
-					String emailCookie = "";
-					Cookie[] emailCookies = request.getCookies();
-					
-					if(emailCookies != null)
-					{
-						for(Cookie tempCookie : emailCookies)
+	<div id="content_wrap">
+		<div id="login_div">
+			<form action="Login" method="post">
+					<fieldset>
+					<legend id="legend" align= "center"><img id="legend_img" src="Image/Logo grey.png" style="width:3em;height:3em;"></legend>
+					<%
+						String emailCookie = "";
+						Cookie[] emailCookies = request.getCookies();
+						
+						if(emailCookies != null)
 						{
-							if("Explorient.email".equals(tempCookie.getName()))	
+							for(Cookie tempCookie : emailCookies)
 							{
-								emailCookie = tempCookie.getValue();
-								break;
+								if("Explorient.email".equals(tempCookie.getName()))	
+								{
+									emailCookie = tempCookie.getValue();
+									break;
+								}
 							}
 						}
-					}
-				%>
-				
-				<br/>
-				<input class="textfields" type="text" name=<%=email%> value="<%=emailCookie%>" placeholder="Email">  <br/>
-
-				<input class="textfields" type="password" name=<%=password%> placeholder="Password"> <br/><br/>
-
-				<input class="buttons" type="submit" name="sumbit" value="Log in">
-				
-				<p id="login_message"><%=failed %></p>
-				
-
-			</fieldset>		
-		</form>
+					%>
+					
+					<br/>
+					<input class="textfields" type="text" name=<%=email%> value="<%=emailCookie%>" placeholder="Email">  <br/>
+	
+					<input class="textfields" type="password" name=<%=password%> placeholder="Password"> <br/><br/>
+	
+					<input class="buttons" type="submit" name="sumbit" value="Log in">
+					
+					<p id="login_message"><%=failed %></p>
+					
+	
+				</fieldset>		
+			</form>
+		</div>
 	</div>
 </body>
 </html>

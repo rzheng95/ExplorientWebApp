@@ -40,7 +40,9 @@ public class LoginDao extends HttpServlet
 			password = sc.getInitParameter(PASSWORD);
 			failed = sc.getInitParameter(FAILED);
 			query = sc.getInitParameter(LOGIN_QUERY);
-						
+			DriverManager.registerDriver(new Driver());
+			
+			
 //			Class.forName("org.mariadb.jdbc.Driver");
 //			DriverManager.registerDriver(new Driver());
 //			conn = DriverManager.getConnection(db_url, db_username, db_password);	
@@ -55,7 +57,7 @@ public class LoginDao extends HttpServlet
 	public boolean check(String email, String password)
 	{
 		try {				
-			DriverManager.registerDriver(new Driver());
+//			DriverManager.registerDriver(new Driver());
 			conn = DriverManager.getConnection(db_url, db_username, db_password);	
 			
 			pstmt = conn.prepareStatement(query);

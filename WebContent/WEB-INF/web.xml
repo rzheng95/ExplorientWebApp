@@ -54,7 +54,7 @@
   
   <context-param>
     <param-name>failed</param-name>
-    <param-value>Email or password is incorrect.</param-value>
+    <param-value>The email or password is incorrect.</param-value>
   </context-param>
   
 </web-app>
