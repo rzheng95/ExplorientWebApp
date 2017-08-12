@@ -5,8 +5,6 @@ import javax.servlet.*;
 import javax.servlet.http.*;  
 import org.mariadb.jdbc.Driver;
 
-
-
 public class LoginDao extends HttpServlet
 {
 	public final static String DB_URL = "database.url";
@@ -15,7 +13,17 @@ public class LoginDao extends HttpServlet
 	public final static String LOGIN_QUERY = "database.login";
 	public final static String EMAIL = "user.email";
 	public final static String PASSWORD = "user.password";
-	public final static String FAILED = "failed";
+	public final static String LOGINFAILED = "login.failed";
+	public final static String REGISTER = "register";
+	public final static String FIRSTNAME = "register.firstname";
+	public final static String LASTNAME = "register.lastname";
+	public final static String LOGINCOOKIENAME = "login.cookie.name";
+	public final static String REGISTERCOOKIENAME = "register.cookie.name";
+	public final static String REGISTEREMPTYFIELD = "register.empty.field.message";
+	public final static String REGISTEREMAILEXIST = "register.email.exist.message";
+	public final static String REGISTERINVALIDEMAIL = "register.invalid.email.message";
+	public final static String REGISTERUNMATCHEDPASSWORD = "register.unmatched.password.message";
+	public final static String REGISTERFAILED = "register.failed";
 	private Connection conn = null;
 	private PreparedStatement pstmt = null;
 	private ResultSet rs;
@@ -25,8 +33,17 @@ public class LoginDao extends HttpServlet
 	private static String query;
 	private static String email;
 	private static String password;
-	private static String failed;
-
+	private static String loginFailed;
+	private static String register;
+	private static String firstname;
+	private static String lastname;
+	private static String loginCookieName;
+	private static String registerCookieName;
+	private static String registerEmptyField;
+	private static String registerEmailExist;
+	private static String registerInvalidEmail;
+	private static String registerUnmatchedPassword;
+	private static String registerFailed;
 	
 	public void init()
 	{
@@ -38,14 +55,21 @@ public class LoginDao extends HttpServlet
 			db_url = sc.getInitParameter(DB_URL);
 			email = sc.getInitParameter(EMAIL);
 			password = sc.getInitParameter(PASSWORD);
-			failed = sc.getInitParameter(FAILED);
+			loginFailed = sc.getInitParameter(LOGINFAILED);
 			query = sc.getInitParameter(LOGIN_QUERY);
+			register = sc.getInitParameter(REGISTER);
+			firstname = sc.getInitParameter(FIRSTNAME);
+			lastname = sc.getInitParameter(LASTNAME);
+			loginCookieName = sc.getInitParameter(LOGINCOOKIENAME);
+			registerCookieName = sc.getInitParameter(REGISTERCOOKIENAME);
+			registerEmptyField = sc.getInitParameter(REGISTEREMPTYFIELD);
+			registerEmailExist = sc.getInitParameter(REGISTEREMAILEXIST);
+			registerInvalidEmail = sc.getInitParameter(REGISTERINVALIDEMAIL);
+			registerUnmatchedPassword = sc.getInitParameter(REGISTERUNMATCHEDPASSWORD);
+			registerFailed = sc.getInitParameter(REGISTERFAILED);
+			
+			
 			DriverManager.registerDriver(new Driver());
-			
-			
-//			Class.forName("org.mariadb.jdbc.Driver");
-//			DriverManager.registerDriver(new Driver());
-//			conn = DriverManager.getConnection(db_url, db_username, db_password);	
 
 
 		} catch (Exception e) {
@@ -88,16 +112,64 @@ public class LoginDao extends HttpServlet
 		return password;
 	}
 
-	public static String getFailed()
+	public static String getLoginFailed()
 	{
-		return failed;
+		return loginFailed;
+	}
+	
+	public static String getRegister()
+	{
+		return register;
+	}
+	
+	public static String getFirstname()
+	{
+		return firstname;
+	}
+	
+	public static String getLastname()
+	{
+		return lastname;
+	}
+	public static String getLoginCookieName()
+	{
+		return loginCookieName;
+	}
+	public static String getRegisterCookieName()
+	{
+		return registerCookieName;
+	}
+	public static String getRegisterEmptyFieldMessage()
+	{
+		return registerEmptyField;
+	}
+	public static String getRegisterEmailExistMessage()
+	{
+		return registerEmailExist;
+	}
+	public static String getRegisterInvalidEmailMessage()
+	{
+		return registerInvalidEmail;
+	}
+	public static String getRegisterUnmatchedPasswordMessage()
+	{
+		return registerUnmatchedPassword;
+	}
+	public static String getRegisterFailed()
+	{
+		return registerFailed;
 	}
 	
 	
+    public static String CapitalizeFirstLetter(String text)
+    {
+    	return text.substring(0, 1).toUpperCase() + text.substring(1);
+    }
 	
-	public static void main(String [] args)
+	
+	public static void main(String [] args) throws Exception
 	{
-		
+			
 		/*
 		try {
 			DriverManager.registerDriver(new Driver());

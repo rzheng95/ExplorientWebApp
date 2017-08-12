@@ -7,34 +7,39 @@ body{
 	height: 100%;
 	background-image: url("http://www.explorient.com/wp-content/uploads/2015/03/Background2.jpg");
 	background-color: black;
-	font-family: "calibri";
+	font-family: "Arial Narrow";
 	font-size: 1.5em;
+	overflow: hidden /* disable scroll bar and remove excessive space created by the header */
 }
 
 #logo{
-	/*display: block;
-	padding-left: 4em;
-	padding-top: 2em;
-	margin: 0 auto;
-	width: 15em;*/
-	
+	margin-left: 1em;
 }
 
+a{
+	text-decoration: none;
+}
+#register{
+
+	color: #8b7116;
+	font-size: 0.7em;
+}
+
+
 #content_wrap{
+	
+	
 	width: 100%;
+	min-height:100%;
 	padding: 0;
 	display: table;
-	height: 100%;
 	position: absolute;
-	top: 0;
-	left: 0;
-	margin: 0;
+
 }
 
 #login_div{
-	margin: 0 auto; /* center itself */
 	text-align: center;  /* center the form */
-	padding: 0;
+	padding-bottom: 200px;
 	vertical-align: middle;
 	display: table-cell;
 }
@@ -47,7 +52,7 @@ form{
 
 fieldset{
 	vertical-align: middle;
-	border-radius: 1em;
+	border-radius: 0.5em;
 	border-width: 0.05em;
 	border-style: solid;
 	border-color: #8b7116;
@@ -61,14 +66,26 @@ fieldset{
 	color: #8b7116;
 }
 
-#login_message{
-	color: #ff8080;
-	font-size: 0.8em;
-}
-
 #explorient_header{
 	text-align: center;
 	color: #8b7116;
+}
+
+#register_div{
+	text-align: center;
+}
+
+#back_to_login{
+	background-color: gray;
+	width: 50%;
+	margin: 0 auto;
+	opacity: 0.5;
+}
+
+.failedMessages{
+	color: #ff8080;
+	font-size: 0.8em;
+	text-align: center;
 }
 
 .buttons {
@@ -79,20 +96,25 @@ fieldset{
   text-align: center;
   font-size: 0.9em;
   padding: 0.5em;
-  width: 97%;
+  width: 100%;
   cursor: pointer;
-  margin: 5px;
+  
 }
 
+
 .textfields{
-	
 	border-style: solid;
 	border-color: black;
 	padding: 1.5em;
 	font-size: 0.8em;
-	width:300px;
+	width: 18em;
 	height: 20px;
 	background-color: black;
     color: white;
  
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px black inset;
+    -webkit-text-fill-color: white !important;
 }

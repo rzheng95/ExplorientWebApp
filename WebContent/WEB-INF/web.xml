@@ -9,52 +9,97 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  
   <servlet>
     <servlet-name>Login</servlet-name>
     <servlet-class>com.login.Login</servlet-class>
     <load-on-startup>0</load-on-startup>
   </servlet>
-  
   <servlet>
     <servlet-name>LoginDao</servlet-name>
     <servlet-class>com.login.LoginDao</servlet-class>
     <load-on-startup>0</load-on-startup>
   </servlet>
-  
   <context-param>
     <param-name>database.login</param-name>
     <param-value>SELECT * FROM Users WHERE email = ? AND password = ?;</param-value>
   </context-param>
-  
   <context-param>
     <param-name>database.username</param-name>
     <param-value>Richard</param-value>
   </context-param>
-  
   <context-param>
     <param-name>database.password</param-name>
     <param-value>jay.yang.kwak</param-value>
   </context-param>
-  
   <context-param>
     <param-name>database.url</param-name>
     <param-value>jdbc:mysql://db.explorient.com:3306/ExplorientDB</param-value>
   </context-param>
-  
   <context-param>
     <param-name>user.email</param-name>
     <param-value>email</param-value>
   </context-param>
-  
   <context-param>
     <param-name>user.password</param-name>
     <param-value>password</param-value>
   </context-param>
-  
   <context-param>
-    <param-name>failed</param-name>
+    <param-name>login.failed</param-name>
     <param-value>The email or password is incorrect.</param-value>
   </context-param>
+    <context-param>
+  <param-name>login.cookie.name</param-name>
+    <param-value>Explorient.email</param-value>
+  </context-param>
   
+  <context-param>
+    <param-name>register</param-name>
+    <param-value>register</param-value>
+  </context-param>
+  
+    <context-param>
+    <param-name>register.failed</param-name>
+    <param-value>register.failed</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>register.firstname</param-name>
+    <param-value>firstname</param-value>
+  </context-param>
+  <context-param>
+    <param-name>register.lastname</param-name>
+    <param-value>lastname</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>register.cookie.name</param-name>
+    <param-value>Explorient.register</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>register.empty.field.message</param-name>
+    <param-value>Sorry, can't leave any blank.</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>register.email.exist.message</param-name>
+    <param-value>Sorry, this email already exists.</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>register.invalid.email.message</param-name>
+    <param-value>Please enter a valid email.</param-value>
+  </context-param>
+    
+  <context-param>
+    <param-name>register.unmatched.password.message</param-name>
+    <param-value>Your password and confirmation password do not match.</param-value>
+  </context-param>
 </web-app>
+
+
+
+
+
+
+
