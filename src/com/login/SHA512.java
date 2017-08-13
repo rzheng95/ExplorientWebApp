@@ -5,7 +5,8 @@ import java.security.MessageDigest;
 
 public class SHA512 {
       public static void main(String args[]) throws Exception {
-          String password = "jaysama";
+          
+    	  String password = "richard33.";
 
     	    if ((args.length == 1) && (args[0].length() > 0))
     	    {
@@ -13,6 +14,7 @@ public class SHA512 {
     	    }
             System.out.println("Password: " + password + " in SHA512 is:");
             System.out.println(hashText(password));
+            
       }
       
     public static String convertByteToHex(byte data[])

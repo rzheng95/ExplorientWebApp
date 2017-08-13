@@ -9,38 +9,49 @@ import javax.websocket.Session;
 
 @WebServlet("/Login")
 public class Login extends HttpServlet {
-
+	private LoginDao dao;
+	private HttpSession session;
+	private SessionIdentifierGenerator sessionIDGenerator;
+	private String email;
+	private String password;
+	private String cookieValue;
+	private String randomSessionID;
+	private Cookie emailCookie;
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
-		LoginDao dao = new LoginDao();
-		HttpSession session = request.getSession();
-		SessionIdentifierGenerator randomSessionID = new SessionIdentifierGenerator();
+		dao = new LoginDao();
+		session = request.getSession();
+		sessionIDGenerator = new SessionIdentifierGenerator();
 		
-		String email = request.getParameter(LoginDao.getEmail());
-		String password = request.getParameter(LoginDao.getPassword());
+		email = request.getParameter(LoginDao.getEmail());
+		password = request.getParameter(LoginDao.getPassword());
 		
-		String cookieValue = email+"="+randomSessionID.nextSessionId();	
+		randomSessionID = sessionIDGenerator.nextSessionId();	
+		
+		cookieValue = email+"="+randomSessionID;
 		
 
 		
 		
-		if(dao.check(email, password))
+		if(dao.checkEmailAndPassword(email, password))
 		{
 			// cookies for email
 			// add cookie before redirect to other jsp page
-			Cookie emailCookie = new Cookie(LoginDao.getLoginCookieName(), cookieValue); 
+			emailCookie = new Cookie(LoginDao.getLoginCookieName(), cookieValue); 
 			emailCookie.setMaxAge(60*60*24*365);
 			response.addCookie(emailCookie);
 			
 			
-			session.setAttribute(LoginDao.getEmail(), email);
-			session.removeAttribute(LoginDao.LOGINFAILED);
+			session.setAttribute(LoginDao.getSessionID(), randomSessionID); 
+			dao.saveSessionId(randomSessionID);
+			
+			session.removeAttribute(LoginDao.LOGIN_FAILED);
 			response.sendRedirect("Homepage.jsp");
 
 		}
 		else
 		{		
-			session.setAttribute(LoginDao.LOGINFAILED, LoginDao.getLoginFailed());
+			session.setAttribute(LoginDao.LOGIN_FAILED, LoginDao.getLoginFailed());
 			response.sendRedirect("Login.jsp");
 		}
 				

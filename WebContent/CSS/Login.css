@@ -19,16 +19,13 @@ body{
 a{
 	text-decoration: none;
 }
-#register{
-
+.links{
 	color: #8b7116;
 	font-size: 0.7em;
 }
 
 
 #content_wrap{
-	
-	
 	width: 100%;
 	min-height:100%;
 	padding: 0;
@@ -71,16 +68,6 @@ fieldset{
 	color: #8b7116;
 }
 
-#register_div{
-	text-align: center;
-}
-
-#back_to_login{
-	background-color: gray;
-	width: 50%;
-	margin: 0 auto;
-	opacity: 0.5;
-}
 
 .failedMessages{
 	color: #ff8080;

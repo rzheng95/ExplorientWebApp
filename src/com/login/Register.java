@@ -14,7 +14,8 @@ import javax.servlet.http.HttpSession;
 public class Register extends HttpServlet {
 
 	private Cookie registerCookie;
-	
+	private HttpSession session;
+	private LoginDao dao;
 	private String email;
 	private String password;
 	private String confirmPassword;
@@ -23,7 +24,8 @@ public class Register extends HttpServlet {
 	private String cookieValue;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
+		session = request.getSession();
+		dao = new LoginDao();
 		
 		email = request.getParameter(LoginDao.getEmail());
 		password = request.getParameter(LoginDao.getPassword());
@@ -35,24 +37,44 @@ public class Register extends HttpServlet {
 
 		// check if any textfields are empty
 		if(!checkEmpty()) 
+		{		
+			session.setAttribute(LoginDao.REGISTER_FAILED, LoginDao.getRegisterEmptyFieldMessage());			
+		}
+		// briefly check if email is vaild 
+		else if(!email.contains("@") && !email.contains("."))
 		{
-			registerCookie = new Cookie(LoginDao.getRegisterCookieName(), cookieValue); 
-			registerCookie.setMaxAge(15);
-			response.addCookie(registerCookie);
-			
-			session.setAttribute(LoginDao.REGISTERFAILED, LoginDao.getRegisterEmptyFieldMessage());
-			response.sendRedirect("Register.jsp");
+			session.setAttribute(LoginDao.REGISTER_FAILED, LoginDao.getRegisterInvalidEmailMessage());
+		}
+		// check if email is vaild 
+		else if(email.length() > 4 && email.substring(0, 4).equals("www."))
+		{
+			session.setAttribute(LoginDao.REGISTER_FAILED, LoginDao.getRegisterInvalidEmailMessage());
+		}
+		// check if both passwords are identical
+		else if(!password.equals(confirmPassword))
+		{
+			session.setAttribute(LoginDao.REGISTER_FAILED, LoginDao.getRegisterUnmatchedPasswordMessage());
+		}
+		// check if email already exists
+		else if(dao.checkEmail(email.trim())) 
+		{
+			session.setAttribute(LoginDao.REGISTER_FAILED, LoginDao.getRegisterEmailExistMessage());
+		}
+		else
+		{
+
+			dao.addUser(email, confirmPassword, firstname, lastname);
+
+			response.sendRedirect("Login.jsp");
 			return;
 		}
 		
-		// check if email already exists
 		
 		
-		// check if both passwords are identical
-		
-		
-		
-		//response.sendRedirect("Login.jsp");
+		registerCookie = new Cookie(LoginDao.getRegisterCookieName(), cookieValue); 
+		registerCookie.setMaxAge(15);
+		response.addCookie(registerCookie);
+		response.sendRedirect("Register.jsp");
 	}
 	
 	public boolean checkEmpty()

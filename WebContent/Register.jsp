@@ -10,7 +10,7 @@
         String register = LoginDao.getRegister();
         String firstname = LoginDao.getFirstname();
         String lastname = LoginDao.getLastname();
-        String failed = (String)session.getAttribute(LoginDao.REGISTERFAILED);
+        String failed = (String)session.getAttribute(LoginDao.REGISTER_FAILED);
 		
         String emailValue = "";
         String firstnameValue = "";
@@ -33,7 +33,7 @@
 					{
 						String[] cookieFragment = tempCookie.getValue().split("=", -1);
 						
-						if(cookieFragment.length <= 3)
+						if(cookieFragment.length == 3)
 						{
 							emailValue = cookieFragment[0];
 							firstnameValue = cookieFragment[1];
@@ -82,10 +82,10 @@
 						
 						<p class="failedMessages"><%=failed %></p>
 						
-						<div id="register_div">
-							<input class="buttons" id="register_button" type="submit" name=<%=register%> value=<%=LoginDao.CapitalizeFirstLetter(register) %>> <br/><br/>
-							<a href="Login.jsp"><input class="buttons"  id="back_to_login" type="button" name="back_to_login" value="Back to login"></a>
-						</div>
+
+						<input class="buttons" id="register_button" type="submit" name=<%=register%> value=<%=LoginDao.CapitalizeFirstLetter(register) %>> <br/><br/>
+						<a class="links" href="Login.jsp">Back to login</a>
+
 						
 						<br/>
 							

@@ -6,7 +6,7 @@
 	<%
         String email = LoginDao.getEmail();
         String password = LoginDao.getPassword();
-        String failed = (String)session.getAttribute(LoginDao.LOGINFAILED);
+        String failed = (String)session.getAttribute(LoginDao.LOGIN_FAILED);
 
         if(failed == null)
 		{
@@ -53,7 +53,8 @@
 									{
 										String[] emailAndSessionID = tempCookie.getValue().split("=");
 										
-										emailCookie = emailAndSessionID[0];
+										if(emailAndSessionID.length==2)
+											emailCookie = emailAndSessionID[0];
 										
 										break;
 									}
@@ -71,7 +72,7 @@
 						<input class="buttons" type="submit" name="sumbit" value="Log in"> <br/> <br/>
 							
 						
-						<a id="register" href="Register.jsp">Register</a>
+						<a class="links" id="register" href="Register.jsp">Register</a>
 
 						
 					</fieldset>		

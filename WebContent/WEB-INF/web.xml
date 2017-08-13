@@ -20,8 +20,33 @@
     <load-on-startup>0</load-on-startup>
   </servlet>
   <context-param>
-    <param-name>database.login</param-name>
+    <param-name>database.login.query</param-name>
     <param-value>SELECT * FROM Users WHERE email = ? AND password = ?;</param-value>
+  </context-param>
+    <context-param>
+    <param-name>database.email.query</param-name>
+    <param-value>SELECT * FROM Users WHERE email = ?;</param-value>
+  </context-param>
+  <context-param>
+    <param-name>database.add.user.query</param-name>
+    <param-value>insert into Users (Email, Password, Lastname, Firstname) values (?, ?, ?, ?);</param-value>
+  </context-param>
+  <context-param>
+    <param-name>database.save.sessionID.query</param-name>
+    <param-value>insert into SessionIDs (SessionID) values (?);</param-value>
+  </context-param>
+  <context-param>
+    <param-name>database.delete.sessionID.query</param-name>
+    <param-value>delete from SessionIDs where SessionID=?;</param-value>
+  </context-param>
+    <context-param>
+    <param-name>database.sessionID.query</param-name>
+    <param-value>select * from SessionIDs where SessionID=?;</param-value>
+  </context-param>
+  
+    <context-param>
+    <param-name>session.id</param-name>
+    <param-value>Explorient.sessionID</param-value>
   </context-param>
   <context-param>
     <param-name>database.username</param-name>
@@ -93,7 +118,7 @@
     
   <context-param>
     <param-name>register.unmatched.password.message</param-name>
-    <param-value>Your password and confirmation password do not match.</param-value>
+    <param-value>Password and Confirm password do not match.</param-value>
   </context-param>
 </web-app>
 
