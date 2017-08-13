@@ -3,10 +3,11 @@ package com.login;
 import java.security.SecureRandom;
 import java.math.BigInteger;
 
-public final class SessionIdentifierGenerator {
+public final class NonceGenerator {
     private  SecureRandom random = new SecureRandom();
 
-    public  String nextSessionId() {
-        return new BigInteger(130, random).toString(32);
+    public String nextNonce() {
+        return new BigInteger(500, random).toString(32);
     }
+    
 }

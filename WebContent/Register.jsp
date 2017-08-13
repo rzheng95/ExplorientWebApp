@@ -4,7 +4,21 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<%
-	
+	// prevents backing after logout
+		response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+
+		// HTTP 1.0
+		response.setHeader("Pragma", "no-cache");
+		
+		// Proxies
+		response.setHeader("Expires", "0");
+		
+		if(session.getAttribute(LoginDao.getSessionName())!=null)
+		{
+			response.sendRedirect("Homepage.jsp");
+		}
+		
+		
         String email = LoginDao.getEmail();
         String password = LoginDao.getPassword();
         String confirmPassword = LoginDao.getConfirmPassword();
@@ -23,7 +37,6 @@
         else
         {
         	
-			String emailCookie = "";
 			Cookie[] registerCookie = request.getCookies();
 			
 			if(registerCookie != null)

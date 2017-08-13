@@ -19,42 +19,24 @@
 	// Proxies
 	response.setHeader("Expires", "0");
 
-	// check if user is logged in
-	/*if(session.getAttribute("email")==null)
-	{
-		response.sendRedirect("Login.jsp");
-	}*/
 	LoginDao dao = new LoginDao();
-	String sessionID = "";
-	Cookie[] emailAndSessionIDCookies = request.getCookies();
 	
-	if(emailAndSessionIDCookies != null)
-	{
-		for(Cookie tempCookie : emailAndSessionIDCookies)
-		{
-			if(LoginDao.getLoginCookieName().equals(tempCookie.getName()))	
-			{
-				String[] emailAndSessionID = tempCookie.getValue().split("=");
-				
-				if(emailAndSessionID.length==2)
-					sessionID = emailAndSessionID[1];
-				
-				break;
-			}
-		}
-	}
+	Cookie[] emailAndNonceCookies = request.getCookies();
+	
+	String nonce = dao.getNonceCookie(emailAndNonceCookies);	
 	
 	
-	
-	if(sessionID.equals("") || !dao.checkSessionID(sessionID) || session.getAttribute(LoginDao.getSessionID())==null)
+	if(nonce.equals("") || !dao.checkNonce(nonce) || session.getAttribute(LoginDao.getSessionName())==null)
 	{
 		response.sendRedirect("Login.jsp");
 	}
+	
+	
 	%>
 	
 	<jsp:include page="HTML/Header.html" />
 	
-	Welcome to homepage
+	Welcome to homepage. You are logged in as 
 	
 	
 	

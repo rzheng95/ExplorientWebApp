@@ -4,6 +4,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<%
+		// prevents backing after logout
+		response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+	
+		// HTTP 1.0
+		response.setHeader("Pragma", "no-cache");
+		
+		// Proxies
+		response.setHeader("Expires", "0");
+		
+		
         String email = LoginDao.getEmail();
         String password = LoginDao.getPassword();
         String failed = (String)session.getAttribute(LoginDao.LOGIN_FAILED);
@@ -41,25 +51,10 @@
 				<form action="Login" method="post">
 						<fieldset>
 						<legend id="legend" align= "center"><img id="legend_img" src="Image/Logo grey.png" style="width:3em;height:3em;"></legend>
-						<%
-							String emailCookie = "";
-							Cookie[] emailAndSessionIDCookies = request.getCookies();
-							
-							if(emailAndSessionIDCookies != null)
-							{
-								for(Cookie tempCookie : emailAndSessionIDCookies)
-								{
-									if(LoginDao.getLoginCookieName().equals(tempCookie.getName()))	
-									{
-										String[] emailAndSessionID = tempCookie.getValue().split("=");
-										
-										if(emailAndSessionID.length==2)
-											emailCookie = emailAndSessionID[0];
-										
-										break;
-									}
-								}
-							}
+						<%				
+							LoginDao dao = new LoginDao();
+							Cookie[] emailAndNonceCookies = request.getCookies();			
+							String emailCookie = dao.getEmailCookie(emailAndNonceCookies);
 						%>
 						
 						<br/>

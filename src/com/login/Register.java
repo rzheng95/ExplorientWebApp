@@ -22,10 +22,15 @@ public class Register extends HttpServlet {
 	private String firstname;
 	private String lastname;
 	private String cookieValue;
+	private String nonce;
+	private Cookie emailCookie;
+	private NonceGenerator nonceGenerator;
+	private String currentNonce;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		session = request.getSession();
 		dao = new LoginDao();
+		nonceGenerator = new NonceGenerator();
 		
 		email = request.getParameter(LoginDao.getEmail());
 		password = request.getParameter(LoginDao.getPassword());
@@ -33,10 +38,16 @@ public class Register extends HttpServlet {
 		firstname = request.getParameter(LoginDao.getFirstname());
 		lastname = request.getParameter(LoginDao.getLastname());
 		cookieValue = email+"="+firstname+"="+lastname;
-		
 
+		
+		// check if user is already logged in
+		if(session.getAttribute(LoginDao.getSessionName())!=null)
+		{
+			response.sendRedirect("Homepage.jsp");
+			return;
+		}
 		// check if any textfields are empty
-		if(!checkEmpty()) 
+		else if(!checkEmpty()) 
 		{		
 			session.setAttribute(LoginDao.REGISTER_FAILED, LoginDao.getRegisterEmptyFieldMessage());			
 		}
@@ -62,10 +73,21 @@ public class Register extends HttpServlet {
 		}
 		else
 		{
-
 			dao.addUser(email, confirmPassword, firstname, lastname);
-
-			response.sendRedirect("Login.jsp");
+			
+			nonce = nonceGenerator.nextNonce();	
+			
+			cookieValue = email+"="+nonce;
+			
+			emailCookie = new Cookie(LoginDao.getLoginCookieName(), cookieValue); 
+			emailCookie.setMaxAge(60*60*24*365);
+			response.addCookie(emailCookie);
+			
+			
+			session.setAttribute(LoginDao.getSessionName(), cookieValue); 
+			dao.saveNonce(nonce);
+			
+			response.sendRedirect("Homepage.jsp");
 			return;
 		}
 		

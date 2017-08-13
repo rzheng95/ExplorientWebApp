@@ -10,11 +10,11 @@ public class LoginDao extends HttpServlet
 	public final static String LOGIN_QUERY = "database.login.query";
 	public final static String EMAIL_QUERY = "database.email.query";
 	public final static String ADD_USER_QUERY = "database.add.user.query";
-	public final static String SAVE_SESSIONID_QUERY = "database.save.sessionID.query";
-	public final static String DELETE_SESSIONID_QUERY = "database.delete.sessionID.query";
-	public final static String SESSIONID_QUERY = "database.sessionID.query";
+	public final static String SAVE_NONCE_QUERY = "database.save.nonce.query";
+	public final static String DELETE_NONCE_QUERY = "database.delete.nonce.query";
+	public final static String NONCE_QUERY = "database.nonce.query";
 	
-	public final static String SESSION_ID = "session.id";
+	public final static String SESSION_NAME = "session.name";
 	public final static String DB_URL = "database.url";
 	public final static String DB_USERNAME = "database.username";
 	public final static String DB_PASSWORD = "database.password";
@@ -22,6 +22,8 @@ public class LoginDao extends HttpServlet
 	public final static String PASSWORD = "user.password";
 	public final static String CONFIRM_PASSWORD = "register.confirm.password";
 	public final static String LOGIN_FAILED = "login.failed";
+	public final static String LOGIN_MAX_LENGTH_FAILED = "login.max.lenth.failed";
+	public final static String MAX_LENGTH = "max.length";
 	public final static String REGISTER = "register";
 	public final static String FIRSTNAME = "register.firstname";
 	public final static String LASTNAME = "register.lastname";
@@ -39,12 +41,12 @@ public class LoginDao extends HttpServlet
 	private static String loginQuery;
 	private static String emailQuery;
 	private static String addUserrQuery;
-	private static String saveSessionIDQuery;
-	private static String deleteSessionIDQuery;
-	private static String sessionIDQuery;
+	private static String saveNonceQuery;
+	private static String deleteNonceQuery;
+	private static String nonceQuery;
 	
 	
-	private static String sessionID;
+	private static String sessionName;
 	private static String db_username;
 	private static String db_password;
 	private static String db_url;
@@ -52,6 +54,8 @@ public class LoginDao extends HttpServlet
 	private static String password;
 	private static String confirmPassword;
 	private static String loginFailed;
+	private static String loginMaxLengthFailed;
+	private static int maxLength;
 	private static String register;
 	private static String firstname;
 	private static String lastname;
@@ -73,11 +77,11 @@ public class LoginDao extends HttpServlet
 			loginQuery = sc.getInitParameter(LOGIN_QUERY);
 			emailQuery = sc.getInitParameter(EMAIL_QUERY);
 			addUserrQuery = sc.getInitParameter(ADD_USER_QUERY);
-			saveSessionIDQuery = sc.getInitParameter(SAVE_SESSIONID_QUERY);
-			deleteSessionIDQuery = sc.getInitParameter(DELETE_SESSIONID_QUERY);
-			sessionIDQuery = sc.getInitParameter(SESSIONID_QUERY);
+			saveNonceQuery = sc.getInitParameter(SAVE_NONCE_QUERY);
+			deleteNonceQuery = sc.getInitParameter(DELETE_NONCE_QUERY);
+			nonceQuery = sc.getInitParameter(NONCE_QUERY);
 			
-			sessionID = sc.getInitParameter(SESSION_ID);
+			sessionName = sc.getInitParameter(SESSION_NAME);
 			db_username = sc.getInitParameter(DB_USERNAME);
 			db_password = sc.getInitParameter(DB_PASSWORD);
 			db_url = sc.getInitParameter(DB_URL);
@@ -85,6 +89,8 @@ public class LoginDao extends HttpServlet
 			password = sc.getInitParameter(PASSWORD);
 			confirmPassword = sc.getInitParameter(CONFIRM_PASSWORD);
 			loginFailed = sc.getInitParameter(LOGIN_FAILED);
+			loginMaxLengthFailed = sc.getInitParameter(LOGIN_MAX_LENGTH_FAILED);
+			maxLength = Integer.parseInt(sc.getInitParameter(MAX_LENGTH));
 			register = sc.getInitParameter(REGISTER);
 			firstname = sc.getInitParameter(FIRSTNAME);
 			lastname = sc.getInitParameter(LASTNAME);
@@ -105,6 +111,10 @@ public class LoginDao extends HttpServlet
 		}
 	}
 	
+	public boolean checkMaxLength(String text)
+	{
+		return (text.length() > maxLength);
+	}
 
 	public boolean checkEmailAndPassword(String email, String password)
 	{			
@@ -175,13 +185,13 @@ public class LoginDao extends HttpServlet
 		}
 	}
 	
-	public void saveSessionId(String sessionId)
+	public void saveNonce(String nonce)
 	{
 		try {				
 			conn = DriverManager.getConnection(db_url, db_username, db_password);	
 			
-			pstmt = conn.prepareStatement(saveSessionIDQuery);
-			pstmt.setString(1, sessionId);
+			pstmt = conn.prepareStatement(saveNonceQuery);
+			pstmt.setString(1, nonce);
 			rs = pstmt.executeQuery();
 			
 						
@@ -194,13 +204,13 @@ public class LoginDao extends HttpServlet
 		}
 	}
 	
-	public void deleteSessionId(String sessionId)
+	public void deleteNonce(String nonce)
 	{
 		try {				
 			conn = DriverManager.getConnection(db_url, db_username, db_password);	
 			
-			pstmt = conn.prepareStatement(deleteSessionIDQuery);
-			pstmt.setString(1, sessionId);
+			pstmt = conn.prepareStatement(deleteNonceQuery);
+			pstmt.setString(1, nonce);
 			rs = pstmt.executeQuery();
 			
 						
@@ -213,13 +223,13 @@ public class LoginDao extends HttpServlet
 		}
 	}
 	
-	public boolean checkSessionID(String sessionId)
+	public boolean checkNonce(String nonce)
 	{
 		try {				
 			conn = DriverManager.getConnection(db_url, db_username, db_password);	
 			
-			pstmt = conn.prepareStatement(sessionIDQuery);
-			pstmt.setString(1, sessionId);
+			pstmt = conn.prepareStatement(nonceQuery);
+			pstmt.setString(1, nonce);
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) return true;
@@ -233,10 +243,54 @@ public class LoginDao extends HttpServlet
 		return false;
 	}
 	
-	
-	public static String getSessionID()
+	public String getEmailCookie(Cookie[] emailAndNonceCookies)
 	{
-		return sessionID;
+		String email = "";
+		
+		if(emailAndNonceCookies != null)
+		{
+			for(Cookie tempCookie : emailAndNonceCookies)
+			{
+				if(LoginDao.getLoginCookieName().equals(tempCookie.getName()))	
+				{
+					String[] emailAndNonce = tempCookie.getValue().split("=");
+					
+					if(emailAndNonce.length==2)	
+						email = emailAndNonce[0];
+				
+					break;
+				}
+			}
+		}
+		return email;
+	}
+	
+	public String getNonceCookie(Cookie[] emailAndNonceCookies)
+	{
+		String nonce = "";
+		
+		if(emailAndNonceCookies != null)
+		{
+			for(Cookie tempCookie : emailAndNonceCookies)
+			{
+				if(LoginDao.getLoginCookieName().equals(tempCookie.getName()))	
+				{
+					String[] emailAndNonce = tempCookie.getValue().split("=");
+					
+					if(emailAndNonce.length==2)	
+						nonce = emailAndNonce[1];
+				
+					break;
+				}
+			}
+		}
+		return nonce;
+	}
+	
+	
+	public static String getSessionName()
+	{
+		return sessionName;
 	}
 	public static String getEmail()
 	{
@@ -255,6 +309,11 @@ public class LoginDao extends HttpServlet
 	public static String getLoginFailed()
 	{
 		return loginFailed;
+	}
+	
+	public static String getLoginMaxLengthFailed()
+	{
+		return loginMaxLengthFailed;
 	}
 	
 	public static String getRegister()
