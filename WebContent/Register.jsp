@@ -7,6 +7,7 @@
 	
         String email = LoginDao.getEmail();
         String password = LoginDao.getPassword();
+        String confirmPassword = LoginDao.getConfirmPassword();
         String register = LoginDao.getRegister();
         String firstname = LoginDao.getFirstname();
         String lastname = LoginDao.getLastname();
@@ -69,16 +70,16 @@
 
 						
 						<br/>
-						<input class="textfields" type="text" name=<%=email%> value="<%=emailValue%>" placeholder=<%=LoginDao.CapitalizeFirstLetter(email) %>>  <br/>
+						<input class="textfields" type="text" name=<%=email%> value="<%=emailValue%>" placeholder="<%=LoginDao.CapitalizeFirstLetter(email) %>">  <br/>
 						
 		
-						<input class="textfields" type="password" name=<%=password%>  placeholder=<%=LoginDao.CapitalizeFirstLetter(password) %>>  <br/>
+						<input class="textfields" type="password" name=<%=password%>  placeholder="<%=LoginDao.CapitalizeFirstLetter(password) %>">  <br/>
 
-						<input class="textfields" type="password" name=<%="Confirm_"+password%>  placeholder=<%="Confirm_"+LoginDao.CapitalizeFirstLetter(password) %>>  <br/>
+						<input class="textfields" type="password" name=<%=confirmPassword%>  placeholder="<%=LoginDao.CapitalizeFirstLetter(confirmPassword) %>">  <br/>
 						
-						<input class="textfields" type="text" name=<%=firstname%> value="<%=firstnameValue%>"  placeholder=<%=LoginDao.CapitalizeFirstLetter(firstname) %>> <br/>
+						<input class="textfields" type="text" name=<%=firstname%> value="<%=firstnameValue%>"  placeholder="<%=LoginDao.CapitalizeFirstLetter(firstname) %>"> <br/>
 						
-						<input class="textfields" type="text" name=<%=lastname%> value="<%=lastnameValue%>" placeholder=<%=LoginDao.CapitalizeFirstLetter(lastname) %>> <br/>
+						<input class="textfields" type="text" name=<%=lastname%> value="<%=lastnameValue%>" placeholder="<%=LoginDao.CapitalizeFirstLetter(lastname) %>"> <br/>
 						
 						<p class="failedMessages"><%=failed %></p>
 						

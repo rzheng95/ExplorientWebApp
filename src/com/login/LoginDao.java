@@ -20,6 +20,7 @@ public class LoginDao extends HttpServlet
 	public final static String DB_PASSWORD = "database.password";
 	public final static String EMAIL = "user.email";
 	public final static String PASSWORD = "user.password";
+	public final static String CONFIRM_PASSWORD = "register.confirm.password";
 	public final static String LOGIN_FAILED = "login.failed";
 	public final static String REGISTER = "register";
 	public final static String FIRSTNAME = "register.firstname";
@@ -49,6 +50,7 @@ public class LoginDao extends HttpServlet
 	private static String db_url;
 	private static String email;
 	private static String password;
+	private static String confirmPassword;
 	private static String loginFailed;
 	private static String register;
 	private static String firstname;
@@ -81,6 +83,7 @@ public class LoginDao extends HttpServlet
 			db_url = sc.getInitParameter(DB_URL);
 			email = sc.getInitParameter(EMAIL);
 			password = sc.getInitParameter(PASSWORD);
+			confirmPassword = sc.getInitParameter(CONFIRM_PASSWORD);
 			loginFailed = sc.getInitParameter(LOGIN_FAILED);
 			register = sc.getInitParameter(REGISTER);
 			firstname = sc.getInitParameter(FIRSTNAME);
@@ -243,6 +246,10 @@ public class LoginDao extends HttpServlet
 	public static String getPassword()
 	{
 		return password;
+	}
+	public static String getConfirmPassword()
+	{
+		return confirmPassword;
 	}
 
 	public static String getLoginFailed()

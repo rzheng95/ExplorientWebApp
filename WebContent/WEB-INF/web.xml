@@ -68,6 +68,10 @@
     <param-name>user.password</param-name>
     <param-value>password</param-value>
   </context-param>
+    <context-param>
+    <param-name>register.confirm.password</param-name>
+    <param-value>confirm password</param-value>
+  </context-param>
   <context-param>
     <param-name>login.failed</param-name>
     <param-value>The email or password is incorrect.</param-value>
@@ -89,11 +93,11 @@
   
   <context-param>
     <param-name>register.firstname</param-name>
-    <param-value>firstname</param-value>
+    <param-value>first name</param-value>
   </context-param>
   <context-param>
     <param-name>register.lastname</param-name>
-    <param-value>lastname</param-value>
+    <param-value>last name</param-value>
   </context-param>
   
   <context-param>
