@@ -25,7 +25,6 @@ public class Register extends HttpServlet {
 	private String nonce;
 	private Cookie emailCookie;
 	private NonceGenerator nonceGenerator;
-	private String currentNonce;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		session = request.getSession();
@@ -45,6 +44,12 @@ public class Register extends HttpServlet {
 		{
 			response.sendRedirect("Homepage.jsp");
 			return;
+		}
+		// no length more than 254 due to the character limit in database is varchar(255)
+		if(dao.checkMaxLength(email) || dao.checkMaxLength(password) || dao.checkMaxLength(confirmPassword) || dao.checkMaxLength(firstname) || dao.checkMaxLength(lastname))
+		{
+			cookieValue = "==";
+			session.setAttribute(LoginDao.REGISTER_FAILED, LoginDao.getRegisterMaxLengthFailed());
 		}
 		// check if any textfields are empty
 		else if(!checkEmpty()) 

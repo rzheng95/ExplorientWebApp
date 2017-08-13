@@ -9,7 +9,7 @@
 	</head>
 	
 <body>
-	<%
+	<%	
 	// prevents backing after logout
 	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 
@@ -25,11 +25,12 @@
 	
 	String nonce = dao.getNonceCookie(emailAndNonceCookies);	
 	
-	
+	// Cookie || Database || Session
 	if(nonce.equals("") || !dao.checkNonce(nonce) || session.getAttribute(LoginDao.getSessionName())==null)
 	{
 		response.sendRedirect("Login.jsp");
 	}
+	
 	
 	String email = "";
 	String sessionValue = request.getSession(false).getAttribute(LoginDao.getSessionName()).toString();

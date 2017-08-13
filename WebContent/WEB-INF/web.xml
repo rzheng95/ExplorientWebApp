@@ -132,6 +132,10 @@
     <param-name>register.unmatched.password.message</param-name>
     <param-value>Password and Confirm password do not match.</param-value>
   </context-param>
+   <context-param>
+    <param-name>register.max.lenth.failed.message</param-name>
+    <param-value>Email, password, first name, or last name length invalid.</param-value>
+  </context-param>
 </web-app>
 
 

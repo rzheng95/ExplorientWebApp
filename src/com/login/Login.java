@@ -71,6 +71,8 @@ public class Login extends HttpServlet {
 			session.setAttribute(LoginDao.getSessionName(), cookieValue); 
 			dao.saveNonce(nonce);
 			
+			//session.setMaxInactiveInterval(5);
+			
 			session.removeAttribute(LoginDao.LOGIN_FAILED);
 			response.sendRedirect("Homepage.jsp");
 

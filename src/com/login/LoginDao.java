@@ -34,6 +34,7 @@ public class LoginDao extends HttpServlet
 	public final static String REGISTER_INVALID_EMAIL = "register.invalid.email.message";
 	public final static String REGISTER_UNMATCHED_PASSWORD = "register.unmatched.password.message";
 	public final static String REGISTER_FAILED = "register.failed";
+	public final static String REGISTER_MAX_LENGTH_FAILED = "register.max.lenth.failed.message";
 	private Connection conn = null;
 	private PreparedStatement pstmt = null;
 	private ResultSet rs;
@@ -66,6 +67,7 @@ public class LoginDao extends HttpServlet
 	private static String registerInvalidEmail;
 	private static String registerUnmatchedPassword;
 	private static String registerFailed;
+	private static String registerMaxLengthFailed;
 	
 	public void init()
 	{
@@ -101,7 +103,7 @@ public class LoginDao extends HttpServlet
 			registerInvalidEmail = sc.getInitParameter(REGISTER_INVALID_EMAIL);
 			registerUnmatchedPassword = sc.getInitParameter(REGISTER_UNMATCHED_PASSWORD);
 			registerFailed = sc.getInitParameter(REGISTER_FAILED);
-
+			registerMaxLengthFailed = sc.getInitParameter(REGISTER_MAX_LENGTH_FAILED);
 			
 			DriverManager.registerDriver(new Driver());
 
@@ -357,6 +359,10 @@ public class LoginDao extends HttpServlet
 	public static String getRegisterFailed()
 	{
 		return registerFailed;
+	}
+	public static String getRegisterMaxLengthFailed()
+	{
+		return registerMaxLengthFailed;
 	}
 	
 	
