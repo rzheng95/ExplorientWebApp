@@ -17,21 +17,20 @@ public class Logout extends HttpServlet {
 		HttpSession session = request.getSession();
 		LoginDao dao = new LoginDao();
 
-		Cookie[] emailAndNonceCookies = request.getCookies();
+		String nonce = "";
+		String sessionValue = request.getSession(false).getAttribute(LoginDao.getSessionName()).toString();
 		
-		String nonce = dao.getNonceCookie(emailAndNonceCookies);
+		if(!sessionValue.isEmpty() && sessionValue.contains("="))
+			nonce = sessionValue.split("=")[1];
 		
 		dao.deleteNonce(nonce);
+		
 		//dao.deleteNonce(request.getSession(false).getAttribute(LoginDao.getSessionName()).toString());
-		
-		
+
 		session.removeAttribute(LoginDao.getSessionName());
 		session.invalidate();
-		
-		
-		
+
 		response.sendRedirect("Login.jsp");
-		
 	}
 
 

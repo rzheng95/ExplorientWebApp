@@ -31,12 +31,17 @@
 		response.sendRedirect("Login.jsp");
 	}
 	
+	String email = "";
+	String sessionValue = request.getSession(false).getAttribute(LoginDao.getSessionName()).toString();
+	if(!sessionValue.isEmpty() && sessionValue.contains("="))
+		email = sessionValue.split("=")[0];
+	
 	
 	%>
 	
 	<jsp:include page="HTML/Header.html" />
 	
-	Welcome to homepage. You are logged in as 
+	Welcome to homepage. You are logged in as <%=email %>
 	
 	
 	

@@ -34,26 +34,35 @@ public class Login extends HttpServlet {
 		Cookie[] emailAndNonceCookies = request.getCookies();
 		
 		
-		// check if user is already logged in
+		// if user tries to log himself in again
 		if(session.getAttribute(LoginDao.getSessionName())!=null && email.equals(dao.getEmailCookie(emailAndNonceCookies)))
 		{
 			response.sendRedirect("Homepage.jsp");
 			return;		
-		}	
+		}
+		// no length more than 254 due to the character limit in database is varchar(255)
 		if(dao.checkMaxLength(email) || dao.checkMaxLength(password))
 		{
 			session.setAttribute(LoginDao.LOGIN_FAILED, LoginDao.getLoginMaxLengthFailed());
 			response.sendRedirect("Login.jsp");
 		}
+		// check if email and password are correct
 		else if(dao.checkEmailAndPassword(email, password))
 		{
+			// check if user is currently logged in but tries to login with different valid account
 			if(session.getAttribute(LoginDao.getSessionName())!=null)
 			{
-				dao.deleteNonce(dao.getNonceCookie(emailAndNonceCookies));		
+				String nonce = "";
+				String sessionValue = request.getSession(false).getAttribute(LoginDao.getSessionName()).toString();
+				
+				if(!sessionValue.isEmpty() && sessionValue.contains("="))
+					nonce = sessionValue.split("=")[1];
+				
+				dao.deleteNonce(nonce);
 				session.removeAttribute(LoginDao.getSessionName());
 			}
-			// cookies for email
-			// add cookie before redirect to other jsp page
+			
+			// cookie and session values are the same 'email=nonce'
 			emailCookie = new Cookie(LoginDao.getLoginCookieName(), cookieValue); 
 			emailCookie.setMaxAge(60*60*24*365);
 			response.addCookie(emailCookie);

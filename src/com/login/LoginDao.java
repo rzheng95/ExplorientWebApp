@@ -366,10 +366,10 @@ public class LoginDao extends HttpServlet
     }
 	
 	
-	public static void main(String [] args) throws Exception
+	/*public static void main(String [] args) throws Exception
 	{
 
-		/*
+		
 		try {
 			DriverManager.registerDriver(new Driver());
 			conn = DriverManager.getConnection(url, DBUsername, DBPassword);
@@ -387,7 +387,7 @@ public class LoginDao extends HttpServlet
 			rs.close();
 		} catch (Exception e) {
 			System.err.println(e);
-		}*/
+		}
 
-	}
+	}*/
 }

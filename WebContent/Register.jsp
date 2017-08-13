@@ -79,10 +79,10 @@
 			
 				<form action="Register" method="post">
 						<fieldset>
-						<legend id="legend" align= "center"><img id="legend_img" src="Image/Logo grey.png" style="width:3em;height:3em;"></legend>
+						<legend id="legend" align= "center"><img id="legend_img" src="Image/Logo grey.png" style="width:3em;height:3em;"></legend> <br/>
 
 						
-						<br/>
+						
 						<input class="textfields" type="text" name="<%=email%>" value="<%=emailValue%>" placeholder="<%=LoginDao.CapitalizeFirstLetter(email) %>">  <br/>
 						
 		

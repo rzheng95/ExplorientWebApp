@@ -23,6 +23,9 @@
 			failed = " ";
 		}
         
+		LoginDao dao = new LoginDao();
+		Cookie[] emailAndNonceCookies = request.getCookies();			
+		String emailCookie = dao.getEmailCookie(emailAndNonceCookies);
 	%>
 
 
@@ -33,15 +36,6 @@
 		<title>Explorient Login</title>
 	</head>
 <body>
-	<script>
-	function myFunction(){
-	
-		document.getElementById("login_message").innerHTML = "The form has been updated.";
-	
-	};
-
-	</script>
-
 		<div id="logo_div">
 			<a href="http://www.explorient.com"> <img id="logo" src="Image/explorient logo1.png" alt="logo" /> </a>
 		</div>
@@ -50,14 +44,9 @@
 			
 				<form action="Login" method="post">
 						<fieldset>
-						<legend id="legend" align= "center"><img id="legend_img" src="Image/Logo grey.png" style="width:3em;height:3em;"></legend>
-						<%				
-							LoginDao dao = new LoginDao();
-							Cookie[] emailAndNonceCookies = request.getCookies();			
-							String emailCookie = dao.getEmailCookie(emailAndNonceCookies);
-						%>
+						<legend id="legend" align= "center"><img id="legend_img" src="Image/Logo grey.png" style="width:3em;height:3em;"></legend> <br/>
 						
-						<br/>
+						
 						<input class="textfields" type="text" name="<%=email%>" value="<%=emailCookie%>" placeholder="<%=LoginDao.CapitalizeFirstLetter(email) %>">  <br/>
 		
 						<input class="textfields" type="password" name="<%=password%>" placeholder="<%=LoginDao.CapitalizeFirstLetter(password) %>"> 
