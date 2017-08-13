@@ -70,21 +70,21 @@
 
 						
 						<br/>
-						<input class="textfields" type="text" name=<%=email%> value="<%=emailValue%>" placeholder="<%=LoginDao.CapitalizeFirstLetter(email) %>">  <br/>
+						<input class="textfields" type="text" name="<%=email%>" value="<%=emailValue%>" placeholder="<%=LoginDao.CapitalizeFirstLetter(email) %>">  <br/>
 						
 		
-						<input class="textfields" type="password" name=<%=password%>  placeholder="<%=LoginDao.CapitalizeFirstLetter(password) %>">  <br/>
+						<input class="textfields" type="password" name="<%=password%>"  placeholder="<%=LoginDao.CapitalizeFirstLetter(password) %>">  <br/>
 
-						<input class="textfields" type="password" name=<%=confirmPassword%>  placeholder="<%=LoginDao.CapitalizeFirstLetter(confirmPassword) %>">  <br/>
+						<input class="textfields" type="password" name="<%=confirmPassword%>"  placeholder="<%=LoginDao.CapitalizeFirstLetter(confirmPassword) %>">  <br/>
 						
-						<input class="textfields" type="text" name=<%=firstname%> value="<%=firstnameValue%>"  placeholder="<%=LoginDao.CapitalizeFirstLetter(firstname) %>"> <br/>
+						<input class="textfields" type="text" name="<%=firstname%>" value="<%=firstnameValue%>"  placeholder="<%=LoginDao.CapitalizeFirstLetter(firstname) %>"> <br/>
 						
-						<input class="textfields" type="text" name=<%=lastname%> value="<%=lastnameValue%>" placeholder="<%=LoginDao.CapitalizeFirstLetter(lastname) %>"> <br/>
+						<input class="textfields" type="text" name="<%=lastname%>" value="<%=lastnameValue%>" placeholder="<%=LoginDao.CapitalizeFirstLetter(lastname) %>"> <br/>
 						
 						<p class="failedMessages"><%=failed %></p>
 						
 
-						<input class="buttons" id="register_button" type="submit" name=<%=register%> value=<%=LoginDao.CapitalizeFirstLetter(register) %>> <br/><br/>
+						<input class="buttons" id="register_button" type="submit" name="<%=register%>" value="<%=LoginDao.CapitalizeFirstLetter(register) %>"> <br/><br/>
 						<a class="links" href="Login.jsp">Back to login</a>
 
 						

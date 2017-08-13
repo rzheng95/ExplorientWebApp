@@ -63,9 +63,9 @@
 						%>
 						
 						<br/>
-						<input class="textfields" type="text" name=<%=email%> value="<%=emailCookie%>" placeholder=<%=LoginDao.CapitalizeFirstLetter(email) %>>  <br/>
+						<input class="textfields" type="text" name="<%=email%>" value="<%=emailCookie%>" placeholder="<%=LoginDao.CapitalizeFirstLetter(email) %>">  <br/>
 		
-						<input class="textfields" type="password" name=<%=password%> placeholder=<%=LoginDao.CapitalizeFirstLetter(password) %>> 
+						<input class="textfields" type="password" name="<%=password%>" placeholder="<%=LoginDao.CapitalizeFirstLetter(password) %>"> 
 		
 						<p class="failedMessages" ><%=failed %></p>
 						

@@ -29,7 +29,7 @@ public class Register extends HttpServlet {
 		
 		email = request.getParameter(LoginDao.getEmail());
 		password = request.getParameter(LoginDao.getPassword());
-		confirmPassword = request.getParameter("Confirm_"+LoginDao.getPassword());
+		confirmPassword = request.getParameter(LoginDao.getConfirmPassword());
 		firstname = request.getParameter(LoginDao.getFirstname());
 		lastname = request.getParameter(LoginDao.getLastname());
 		cookieValue = email+"="+firstname+"="+lastname;
