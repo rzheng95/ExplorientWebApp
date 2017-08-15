@@ -20,11 +20,11 @@ public class Login extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
 		dao = new LoginDao();
-		session = request.getSession();
+		session = request.getSession(false);
 		nonceGenerator = new NonceGenerator();
 		
-		email = request.getParameter(LoginDao.getEmail());
-		password = request.getParameter(LoginDao.getPassword());
+		email = request.getParameter(LoginDao.getLoginEmail());
+		password = request.getParameter(LoginDao.getLoginPassword());
 		
 		nonce = nonceGenerator.nextNonce();	
 		
@@ -40,11 +40,12 @@ public class Login extends HttpServlet {
 			response.sendRedirect("Homepage.jsp");
 			return;		
 		}
-		// no length more than 254 due to the character limit in database is varchar(255)
+		// maximum length allowed
 		if(dao.checkMaxLength(email) || dao.checkMaxLength(password))
 		{
-			session.setAttribute(LoginDao.LOGIN_FAILED, LoginDao.getLoginMaxLengthFailed());
-			response.sendRedirect("Login.jsp");
+			request.setAttribute(LoginDao.LOGIN_EMAIL, "");
+			request.setAttribute(LoginDao.LOGIN_FAILED, LoginDao.getLoginMaxLengthFailed());
+			request.getRequestDispatcher("Login.jsp").forward(request, response);
 		}
 		// check if email and password are correct
 		else if(dao.checkEmailAndPassword(email, password))
@@ -53,7 +54,7 @@ public class Login extends HttpServlet {
 			if(session.getAttribute(LoginDao.getSessionName())!=null)
 			{
 				String nonce = "";
-				String sessionValue = request.getSession(false).getAttribute(LoginDao.getSessionName()).toString();
+				String sessionValue = session.getAttribute(LoginDao.getSessionName()).toString();
 				
 				if(!sessionValue.isEmpty() && sessionValue.contains("="))
 					nonce = sessionValue.split("=")[1];
@@ -62,25 +63,40 @@ public class Login extends HttpServlet {
 				session.removeAttribute(LoginDao.getSessionName());
 			}
 			
-			// cookie and session values are the same 'email=nonce'
-			emailCookie = new Cookie(LoginDao.getLoginCookieName(), cookieValue); 
-			emailCookie.setMaxAge(60*60*24*365);
-			response.addCookie(emailCookie);
-			
-			
-			session.setAttribute(LoginDao.getSessionName(), cookieValue); 
-			dao.saveNonce(nonce);
-			
-			//session.setMaxInactiveInterval(5);
-			
-			session.removeAttribute(LoginDao.LOGIN_FAILED);
+			// if user lost connection to session due to max timeout or auto logout from the maxInactiveInteval, then no need to create a new nonce		
+			if(dao.checkNonce(dao.getNonceCookie(emailAndNonceCookies)) && email.equals(dao.getEmailCookie(emailAndNonceCookies)))
+			{
+				session.setAttribute(LoginDao.getSessionName(), email+"="+dao.getNonceCookie(emailAndNonceCookies)); 
+			}
+			else
+			{
+		
+				// cookie and session values are the same 'email=nonce'
+				emailCookie = new Cookie(LoginDao.getLoginCookieName(), cookieValue); 
+				emailCookie.setMaxAge(60*60*24*365);
+				response.addCookie(emailCookie);
+				
+				
+				session.setAttribute(LoginDao.getSessionName(), cookieValue); 
+				
+				// check if such nonce is already in the database in case of getting the same nonce(very small chance)
+				while(dao.checkNonce(nonce))
+				{
+					nonce = nonceGenerator.nextNonce();
+				}
+							
+				dao.saveNonce(nonce);			
+				
+			}
+			session.setMaxInactiveInterval(5);
 			response.sendRedirect("Homepage.jsp");
 
 		}
 		else
 		{		
-			session.setAttribute(LoginDao.LOGIN_FAILED, LoginDao.getLoginFailed());
-			response.sendRedirect("Login.jsp");
+			request.setAttribute(LoginDao.LOGIN_EMAIL, email);
+			request.setAttribute(LoginDao.LOGIN_FAILED, LoginDao.getLoginFailed());
+			request.getRequestDispatcher("Login.jsp").forward(request, response);
 		}
 				
 	}

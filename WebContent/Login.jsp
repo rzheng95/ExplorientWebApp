@@ -14,18 +14,23 @@
 		response.setHeader("Expires", "0");
 		
 		
-        String email = LoginDao.getEmail();
-        String password = LoginDao.getPassword();
-        String failed = (String)session.getAttribute(LoginDao.LOGIN_FAILED);
+        String email = LoginDao.getLoginEmail();
+        String password = LoginDao.getLoginPassword();
+        String failed = (String)request.getAttribute(LoginDao.LOGIN_FAILED);
 
         if(failed == null)
 		{
 			failed = " ";
 		}
         
+        String emailValue = (String)request.getAttribute(LoginDao.LOGIN_EMAIL);
+        
 		LoginDao dao = new LoginDao();
-		Cookie[] emailAndNonceCookies = request.getCookies();			
-		String emailCookie = dao.getEmailCookie(emailAndNonceCookies);
+		Cookie[] emailAndNonceCookies = request.getCookies();		
+		if(emailValue != null && emailValue.equals(""))
+			emailValue = "";
+		if(emailValue == null)
+			emailValue = dao.getEmailCookie(emailAndNonceCookies);
 	%>
 
 
@@ -47,7 +52,7 @@
 						<legend id="legend" align= "center"><img id="legend_img" src="Image/Logo grey.png" style="width:3em;height:3em;"></legend> <br/>
 						
 						
-						<input class="textfields" type="text" name="<%=email%>" value="<%=emailCookie%>" placeholder="<%=LoginDao.CapitalizeFirstLetter(email) %>">  <br/>
+						<input class="textfields" type="text" name="<%=email%>" value="<%=emailValue%>" placeholder="<%=LoginDao.CapitalizeFirstLetter(email) %>">  <br/>
 		
 						<input class="textfields" type="password" name="<%=password%>" placeholder="<%=LoginDao.CapitalizeFirstLetter(password) %>"> 
 		

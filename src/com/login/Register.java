@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/Register")
 public class Register extends HttpServlet {
 
-	private Cookie registerCookie;
 	private HttpSession session;
 	private LoginDao dao;
 	private String email;
@@ -26,18 +25,9 @@ public class Register extends HttpServlet {
 	private Cookie emailCookie;
 	private NonceGenerator nonceGenerator;
 
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		session = request.getSession();
-		dao = new LoginDao();
-		nonceGenerator = new NonceGenerator();
-		
-		email = request.getParameter(LoginDao.getEmail());
-		password = request.getParameter(LoginDao.getPassword());
-		confirmPassword = request.getParameter(LoginDao.getConfirmPassword());
-		firstname = request.getParameter(LoginDao.getFirstname());
-		lastname = request.getParameter(LoginDao.getLastname());
-		cookieValue = email+"="+firstname+"="+lastname;
-
 		
 		// check if user is already logged in
 		if(session.getAttribute(LoginDao.getSessionName())!=null)
@@ -45,36 +35,44 @@ public class Register extends HttpServlet {
 			response.sendRedirect("Homepage.jsp");
 			return;
 		}
-		// no length more than 254 due to the character limit in database is varchar(255)
+		
+		
+		dao = new LoginDao();
+		nonceGenerator = new NonceGenerator();		
+		email = request.getParameter(LoginDao.getLoginEmail());
+		password = request.getParameter(LoginDao.getLoginPassword());
+		confirmPassword = request.getParameter(LoginDao.getRegisterConfirmPassword());
+		firstname = request.getParameter(LoginDao.getRegisterFirstname());
+		lastname = request.getParameter(LoginDao.getRegisterLastname());
+		
+		request.setAttribute(LoginDao.REGISTER, email+"="+firstname+"="+lastname);
+		
+
+		// maximum length allowed
 		if(dao.checkMaxLength(email) || dao.checkMaxLength(password) || dao.checkMaxLength(confirmPassword) || dao.checkMaxLength(firstname) || dao.checkMaxLength(lastname))
 		{
-			cookieValue = "==";
-			session.setAttribute(LoginDao.REGISTER_FAILED, LoginDao.getRegisterMaxLengthFailed());
+			request.setAttribute(LoginDao.REGISTER, "==");
+			request.setAttribute(LoginDao.REGISTER_FAILED, LoginDao.getRegisterMaxLengthFailed());
 		}
 		// check if any textfields are empty
 		else if(!checkEmpty()) 
 		{		
-			session.setAttribute(LoginDao.REGISTER_FAILED, LoginDao.getRegisterEmptyFieldMessage());			
+			request.setAttribute(LoginDao.REGISTER_FAILED, LoginDao.getRegisterEmptyFieldMessage());
 		}
 		// briefly check if email is vaild 
-		else if(!email.contains("@") && !email.contains("."))
+		else if( !email.contains("@") || !email.contains(".") || (email.length() > 4 && email.substring(0, 4).equals("www.")) )
 		{
-			session.setAttribute(LoginDao.REGISTER_FAILED, LoginDao.getRegisterInvalidEmailMessage());
-		}
-		// check if email is vaild 
-		else if(email.length() > 4 && email.substring(0, 4).equals("www."))
-		{
-			session.setAttribute(LoginDao.REGISTER_FAILED, LoginDao.getRegisterInvalidEmailMessage());
+			request.setAttribute(LoginDao.REGISTER_FAILED, LoginDao.getRegisterInvalidEmailMessage());
 		}
 		// check if both passwords are identical
 		else if(!password.equals(confirmPassword))
 		{
-			session.setAttribute(LoginDao.REGISTER_FAILED, LoginDao.getRegisterUnmatchedPasswordMessage());
+			request.setAttribute(LoginDao.REGISTER_FAILED, LoginDao.getRegisterUnmatchedPasswordMessage());
 		}
 		// check if email already exists
 		else if(dao.checkEmail(email.trim())) 
 		{
-			session.setAttribute(LoginDao.REGISTER_FAILED, LoginDao.getRegisterEmailExistMessage());
+			request.setAttribute(LoginDao.REGISTER_FAILED, LoginDao.getRegisterEmailExistMessage());
 		}
 		else
 		{
@@ -95,13 +93,9 @@ public class Register extends HttpServlet {
 			response.sendRedirect("Homepage.jsp");
 			return;
 		}
-		
-		
-		
-		registerCookie = new Cookie(LoginDao.getRegisterCookieName(), cookieValue); 
-		registerCookie.setMaxAge(15);
-		response.addCookie(registerCookie);
-		response.sendRedirect("Register.jsp");
+			
+
+		request.getRequestDispatcher("Register.jsp").forward(request, response);
 	}
 	
 	public boolean checkEmpty()

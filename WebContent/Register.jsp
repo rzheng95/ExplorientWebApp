@@ -16,16 +16,18 @@
 		if(session.getAttribute(LoginDao.getSessionName())!=null)
 		{
 			response.sendRedirect("Homepage.jsp");
+			return;
 		}
 		
 		
-        String email = LoginDao.getEmail();
-        String password = LoginDao.getPassword();
-        String confirmPassword = LoginDao.getConfirmPassword();
+        String email = LoginDao.getLoginEmail();
+        String password = LoginDao.getLoginPassword();
+        String confirmPassword = LoginDao.getRegisterConfirmPassword();
         String register = LoginDao.getRegister();
-        String firstname = LoginDao.getFirstname();
-        String lastname = LoginDao.getLastname();
-        String failed = (String)session.getAttribute(LoginDao.REGISTER_FAILED);
+        String firstname = LoginDao.getRegisterFirstname();
+        String lastname = LoginDao.getRegisterLastname();
+
+		String failed = (String)request.getAttribute(LoginDao.REGISTER_FAILED);
 		
         String emailValue = "";
         String firstnameValue = "";
@@ -36,29 +38,14 @@
 		}
         else
         {
-        	
-			Cookie[] registerCookie = request.getCookies();
-			
-			if(registerCookie != null)
+        	String enteredValues = (String)request.getAttribute(LoginDao.REGISTER);
+        	String[] fragment = enteredValues.split("=", -1);
+        	if(fragment.length == 3)
 			{
-				for(Cookie tempCookie : registerCookie)
-				{
-					if(LoginDao.getRegisterCookieName().equals(tempCookie.getName()))	
-					{
-						String[] cookieFragment = tempCookie.getValue().split("=", -1);
-						
-						if(cookieFragment.length == 3)
-						{
-							emailValue = cookieFragment[0];
-							firstnameValue = cookieFragment[1];
-							lastnameValue = cookieFragment[2];
-						}
-						
-						break;
-					}
-				}
+				emailValue = fragment[0];
+				firstnameValue = fragment[1];
+				lastnameValue = fragment[2];
 			}
-			
         }
      
 	%>

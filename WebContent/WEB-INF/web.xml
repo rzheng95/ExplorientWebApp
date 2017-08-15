@@ -20,11 +20,11 @@
     <load-on-startup>0</load-on-startup>
   </servlet>
   <context-param>
-    <param-name>database.login.query</param-name>
+    <param-name>database.get.email.and.password.query</param-name>
     <param-value>SELECT * FROM Users WHERE email = ? AND password = ?;</param-value>
   </context-param>
-    <context-param>
-    <param-name>database.email.query</param-name>
+  <context-param>
+    <param-name>database.get.email.query</param-name>
     <param-value>SELECT * FROM Users WHERE email = ?;</param-value>
   </context-param>
   <context-param>
@@ -39,12 +39,11 @@
     <param-name>database.delete.nonce.query</param-name>
     <param-value>delete from Nonce where NonceId=?;</param-value>
   </context-param>
-    <context-param>
+  <context-param>
     <param-name>database.nonce.query</param-name>
     <param-value>select * from Nonce where NonceId=?;</param-value>
   </context-param>
-  
-    <context-param>
+  <context-param>
     <param-name>session.name</param-name>
     <param-value>Explorient.session</param-value>
   </context-param>
@@ -61,14 +60,14 @@
     <param-value>jdbc:mysql://db.explorient.com:3306/ExplorientDB</param-value>
   </context-param>
   <context-param>
-    <param-name>user.email</param-name>
+    <param-name>user.login.email</param-name>
     <param-value>email</param-value>
   </context-param>
   <context-param>
-    <param-name>user.password</param-name>
+    <param-name>user.login.password</param-name>
     <param-value>password</param-value>
   </context-param>
-    <context-param>
+  <context-param>
     <param-name>register.confirm.password</param-name>
     <param-value>confirm password</param-value>
   </context-param>
@@ -80,25 +79,22 @@
     <param-name>login.max.lenth.failed</param-name>
     <param-value>Email or password length is invalid.</param-value>
   </context-param>
-    <context-param>
+  <context-param>
     <param-name>max.length</param-name>
-    <param-value>254</param-value>
+    <param-value>64</param-value>
   </context-param>
-    <context-param>
-  <param-name>login.cookie.name</param-name>
+  <context-param>
+    <param-name>login.cookie.name</param-name>
     <param-value>Explorient.email</param-value>
   </context-param>
-  
   <context-param>
     <param-name>register</param-name>
     <param-value>register</param-value>
   </context-param>
-  
-    <context-param>
+  <context-param>
     <param-name>register.failed</param-name>
     <param-value>register.failed</param-value>
   </context-param>
-  
   <context-param>
     <param-name>register.firstname</param-name>
     <param-value>first name</param-value>
@@ -107,36 +103,54 @@
     <param-name>register.lastname</param-name>
     <param-value>last name</param-value>
   </context-param>
-  
   <context-param>
     <param-name>register.cookie.name</param-name>
     <param-value>Explorient.register</param-value>
   </context-param>
-  
   <context-param>
     <param-name>register.empty.field.message</param-name>
     <param-value>Sorry, can't leave any blank.</param-value>
   </context-param>
-  
   <context-param>
     <param-name>register.email.exist.message</param-name>
     <param-value>Sorry, this email already exists.</param-value>
   </context-param>
-  
   <context-param>
     <param-name>register.invalid.email.message</param-name>
     <param-value>Please enter a valid email.</param-value>
   </context-param>
-    
   <context-param>
     <param-name>register.unmatched.password.message</param-name>
     <param-value>Password and Confirm password do not match.</param-value>
   </context-param>
-   <context-param>
+  <context-param>
     <param-name>register.max.lenth.failed.message</param-name>
     <param-value>Email, password, first name, or last name length invalid.</param-value>
   </context-param>
+  
+   <context-param>
+    <param-name>homepage.navigation.search</param-name>
+    <param-value>search</param-value>
+  </context-param>
+  <context-param>
+    <param-name>homepage.navigation.booking</param-name>
+    <param-value>booking</param-value>
+  </context-param>
+  <context-param>
+    <param-name>homepage.navigation.logout</param-name>
+    <param-value>log out</param-value>
+  </context-param>
+
+  
 </web-app>
+
+
+
+
+
+
+
+
 
 
 
