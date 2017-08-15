@@ -438,7 +438,6 @@ public class LoginDao extends HttpServlet
 	{
 		return register;
 	}
-	
 	public static String getRegisterFirstname()
 	{
 		return registerFirstname;

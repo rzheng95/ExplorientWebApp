@@ -106,7 +106,7 @@ public class Login extends HttpServlet {
 				
 			}
 			
-			session.setMaxInactiveInterval(60*20);
+			session.setMaxInactiveInterval(5);
 			response.sendRedirect("Homepage.jsp");
 
 		}

@@ -40,7 +40,6 @@ public class Register extends HttpServlet {
 			return;
 		}
 		
-		String EMAIL_REGEX = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
 
 		dao = new LoginDao();
 		nonceGenerator = new NonceGenerator();		
@@ -65,7 +64,7 @@ public class Register extends HttpServlet {
 			request.setAttribute(LoginDao.REGISTER_FAILED, LoginDao.getRegisterEmptyFieldMessage());
 		}
 		// briefly check if email is vaild 
-		else if( !email.matches(EMAIL_REGEX) )
+		else if( !EmailChecker.validate(email) )
 		{
 			request.setAttribute(LoginDao.REGISTER_FAILED, LoginDao.getRegisterInvalidEmailMessage());
 		}

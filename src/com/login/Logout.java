@@ -13,21 +13,26 @@ import javax.servlet.http.HttpSession;
 public class Logout extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
 		LoginDao dao = new LoginDao();
 
 		String nonce = "";
-		String sessionValue = request.getSession(false).getAttribute(LoginDao.getSessionName()).toString();
+		//String sessionValue = request.getSession(false).getAttribute(LoginDao.getSessionName()).toString();
+		if(session!=null)
+		{
+			
+			String sessionValue = session.getAttribute(LoginDao.getSessionName()).toString();
 		
-		if(!sessionValue.isEmpty() && sessionValue.contains("="))
-			nonce = sessionValue.split("=")[1];
+			if(!sessionValue.isEmpty() && sessionValue.contains("="))
+				nonce = sessionValue.split("=")[1];
 		
-		dao.deleteNonce(nonce);
+			dao.deleteNonce(nonce);
 		
 		//dao.deleteNonce(request.getSession(false).getAttribute(LoginDao.getSessionName()).toString());
 
-		session.removeAttribute(LoginDao.getSessionName());
-		session.invalidate();
+			session.removeAttribute(LoginDao.getSessionName());
+			session.invalidate();
+		}
 		
 
 		
