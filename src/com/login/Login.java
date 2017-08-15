@@ -18,6 +18,11 @@ public class Login extends HttpServlet {
 	private String nonce;
 	private Cookie emailCookie;
 	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		request.getRequestDispatcher("Login.jsp").forward(request, response);
+	}
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
 		dao = new LoginDao();
 		session = request.getSession(false);

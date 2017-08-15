@@ -127,8 +127,7 @@
     <param-name>register.max.lenth.failed.message</param-name>
     <param-value>Email, password, first name, or last name length invalid.</param-value>
   </context-param>
-  
-   <context-param>
+  <context-param>
     <param-name>homepage.navigation.search</param-name>
     <param-value>search</param-value>
   </context-param>
@@ -140,21 +139,4 @@
     <param-name>homepage.navigation.logout</param-name>
     <param-value>log out</param-value>
   </context-param>
-
-  
 </web-app>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -75,7 +75,7 @@
 	
 		<jsp:include page="HTML/Header.html" />
 	
-		Welcome to homepage. You are logged in as <%=email %>
+		Welcome to homepage. You are logged in as <p><%=emailValue %></p>
 		
 		
 		

@@ -12,6 +12,11 @@ import com.login.LoginDao;
 @WebServlet("/Navigation")
 public class Navigation extends HttpServlet {
 	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		request.getRequestDispatcher("Homepage.jsp").forward(request, response);
+	}
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LoginDao dao = new LoginDao();
 		String email = dao.getLoginEmail();
