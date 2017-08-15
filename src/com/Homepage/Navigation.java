@@ -13,7 +13,7 @@ import com.login.LoginDao;
 public class Navigation extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 		request.getRequestDispatcher("Homepage.jsp").forward(request, response);
 	}
 	

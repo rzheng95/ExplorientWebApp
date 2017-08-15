@@ -19,7 +19,7 @@ public class Login extends HttpServlet {
 	private Cookie emailCookie;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 		request.getRequestDispatcher("Login.jsp").forward(request, response);
 	}
 	
@@ -68,10 +68,22 @@ public class Login extends HttpServlet {
 				session.removeAttribute(LoginDao.getSessionName());
 			}
 			
+			
+			
 			// if user lost connection to session due to max timeout or auto logout from the maxInactiveInteval, then no need to create a new nonce		
-			if(dao.checkNonce(dao.getNonceCookie(emailAndNonceCookies)) && email.equals(dao.getEmailCookie(emailAndNonceCookies)))
+			if(dao.checkEmailAndNonce(dao.getEmailCookie(emailAndNonceCookies), dao.getNonceCookie(emailAndNonceCookies)) && email.equals(dao.getEmailCookie(emailAndNonceCookies)))
 			{
 				session.setAttribute(LoginDao.getSessionName(), email+"="+dao.getNonceCookie(emailAndNonceCookies)); 
+			}
+			// check if user's session expired and user modified the cookie or clear the cookie, then check if database has such email. if it does, then add cookie on user's browser 
+			else if(dao.checkEmailInNonceTable(email))
+			{
+				cookieValue = email +"="+ dao.getNonceByEmail(email);
+				emailCookie = new Cookie(LoginDao.getLoginCookieName(), cookieValue); 
+				emailCookie.setMaxAge(60*60*24*365);
+				response.addCookie(emailCookie);
+				
+				session.setAttribute(LoginDao.getSessionName(), cookieValue); 
 			}
 			else
 			{
@@ -90,10 +102,11 @@ public class Login extends HttpServlet {
 					nonce = nonceGenerator.nextNonce();
 				}
 							
-				dao.saveNonce(nonce);			
+				dao.saveNonce(email, nonce);			
 				
 			}
-			session.setMaxInactiveInterval(5);
+			
+			session.setMaxInactiveInterval(60*20);
 			response.sendRedirect("Homepage.jsp");
 
 		}

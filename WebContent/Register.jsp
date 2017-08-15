@@ -85,7 +85,7 @@
 						
 
 						<input class="buttons" id="register_button" type="submit" name="<%=register%>" value="<%=LoginDao.CapitalizeFirstLetter(register) %>"> <br/><br/>
-						<a class="links" href="Login.jsp">Back to login</a>
+						<a class="links" href="Login">Back to login</a>
 
 						
 						<br/>

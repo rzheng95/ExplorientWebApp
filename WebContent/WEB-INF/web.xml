@@ -21,11 +21,11 @@
   </servlet>
   <context-param>
     <param-name>database.get.email.and.password.query</param-name>
-    <param-value>SELECT * FROM Users WHERE email = ? AND password = ?;</param-value>
+    <param-value>SELECT * FROM Users WHERE Email = ? AND Password = ?;</param-value>
   </context-param>
   <context-param>
     <param-name>database.get.email.query</param-name>
-    <param-value>SELECT * FROM Users WHERE email = ?;</param-value>
+    <param-value>SELECT * FROM Users WHERE Email = ?;</param-value>
   </context-param>
   <context-param>
     <param-name>database.add.user.query</param-name>
@@ -33,15 +33,23 @@
   </context-param>
   <context-param>
     <param-name>database.save.nonce.query</param-name>
-    <param-value>insert into Nonce (NonceId) values (?);</param-value>
+    <param-value>insert into Nonce (Email, NonceId) values (?, ?);</param-value>
   </context-param>
   <context-param>
     <param-name>database.delete.nonce.query</param-name>
     <param-value>delete from Nonce where NonceId=?;</param-value>
   </context-param>
   <context-param>
-    <param-name>database.nonce.query</param-name>
+  <param-name>database.nonce.query</param-name>
     <param-value>select * from Nonce where NonceId=?;</param-value>
+  </context-param>
+  <context-param>
+  <param-name>database.email.and.nonce.query</param-name>
+    <param-value>select * from Nonce where Email=? AND NonceId=?;</param-value>
+  </context-param>
+  <context-param>
+    <param-name>database.get.email.in.nonce.table.query</param-name>
+    <param-value>select * from Nonce where Email=?;</param-value>
   </context-param>
   <context-param>
     <param-name>session.name</param-name>

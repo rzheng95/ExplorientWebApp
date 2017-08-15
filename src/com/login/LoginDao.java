@@ -14,6 +14,8 @@ public class LoginDao extends HttpServlet
 	public final static String SAVE_NONCE_QUERY = "database.save.nonce.query";
 	public final static String DELETE_NONCE_QUERY = "database.delete.nonce.query";
 	public final static String NONCE_QUERY = "database.nonce.query";
+	public final static String EMAIL_IN_NONCE_TABLE_QUERY = "database.get.email.in.nonce.table.query";
+	public final static String EMAIL_AND_NONCE_QUERY = "database.email.and.nonce.query";
 	
 	public final static String SESSION_NAME = "session.name";
 	public final static String DB_URL = "database.url";
@@ -59,6 +61,8 @@ public class LoginDao extends HttpServlet
 	private static String saveNonceQuery;
 	private static String deleteNonceQuery;
 	private static String nonceQuery;
+	private static String emailInNonceTableQuery;
+	private static String emailAndNonceQuery;
 	
 	
 	private static String sessionName;
@@ -105,6 +109,8 @@ public class LoginDao extends HttpServlet
 			saveNonceQuery = sc.getInitParameter(SAVE_NONCE_QUERY);
 			deleteNonceQuery = sc.getInitParameter(DELETE_NONCE_QUERY);
 			nonceQuery = sc.getInitParameter(NONCE_QUERY);
+			emailInNonceTableQuery = sc.getInitParameter(EMAIL_IN_NONCE_TABLE_QUERY);
+			emailAndNonceQuery = sc.getInitParameter(EMAIL_AND_NONCE_QUERY);
 			
 			
 			sessionName = sc.getInitParameter(SESSION_NAME);
@@ -225,13 +231,15 @@ public class LoginDao extends HttpServlet
 	}
 	
 	
-	public void saveNonce(String nonce)
+	public void saveNonce(String email, String nonce)
 	{
+		
 		try {				
 			conn = DriverManager.getConnection(db_url, db_username, db_password);	
 			
 			pstmt = conn.prepareStatement(saveNonceQuery);
-			pstmt.setString(1, nonce);
+			pstmt.setString(1, email);
+			pstmt.setString(2, nonce);
 			rs = pstmt.executeQuery();
 			
 						
@@ -263,6 +271,27 @@ public class LoginDao extends HttpServlet
 		}
 	}
 	
+	public boolean checkEmailAndNonce(String email, String nonce)
+	{
+		try {				
+			conn = DriverManager.getConnection(db_url, db_username, db_password);	
+			
+			pstmt = conn.prepareStatement(emailAndNonceQuery);
+			pstmt.setString(1, email);
+			pstmt.setString(2, nonce);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) return true;
+
+			conn.close();
+			pstmt.close();
+			rs.close();
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+		return false;
+	}
+	
 	public boolean checkNonce(String nonce)
 	{
 		try {				
@@ -281,6 +310,52 @@ public class LoginDao extends HttpServlet
 			System.err.println(e);
 		}
 		return false;
+	}
+	
+	
+	public boolean checkEmailInNonceTable(String email)
+	{
+		try {				
+			conn = DriverManager.getConnection(db_url, db_username, db_password);	
+			
+			pstmt = conn.prepareStatement(emailInNonceTableQuery);
+			pstmt.setString(1, email);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) return true;
+
+			conn.close();
+			pstmt.close();
+			rs.close();
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+		return false;
+	}
+	
+	public String getNonceByEmail(String email)
+	{
+		String returnNonce = "";
+		try {				
+			conn = DriverManager.getConnection(db_url, db_username, db_password);	
+			
+			pstmt = conn.prepareStatement(emailInNonceTableQuery);
+			pstmt.setString(1, email);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next())
+			{
+				returnNonce = rs.getString("NonceId");
+			}
+
+
+			conn.close();
+			pstmt.close();
+			rs.close();
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+		return returnNonce;
 	}
 	
 	public String getEmailCookie(Cookie[] emailAndNonceCookies)

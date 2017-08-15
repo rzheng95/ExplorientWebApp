@@ -26,7 +26,7 @@ public class Register extends HttpServlet {
 	private NonceGenerator nonceGenerator;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 		request.getRequestDispatcher("Register.jsp").forward(request, response);
 	}
 
@@ -40,7 +40,8 @@ public class Register extends HttpServlet {
 			return;
 		}
 		
-		
+		String EMAIL_REGEX = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+
 		dao = new LoginDao();
 		nonceGenerator = new NonceGenerator();		
 		email = request.getParameter(LoginDao.getLoginEmail());
@@ -64,7 +65,7 @@ public class Register extends HttpServlet {
 			request.setAttribute(LoginDao.REGISTER_FAILED, LoginDao.getRegisterEmptyFieldMessage());
 		}
 		// briefly check if email is vaild 
-		else if( !email.contains("@") || !email.contains(".") || (email.length() > 4 && email.substring(0, 4).equals("www.")) )
+		else if( !email.matches(EMAIL_REGEX) )
 		{
 			request.setAttribute(LoginDao.REGISTER_FAILED, LoginDao.getRegisterInvalidEmailMessage());
 		}
@@ -92,7 +93,7 @@ public class Register extends HttpServlet {
 			
 			
 			session.setAttribute(LoginDao.getSessionName(), cookieValue); 
-			dao.saveNonce(nonce);
+			dao.saveNonce(email, nonce);
 			
 			response.sendRedirect("Homepage.jsp");
 			return;

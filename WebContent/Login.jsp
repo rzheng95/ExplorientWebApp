@@ -61,7 +61,7 @@
 						<input class="buttons" type="submit" name="sumbit" value="Log in"> <br/> <br/>
 							
 						
-						<a class="links" id="register" href="Register.jsp">Register</a>
+						<a class="links" id="register" href="Register">Register</a>
 
 						
 					</fieldset>		
