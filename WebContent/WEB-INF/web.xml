@@ -19,6 +19,20 @@
     <servlet-class>com.login.LoginDao</servlet-class>
     <load-on-startup>0</load-on-startup>
   </servlet>
+  <servlet>
+    <servlet-name>HomepageDao</servlet-name>
+    <servlet-class>com.homepage.HomepageDao</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+  
+  <context-param>
+    <param-name>max.inactive.interval</param-name>
+    <param-value>1200</param-value>
+  </context-param>
+    <context-param>
+    <param-name>max.login.cookie.age</param-name>
+    <param-value>7776000</param-value>
+  </context-param>
   <context-param>
     <param-name>database.get.email.and.password.query</param-name>
     <param-value>SELECT * FROM Users WHERE Email = ? AND Password = ?;</param-value>
@@ -50,6 +64,10 @@
   <context-param>
     <param-name>database.get.email.in.nonce.table.query</param-name>
     <param-value>select * from Nonce where Email=?;</param-value>
+  </context-param>
+  <context-param>
+    <param-name>database.get.user.by.email.query</param-name>
+    <param-value>select * from Users where Email=?;</param-value>
   </context-param>
   <context-param>
     <param-name>session.name</param-name>
@@ -147,4 +165,61 @@
     <param-name>homepage.navigation.logout</param-name>
     <param-value>log out</param-value>
   </context-param>
+  <context-param>
+    <param-name>homepage.navigation.selected</param-name>
+    <param-value>navigation</param-value>
+  </context-param>
+  <context-param>
+    <param-name>css.styling.color.gold</param-name>
+    <param-value>color: #e2c04b;</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>homepage.navigation.profile</param-name>
+    <param-value>profile</param-value>
+  </context-param>
+  <context-param>
+    <param-name>homepage.navigation.setting</param-name>
+    <param-value>setting</param-value>
+  </context-param>
+  <context-param>
+    <param-name>homepage.navigation.hotel</param-name>
+    <param-value>hotel</param-value>
+  </context-param>
+  <context-param>
+    <param-name>homepage.navigation.vendor</param-name>
+    <param-value>vendor</param-value>
+  </context-param>
+  <context-param>
+    <param-name>homepage.navigation.agent</param-name>
+    <param-value>agent</param-value>
+  </context-param>
+  <context-param>
+    <param-name>homepage.navigation.new</param-name>
+    <param-value>new</param-value>
+  </context-param>
+  <context-param>
+    <param-name>homepage.navigation.itinerary</param-name>
+    <param-value>itinerary</param-value>
+  </context-param>
+  <context-param>
+    <param-name>homepage.navigation.voucher</param-name>
+    <param-value>voucher</param-value>
+  </context-param>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 </web-app>
+
+
+
+

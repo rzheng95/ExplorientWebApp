@@ -12,23 +12,25 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/Logout")
 public class Logout extends HttpServlet {
 
+	private HttpSession session;
+	private LoginDao dao;
+	private String nonce;
+	private String sessionValue;
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession(false);
-		LoginDao dao = new LoginDao();
+		session = request.getSession(false);
 
-		String nonce = "";
 		//String sessionValue = request.getSession(false).getAttribute(LoginDao.getSessionName()).toString();
 		if(session!=null)
 		{
-			
-			String sessionValue = session.getAttribute(LoginDao.getSessionName()).toString();
+			dao = new LoginDao();
+			nonce = "";
+			sessionValue = session.getAttribute(LoginDao.getSessionName()).toString();
 		
 			if(!sessionValue.isEmpty() && sessionValue.contains("="))
 				nonce = sessionValue.split("=")[1];
 		
 			dao.deleteNonce(nonce);
-		
-		//dao.deleteNonce(request.getSession(false).getAttribute(LoginDao.getSessionName()).toString());
 
 			session.removeAttribute(LoginDao.getSessionName());
 			session.invalidate();

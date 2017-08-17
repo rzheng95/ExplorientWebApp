@@ -16,6 +16,7 @@ public class LoginDao extends HttpServlet
 	public final static String NONCE_QUERY = "database.nonce.query";
 	public final static String EMAIL_IN_NONCE_TABLE_QUERY = "database.get.email.in.nonce.table.query";
 	public final static String EMAIL_AND_NONCE_QUERY = "database.email.and.nonce.query";
+	public final static String USER_BY_EMAIL_QUERY = "database.get.user.by.email.query";
 	
 	public final static String SESSION_NAME = "session.name";
 	public final static String DB_URL = "database.url";
@@ -30,6 +31,8 @@ public class LoginDao extends HttpServlet
 	public final static String LOGIN_MAX_LENGTH_FAILED = "login.max.lenth.failed";
 	public final static String MAX_LENGTH = "max.length";
 	public final static String LOGIN_COOKIE_NAME = "login.cookie.name";
+	public final static String MAX_INACTIVE_INTERVAL = "max.inactive.interval";
+	public final static String MAX_LOGIN_COOKIE_AGE = "max.login.cookie.age";
 	
 	// Register
 	public final static String REGISTER = "register";
@@ -44,10 +47,6 @@ public class LoginDao extends HttpServlet
 	public final static String REGISTER_MAX_LENGTH_FAILED = "register.max.lenth.failed.message";
 	
 	
-	// Home page
-	public final static String HOMEPAGE_NAVIGATION_SEARCH = "homepage.navigation.search";
-	public final static String HOMEPAGE_NAVIGATION_BOOKING = "homepage.navigation.booking";
-	public final static String HOMEPAGE_NAVIGATION_LOGOUT = "homepage.navigation.logout";
 	
 	private Connection conn = null;
 	private PreparedStatement pstmt = null;
@@ -63,6 +62,7 @@ public class LoginDao extends HttpServlet
 	private static String nonceQuery;
 	private static String emailInNonceTableQuery;
 	private static String emailAndNonceQuery;
+	private static String userByEmailQuery;
 	
 	
 	private static String sessionName;
@@ -77,6 +77,8 @@ public class LoginDao extends HttpServlet
 	private static String loginFailed;
 	private static String loginMaxLengthFailed;
 	private static int maxLength;
+	private static int maxInactiveInterval;
+	private static int maxLoginCookieAge;
 	
 	// Register
 	private static String register;
@@ -91,10 +93,7 @@ public class LoginDao extends HttpServlet
 	private static String registerFailed;
 	private static String registerMaxLengthFailed;
 	
-	// Home page
-	private static String homepageNavigationSearch;
-	private static String homepageNavigationBooking;
-	private static String homepageNavigationLogout;
+
 	
 	public void init()
 	{
@@ -111,6 +110,7 @@ public class LoginDao extends HttpServlet
 			nonceQuery = sc.getInitParameter(NONCE_QUERY);
 			emailInNonceTableQuery = sc.getInitParameter(EMAIL_IN_NONCE_TABLE_QUERY);
 			emailAndNonceQuery = sc.getInitParameter(EMAIL_AND_NONCE_QUERY);
+			userByEmailQuery = sc.getInitParameter(USER_BY_EMAIL_QUERY);
 			
 			
 			sessionName = sc.getInitParameter(SESSION_NAME);
@@ -124,6 +124,8 @@ public class LoginDao extends HttpServlet
 			loginFailed = sc.getInitParameter(LOGIN_FAILED);
 			loginMaxLengthFailed = sc.getInitParameter(LOGIN_MAX_LENGTH_FAILED);
 			maxLength = Integer.parseInt(sc.getInitParameter(MAX_LENGTH));
+			maxInactiveInterval = Integer.parseInt(sc.getInitParameter(MAX_INACTIVE_INTERVAL));
+			maxLoginCookieAge = Integer.parseInt(sc.getInitParameter(MAX_LOGIN_COOKIE_AGE));
 			
 			// Register
 			register = sc.getInitParameter(REGISTER);
@@ -138,12 +140,6 @@ public class LoginDao extends HttpServlet
 			registerUnmatchedPassword = sc.getInitParameter(REGISTER_UNMATCHED_PASSWORD);
 			registerFailed = sc.getInitParameter(REGISTER_FAILED);
 			registerMaxLengthFailed = sc.getInitParameter(REGISTER_MAX_LENGTH_FAILED);
-			
-			// Home page
-			homepageNavigationSearch = sc.getInitParameter(HOMEPAGE_NAVIGATION_SEARCH);
-			homepageNavigationBooking = sc.getInitParameter(HOMEPAGE_NAVIGATION_BOOKING);
-			homepageNavigationLogout = sc.getInitParameter(HOMEPAGE_NAVIGATION_LOGOUT);
-			
 			
 			
 			
@@ -205,6 +201,30 @@ public class LoginDao extends HttpServlet
 		return false;
 	}
 	
+	public String getUserFirstNameByEmail(String email)
+	{
+		String returnFirstname = "";
+		try {				
+			conn = DriverManager.getConnection(db_url, db_username, db_password);	
+			
+			pstmt = conn.prepareStatement(userByEmailQuery);
+			pstmt.setString(1, email);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next())
+			{
+				returnFirstname = rs.getString("Firstname");
+			}
+
+			conn.close();
+			pstmt.close();
+			rs.close();
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+		
+		return returnFirstname;
+	}
 	
 	public void addUser(String loginEmail, String loginPassword, String registerFirstname, String registerLastname)
 	{
@@ -402,6 +422,10 @@ public class LoginDao extends HttpServlet
 		return nonce.trim();
 	}
 	
+    public static String CapitalizeFirstLetter(String text)
+    {
+    	return text.substring(0, 1).toUpperCase() + text.substring(1);
+    }
 	
 	public static String getSessionName()
 	{
@@ -431,6 +455,14 @@ public class LoginDao extends HttpServlet
 	public static String getLoginMaxLengthFailed()
 	{
 		return loginMaxLengthFailed;
+	}
+	public static int getMaxInactiveInterval()
+	{
+		return maxInactiveInterval;
+	}
+	public static int getMaxLoginCookieAge()
+	{
+		return maxLoginCookieAge;
 	}
 	
 	// Register
@@ -478,51 +510,4 @@ public class LoginDao extends HttpServlet
 	{
 		return registerMaxLengthFailed;
 	}
-	
-	// Home page
-	public static String getHomepageNavigationSearch()
-	{
-		return homepageNavigationSearch;
-	}
-	
-	public static String getHomepageNavigationBooking()
-	{
-		return homepageNavigationBooking;
-	}
-	public static String getHomepageNavigationLogout()
-	{
-		return homepageNavigationLogout;
-	}
-	
-	
-    public static String CapitalizeFirstLetter(String text)
-    {
-    	return text.substring(0, 1).toUpperCase() + text.substring(1);
-    }
-	
-	
-	/*public static void main(String [] args) throws Exception
-	{
-
-		
-		try {
-			DriverManager.registerDriver(new Driver());
-			conn = DriverManager.getConnection(url, DBUsername, DBPassword);
-			String query = "select * from test";
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			while(rs.next())
-			{
-				System.out.println("Username: " + rs.getString("username")
-				+"\tPassword: "+rs.getString("loginPassword"));
-			}
-			
-			conn.close();
-			stmt.close();
-			rs.close();
-		} catch (Exception e) {
-			System.err.println(e);
-		}
-
-	}*/
 }

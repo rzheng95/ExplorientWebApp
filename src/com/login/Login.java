@@ -17,6 +17,8 @@ public class Login extends HttpServlet {
 	private String cookieValue;
 	private String nonce;
 	private Cookie emailCookie;
+	private Cookie[] emailAndNonceCookies;
+	private String sessionValue;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -25,20 +27,16 @@ public class Login extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
 		dao = new LoginDao();
-		session = request.getSession(false);
+		session = request.getSession();
 		nonceGenerator = new NonceGenerator();
 		
 		email = request.getParameter(LoginDao.getLoginEmail());
-		password = request.getParameter(LoginDao.getLoginPassword());
+		password = request.getParameter(LoginDao.getLoginPassword());	
+		nonce = nonceGenerator.nextNonce();			
+		cookieValue = email+"="+nonce;	
+		emailAndNonceCookies = request.getCookies();
 		
-		nonce = nonceGenerator.nextNonce();	
-		
-		cookieValue = email+"="+nonce;
-		
-		
-		Cookie[] emailAndNonceCookies = request.getCookies();
-		
-		
+		 
 		// if user tries to log himself in again
 		if(session.getAttribute(LoginDao.getSessionName())!=null && email.equals(dao.getEmailCookie(emailAndNonceCookies)))
 		{
@@ -58,8 +56,8 @@ public class Login extends HttpServlet {
 			// check if user is currently logged in but tries to login with different valid account
 			if(session.getAttribute(LoginDao.getSessionName())!=null)
 			{
-				String nonce = "";
-				String sessionValue = session.getAttribute(LoginDao.getSessionName()).toString();
+				nonce = "";
+				sessionValue = session.getAttribute(LoginDao.getSessionName()).toString();
 				
 				if(!sessionValue.isEmpty() && sessionValue.contains("="))
 					nonce = sessionValue.split("=")[1];
@@ -80,7 +78,7 @@ public class Login extends HttpServlet {
 			{
 				cookieValue = email +"="+ dao.getNonceByEmail(email);
 				emailCookie = new Cookie(LoginDao.getLoginCookieName(), cookieValue); 
-				emailCookie.setMaxAge(60*60*24*365);
+				emailCookie.setMaxAge(LoginDao.getMaxLoginCookieAge());
 				response.addCookie(emailCookie);
 				
 				session.setAttribute(LoginDao.getSessionName(), cookieValue); 
@@ -90,7 +88,8 @@ public class Login extends HttpServlet {
 		
 				// cookie and session values are the same 'email=nonce'
 				emailCookie = new Cookie(LoginDao.getLoginCookieName(), cookieValue); 
-				emailCookie.setMaxAge(60*60*24*365);
+				
+				emailCookie.setMaxAge(LoginDao.getMaxLoginCookieAge());
 				response.addCookie(emailCookie);
 				
 				
@@ -106,7 +105,7 @@ public class Login extends HttpServlet {
 				
 			}
 			
-			session.setMaxInactiveInterval(5);
+			session.setMaxInactiveInterval(LoginDao.getMaxInactiveInterval());
 			response.sendRedirect("Homepage.jsp");
 
 		}

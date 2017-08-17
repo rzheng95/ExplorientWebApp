@@ -87,7 +87,7 @@ public class Register extends HttpServlet {
 			cookieValue = email+"="+nonce;
 			
 			emailCookie = new Cookie(LoginDao.getLoginCookieName(), cookieValue); 
-			emailCookie.setMaxAge(60*60*24*365);
+			emailCookie.setMaxAge(LoginDao.getMaxLoginCookieAge());
 			response.addCookie(emailCookie);
 			
 			

@@ -20,7 +20,7 @@ a{
 	text-decoration: none;
 }
 .links{
-	color: #8b7116;
+	color: #dcb323;
 	font-size: 0.7em;
 }
 
@@ -61,12 +61,12 @@ fieldset{
 	font-weight: bold;
 	font-size: 1em;
 	text-align: center;
-	color: #8b7116;
+	color: #dcb323;
 }
 
 #explorient_header{
 	text-align: center;
-	color: #8b7116;
+	color: #dcb323;
 }
 
 
@@ -78,7 +78,7 @@ fieldset{
 
 .buttons {
   border-radius: 0.4em;
-  background-color: #8b7116;
+  background-color: #a7871b;
   border: none;
   color: white;
   text-align: center;
