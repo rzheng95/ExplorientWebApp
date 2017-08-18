@@ -96,7 +96,7 @@ public class Navigation extends HttpServlet {
 	        else if (request.getParameter(new1) != null) 
 	        {
 	        	session.setAttribute(HomepageDao.getHomepageNavigationSelected(), new1);      	
-	        	response.sendRedirect("Booking.jsp");
+	        	response.sendRedirect("New.jsp");
 	        } 
 	        else if (request.getParameter(itinerary) != null) 
 	        {

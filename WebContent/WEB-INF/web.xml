@@ -43,7 +43,7 @@
   </context-param>
   <context-param>
     <param-name>database.add.user.query</param-name>
-    <param-value>insert into Users (Email, Password, Lastname, Firstname) values (?, ?, ?, ?);</param-value>
+    <param-value>insert into Users (Email, Password, Firstname, Lastname) values (?, ?, ?, ?);</param-value>
   </context-param>
   <context-param>
     <param-name>database.save.nonce.query</param-name>
@@ -64,6 +64,10 @@
   <context-param>
     <param-name>database.get.email.in.nonce.table.query</param-name>
     <param-value>select * from Nonce where Email=?;</param-value>
+  </context-param>
+  <context-param>
+    <param-name>database.update.nonce.by.email.query</param-name>
+    <param-value>UPDATE Nonce SET NonceId = ? WHERE Email = ?;</param-value>
   </context-param>
   <context-param>
     <param-name>database.get.user.by.email.query</param-name>

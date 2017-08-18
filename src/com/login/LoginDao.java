@@ -16,6 +16,7 @@ public class LoginDao extends HttpServlet
 	public final static String NONCE_QUERY = "database.nonce.query";
 	public final static String EMAIL_IN_NONCE_TABLE_QUERY = "database.get.email.in.nonce.table.query";
 	public final static String EMAIL_AND_NONCE_QUERY = "database.email.and.nonce.query";
+	public final static String UPDATE_NONCE_BY_EMAIL_QUERY = "database.update.nonce.by.email.query";
 	public final static String USER_BY_EMAIL_QUERY = "database.get.user.by.email.query";
 	
 	public final static String SESSION_NAME = "session.name";
@@ -62,7 +63,9 @@ public class LoginDao extends HttpServlet
 	private static String nonceQuery;
 	private static String emailInNonceTableQuery;
 	private static String emailAndNonceQuery;
+	private static String updateNonceByEmailQuery;
 	private static String userByEmailQuery;
+	
 	
 	
 	private static String sessionName;
@@ -110,6 +113,7 @@ public class LoginDao extends HttpServlet
 			nonceQuery = sc.getInitParameter(NONCE_QUERY);
 			emailInNonceTableQuery = sc.getInitParameter(EMAIL_IN_NONCE_TABLE_QUERY);
 			emailAndNonceQuery = sc.getInitParameter(EMAIL_AND_NONCE_QUERY);
+			updateNonceByEmailQuery = sc.getInitParameter(UPDATE_NONCE_BY_EMAIL_QUERY);
 			userByEmailQuery = sc.getInitParameter(USER_BY_EMAIL_QUERY);
 			
 			
@@ -378,6 +382,24 @@ public class LoginDao extends HttpServlet
 		return returnNonce;
 	}
 	
+	public void updateNonceByEmail(String newNonce, String email)
+	{
+		try {				
+			conn = DriverManager.getConnection(db_url, db_username, db_password);	
+			
+			pstmt = conn.prepareStatement(updateNonceByEmailQuery);
+			pstmt.setString(1, newNonce);
+			pstmt.setString(2, email);
+			rs = pstmt.executeQuery();
+			
+			conn.close();
+			pstmt.close();
+			rs.close();
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+	}
+	
 	public String getEmailCookie(Cookie[] emailAndNonceCookies)
 	{
 		String loginEmail = "";
@@ -424,7 +446,7 @@ public class LoginDao extends HttpServlet
 	
     public static String CapitalizeFirstLetter(String text)
     {
-    	return text.substring(0, 1).toUpperCase() + text.substring(1);
+    	return text.substring(0, 1).toUpperCase() + text.substring(1).toLowerCase();
     }
 	
 	public static String getSessionName()

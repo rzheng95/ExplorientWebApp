@@ -1,0 +1,33 @@
+@charset "ISO-8859-1";
+
+.new_buttons{
+	display: block;
+	 
+	border-style: solid;
+	border-color: black;
+	padding: 1.5em;
+	font-size: 0.8em;
+	
+	height: 20px;
+	background-color: black;
+    color: white;
+}
+
+.dropdown {
+    position: relative;
+    width: 200px;
+}
+.dropdown select
+{
+    width: 100%;
+}
+.dropdown > * {
+    box-sizing: border-box;
+    height: 1.5em;
+}
+.dropdown select {
+}
+.dropdown input {
+    position: absolute;
+    width: calc(100% - 20px);
+}

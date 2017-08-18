@@ -37,6 +37,8 @@ public class Login extends HttpServlet {
 		emailAndNonceCookies = request.getCookies();
 		
 		 
+		
+		
 		// if user tries to log himself in again
 		if(session.getAttribute(LoginDao.getSessionName())!=null && email.equals(dao.getEmailCookie(emailAndNonceCookies)))
 		{
@@ -53,19 +55,43 @@ public class Login extends HttpServlet {
 		// check if email and password are correct
 		else if(dao.checkEmailAndPassword(email, password))
 		{
-			// check if user is currently logged in but tries to login with different valid account
-			if(session.getAttribute(LoginDao.getSessionName())!=null)
+			
+			// if user is logged in in one browser and tries to log in again with different browser or computer, change the nonce in database and cookie
+			if(dao.checkEmailInNonceTable(email) && session.getAttribute(LoginDao.getSessionName())==null)
 			{
-				nonce = "";
+				// check if such nonce is already in the database in case of getting the same nonce(very small chance)
+				while(dao.checkNonce(nonce))
+				{
+					nonce = nonceGenerator.nextNonce();
+				}
+				dao.updateNonceByEmail(nonce, email);
+				
+				
+				session.setAttribute(LoginDao.getSessionName(), cookieValue);
+				emailCookie = new Cookie(LoginDao.getLoginCookieName(), cookieValue); 
+			
+				emailCookie.setMaxAge(LoginDao.getMaxLoginCookieAge());
+				response.addCookie(emailCookie);
+				session.setMaxInactiveInterval(LoginDao.getMaxInactiveInterval());
+				response.sendRedirect("Homepage.jsp");
+				return;
+			}
+						
+				
+			
+			// check if user is currently logged in but tries to login with different valid account
+			if(session.getAttribute(LoginDao.getSessionName())!=null && !dao.checkEmailInNonceTable(email))
+			{
+				String tempNonce = "";
 				sessionValue = session.getAttribute(LoginDao.getSessionName()).toString();
 				
 				if(!sessionValue.isEmpty() && sessionValue.contains("="))
-					nonce = sessionValue.split("=")[1];
+					tempNonce = sessionValue.split("=")[1];
 				
-				dao.deleteNonce(nonce);
+				dao.deleteNonce(tempNonce);
 				session.removeAttribute(LoginDao.getSessionName());
 			}
-			
+
 			
 			
 			// if user lost connection to session due to max timeout or auto logout from the maxInactiveInteval, then no need to create a new nonce		
@@ -76,6 +102,15 @@ public class Login extends HttpServlet {
 			// check if user's session expired and user modified the cookie or clear the cookie, then check if database has such email. if it does, then add cookie on user's browser 
 			else if(dao.checkEmailInNonceTable(email))
 			{
+				// if user A is logged in with account A in browser A
+				// if user B is logged in with account B in browser B
+				// if user B press back button and change browser B's cookie to the cookie stored in browser A, then tries to log in with account A on browser B
+				// send him back to homepage which will lose his connection due to invalid cookie (session will be removed in homepage)	
+				if(session.getAttribute(LoginDao.getSessionName())!=null)
+				{
+					response.sendRedirect("Homepage.jsp");
+					return;
+				}
 				cookieValue = email +"="+ dao.getNonceByEmail(email);
 				emailCookie = new Cookie(LoginDao.getLoginCookieName(), cookieValue); 
 				emailCookie.setMaxAge(LoginDao.getMaxLoginCookieAge());
@@ -85,7 +120,12 @@ public class Login extends HttpServlet {
 			}
 			else
 			{
-		
+				// check if such nonce is already in the database in case of getting the same nonce(very small chance)
+				while(dao.checkNonce(nonce))
+				{
+					nonce = nonceGenerator.nextNonce();
+				}
+				
 				// cookie and session values are the same 'email=nonce'
 				emailCookie = new Cookie(LoginDao.getLoginCookieName(), cookieValue); 
 				
@@ -95,11 +135,7 @@ public class Login extends HttpServlet {
 				
 				session.setAttribute(LoginDao.getSessionName(), cookieValue); 
 				
-				// check if such nonce is already in the database in case of getting the same nonce(very small chance)
-				while(dao.checkNonce(nonce))
-				{
-					nonce = nonceGenerator.nextNonce();
-				}
+
 							
 				dao.saveNonce(email, nonce);			
 				

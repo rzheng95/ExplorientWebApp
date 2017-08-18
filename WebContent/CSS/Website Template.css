@@ -12,10 +12,6 @@ body{
 	color: white;
 }
 
-#email{
-	//background-color: 	#4D1F00;
-	//color: #e2c04b;
-}
 
 #logo{
 	margin-bottom: -0.3em;
@@ -24,19 +20,9 @@ body{
 }
 
 .header{
-	padding: 0.5em;
+	padding: 1em;
 }
-/*
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    width: 13%;
-    background-color: black;
-    position: fixed;
-    height: 100%;
-    overflow: auto;
-}*/
+
 
 
 .nav_buttons{
@@ -44,8 +30,10 @@ ul {
 	font-size: 0.95em;
 	display: block;
     color: gray;
-    padding: 8px 16px;
+    padding: 2em 2em;
     text-decoration: none;
+	white-space: normal;
+	word-wrap: break-word;
 	
 	width: 100%;
 	text-align:left;
@@ -55,40 +43,42 @@ ul {
 	cursor:pointer;
 }
 
+.nav_buttons:hover{
+	text-align: center;
+}
+
 .nav_buttons:hover:not(.active){
     color: white;
 }
 
 .nav_small_buttons{
-	color: white;
+	text-align: left;
+	color: gray;
 	width: inherit;
 	background: none;
 	border:none;
+	padding: 0.7em;
+}
+.nav_small_buttons:hover {
+  text-align: center;
+  background: #666;
+  color: #fff;
 }
 
 
-
-ul.countries {
+ul.nav {
   background: black;
   position: fixed;
-  width: 14.5%;
+  width: 13.5%;
   height: 100%;
   text-align: left;
   display: inline;
   margin: 0;
-  padding: 15px 4px 17px 0;
+  padding: 0;
   list-style: none;
-  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
-  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
 }
 ul li {
-	
-  //font: bold 12px/18px sans-serif;
-  //display: inline-block;
-  margin-right: -4px;
-  position: relative;
-  padding: 15px 20px;
+  //position: relative;
   background: none;
   cursor: pointer;
   -webkit-transition: all 0.2s;
@@ -101,9 +91,9 @@ ul li:hover {
   background: #555;
   color: #fff;
 }
+
 ul li ul {
   padding: 0;
-  top: 48px;
   left: 0;
   width: 150px;
   -webkit-box-shadow: none;
@@ -119,14 +109,16 @@ ul li ul {
   -transition: opacity 0.2s;
 }
 ul li ul li { 
-  font-size: 0.8em;
-  background: #555; 
+  font-size: 0.8em; 
   display: inline; 
   color: #fff;
   text-shadow: 0 -1px 0 #000;
-  padding: 0.8em;
+  padding: 0;
+  width: 100%;
+  overflow: auto;
+  
 }
-ul li ul li:hover { background: #666; }
+
 ul li:hover ul {
   display: inline;
   opacity: 1;
