@@ -1,7 +1,34 @@
+ 
+
+
+
+<!-- Editable Dropdown -->
+<script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="//rawgithub.com/indrimuska/jquery-editable-select/master/dist/jquery-editable-select.min.js"></script>
+<link href="//rawgithub.com/indrimuska/jquery-editable-select/master/dist/jquery-editable-select.min.css" rel="stylesheet">
+<script src="JS/jquery-editable-select.js"></script>
+
+<!-- Date Picker -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script>
+	$( window ).load(function() {
+		  // Run code
+		$(".datepicker" ).datepicker();
+		$(".editable-select").editableSelect();
+		
+	});
+			
+</script>
+
+
+
+
 <link rel="stylesheet" href="CSS/Website Template.css" type="text/css">
 <%@ page import="com.login.LoginDao"%>
 <%@ page import="com.homepage.HomepageDao"%>
-
+<%@ page import="java.util.ArrayList"%>
 
 <%	
 	// prevents backing after logout
@@ -14,6 +41,7 @@
 	response.setHeader("Expires", "0");
 
 	LoginDao dao = new LoginDao();
+	HomepageDao hpdao = new HomepageDao();
 	
 	Cookie[] emailAndNonceCookies = request.getCookies();
 	

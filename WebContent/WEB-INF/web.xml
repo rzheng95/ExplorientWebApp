@@ -24,12 +24,11 @@
     <servlet-class>com.homepage.HomepageDao</servlet-class>
     <load-on-startup>0</load-on-startup>
   </servlet>
-  
   <context-param>
     <param-name>max.inactive.interval</param-name>
     <param-value>1200</param-value>
   </context-param>
-    <context-param>
+  <context-param>
     <param-name>max.login.cookie.age</param-name>
     <param-value>7776000</param-value>
   </context-param>
@@ -54,11 +53,11 @@
     <param-value>delete from Nonce where NonceId=?;</param-value>
   </context-param>
   <context-param>
-  <param-name>database.nonce.query</param-name>
+    <param-name>database.nonce.query</param-name>
     <param-value>select * from Nonce where NonceId=?;</param-value>
   </context-param>
   <context-param>
-  <param-name>database.email.and.nonce.query</param-name>
+    <param-name>database.email.and.nonce.query</param-name>
     <param-value>select * from Nonce where Email=? AND NonceId=?;</param-value>
   </context-param>
   <context-param>
@@ -72,6 +71,10 @@
   <context-param>
     <param-name>database.get.user.by.email.query</param-name>
     <param-value>select * from Users where Email=?;</param-value>
+  </context-param>
+  <context-param>
+    <param-name>database.get.agent.query</param-name>
+    <param-value>select Agent, Firstname, Lastname from Agents;</param-value>
   </context-param>
   <context-param>
     <param-name>session.name</param-name>
@@ -177,7 +180,6 @@
     <param-name>css.styling.color.gold</param-name>
     <param-value>color: #e2c04b;</param-value>
   </context-param>
-  
   <context-param>
     <param-name>homepage.navigation.profile</param-name>
     <param-value>profile</param-value>
@@ -210,20 +212,4 @@
     <param-name>homepage.navigation.voucher</param-name>
     <param-value>voucher</param-value>
   </context-param>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 </web-app>
-
-
-
-

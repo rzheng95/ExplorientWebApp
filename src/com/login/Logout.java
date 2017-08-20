@@ -18,13 +18,14 @@ public class Logout extends HttpServlet {
 	private String sessionValue;
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		session = request.getSession(false);
+		session = request.getSession();
 
-		//String sessionValue = request.getSession(false).getAttribute(LoginDao.getSessionName()).toString();
-		if(session!=null)
+
+		if(session.getAttribute(LoginDao.getSessionName())!=null)
 		{
 			dao = new LoginDao();
 			nonce = "";
+			
 			sessionValue = session.getAttribute(LoginDao.getSessionName()).toString();
 		
 			if(!sessionValue.isEmpty() && sessionValue.contains("="))

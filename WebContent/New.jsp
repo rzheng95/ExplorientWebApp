@@ -1,35 +1,94 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Explorient | New</title>
 	<link rel="stylesheet" href="CSS/New.css" type="text/css">
 
 </head>
 <body>
+
 	<%@include file="Website Template.jsp"%>
 		
-	<div style="margin-left:13.5%;padding:1px 16px;height:100%;">
+	<%
+		ArrayList<String> agents = hpdao.getAgent(); 
+	%>
+
+	<div class="content_wrap">
 	
-		<div>
-			<form>
-				<input class="new_buttons" type="text" placeholder="Agent" />
-				<div class="dropdown">
-				    <input type="text" />
-				    <select  onchange="this.previousElementSibling.value=this.value; this.previousElementSibling.focus()">
-				        <option>This is option 1</option>
-				        <option>Option 2</option>
-				    </select>
-				</div>
-				<input class="new_buttons" type="text" placeholder="Customer id" />
-				<input class="new_buttons" type="text" placeholder="Destination" />
-				<input class="new_buttons" type="text" placeholder="Tour Pacakge" />
-				<input class="new_buttons" type="text" placeholder="Air" />
-				<div>DOD<input class="new_buttons" type="date" /></div>
-				DOR<input class="new_buttons" type="date" />
+		<div class="new_booking">
+			<form action="New" method="post">	
+			
+			<div class="new_div">
+				<div class="para_div"> <p>Agent:</p> </div>
+				<select class="editable-select" name="editable-select">
+					<% for(int i=0; i < agents.size(); i++) { %>
+						<option class="agents"><%=agents.get(i) %></option>
+					<% } %>
+				</select>			
+			</div>
+			<hr>
+							
+			<div class="new_div">
+				<div class="para_div"> <p>Customer ID:</p> </div>
+				<input class="new_textfields" type="text" name="Customer id"/> 
+			</div>
+			<hr>
+			
+			<div class="new_div">
+				<div class="para_div"> <p>Destination:</p> </div>
+				<select class="editable-select" name="editable-select">
+					<% for(int i=0; i < agents.size(); i++) { %>
+						<option class="agents"><%=agents.get(i) %></option>
+					<% } %>
+				</select>			
+			</div>
+			<hr>
+			
+			<div class="new_div">
+				<div class="para_div"> <p>Tour Pacakge:</p> </div>
+				<select class="editable-select" name="editable-select">
+					<% for(int i=0; i < agents.size(); i++) { %>
+						<option class="agents"><%=agents.get(i) %></option>
+					<% } %>
+				</select>			
+			</div>
+			<hr>
+			
+			<div class="new_div">
+				<div class="para_div"> <p>Air:</p> </div>
+				<select class="editable-select" name="editable-select">
+					<% for(int i=0; i < agents.size(); i++) { %>
+						<option class="agents"><%=agents.get(i) %></option>
+					<% } %>
+				</select>			
+			</div>
+			<hr>
+			
+			
+			
+			<div class="new_div">
+				<div class="para_div"> <p>Date of Departure:</p> </div>
+				 <input type="text" class="datepicker" >
+
+			</div>
+			<hr>
+			
+			
+			<div class="new_div">
+				<div class="para_div"> <p>Date of Return:</p> </div>
+				<input type="text" class="datepicker">
+			</div>
+			<hr>
+				
+				<input type="submit" value="Create"/>
 			</form>
+			
+			
 		</div>
 		
 

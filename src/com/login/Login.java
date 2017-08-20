@@ -4,8 +4,6 @@ import java.io.*;
 import javax.servlet.annotation.*;
 import javax.servlet.*;  
 import javax.servlet.http.*;  
-import javax.websocket.Session;
-
 
 @WebServlet("/Login")
 public class Login extends HttpServlet {
@@ -63,6 +61,7 @@ public class Login extends HttpServlet {
 				while(dao.checkNonce(nonce))
 				{
 					nonce = nonceGenerator.nextNonce();
+					cookieValue = email+"="+nonce;	
 				}
 				dao.updateNonceByEmail(nonce, email);
 				
@@ -124,6 +123,7 @@ public class Login extends HttpServlet {
 				while(dao.checkNonce(nonce))
 				{
 					nonce = nonceGenerator.nextNonce();
+					cookieValue = email+"="+nonce;	
 				}
 				
 				// cookie and session values are the same 'email=nonce'

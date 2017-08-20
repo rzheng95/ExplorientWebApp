@@ -11,7 +11,7 @@
 <body>
 	<%@include file="Website Template.jsp"%>
 	
-	<div style="margin-left:13.5%;padding:1px 16px;height:100%;">
+	<div class="content_wrap">
 		Welcome to booking page, <%=firstname %>. You are logged in as <%=emailValue %>
 
 	

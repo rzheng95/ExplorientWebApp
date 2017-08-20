@@ -1,5 +1,6 @@
 @charset "ISO-8859-1";
 
+
 body{
 	margin: 0;
 	padding: 0;
@@ -23,7 +24,11 @@ body{
 	padding: 1em;
 }
 
-
+.content_wrap{
+	margin-left:13.5%;
+	padding:0 2em 0 2em;
+	height:100%;
+}
 
 .nav_buttons{
 	margin: 1em 0 1em 0;	
