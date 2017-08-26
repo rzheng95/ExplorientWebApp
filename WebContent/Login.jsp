@@ -18,8 +18,7 @@
 			response.sendRedirect("Homepage.jsp");
 			return;
 		}
-		
-		
+
 		
         String email = LoginDao.getLoginEmail();
         String password = LoginDao.getLoginPassword();
