@@ -20,7 +20,7 @@ public class Login extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		request.getRequestDispatcher("Login.jsp").forward(request, response);
+		request.getRequestDispatcher("Login").forward(request, response);
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
@@ -40,7 +40,7 @@ public class Login extends HttpServlet {
 		// if user tries to log himself in again
 		if(session.getAttribute(LoginDao.getSessionName())!=null && email.equals(dao.getEmailCookie(emailAndNonceCookies)))
 		{
-			response.sendRedirect("Homepage.jsp");
+			response.sendRedirect("Homepage");
 			return;		
 		}
 		// maximum length allowed
@@ -72,7 +72,7 @@ public class Login extends HttpServlet {
 				emailCookie.setMaxAge(LoginDao.getMaxLoginCookieAge());
 				response.addCookie(emailCookie);
 				session.setMaxInactiveInterval(LoginDao.getMaxInactiveInterval());
-				response.sendRedirect("Homepage.jsp");
+				response.sendRedirect("Homepage");
 				return;
 			}
 						
@@ -107,7 +107,7 @@ public class Login extends HttpServlet {
 				// send him back to homepage which will lose his connection due to invalid cookie (session will be removed in homepage)	
 				if(session.getAttribute(LoginDao.getSessionName())!=null)
 				{
-					response.sendRedirect("Homepage.jsp");
+					response.sendRedirect("Homepage");
 					return;
 				}
 				cookieValue = email +"="+ dao.getNonceByEmail(email);
@@ -142,14 +142,14 @@ public class Login extends HttpServlet {
 			}
 			
 			session.setMaxInactiveInterval(LoginDao.getMaxInactiveInterval());
-			response.sendRedirect("Homepage.jsp");
+			response.sendRedirect("Homepage");
 
 		}
 		else
 		{		
 			request.setAttribute(LoginDao.LOGIN_EMAIL, email);
 			request.setAttribute(LoginDao.LOGIN_FAILED, LoginDao.getLoginFailed());
-			request.getRequestDispatcher("Login.jsp").forward(request, response);
+			request.getRequestDispatcher("Login").forward(request, response);
 		}
 				
 	}
