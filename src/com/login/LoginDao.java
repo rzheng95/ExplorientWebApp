@@ -449,7 +449,9 @@ public class LoginDao extends HttpServlet
 	
     public static String CapitalizeFirstLetter(String text)
     {
-    	return text.substring(0, 1).toUpperCase() + text.substring(1).toLowerCase();
+    	if(text!=null)
+    		return text.substring(0, 1).toUpperCase() + text.substring(1).toLowerCase();
+    	return null;
     }
 	
 	public static String getSessionName()

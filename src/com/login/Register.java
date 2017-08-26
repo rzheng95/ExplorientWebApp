@@ -99,7 +99,7 @@ public class Register extends HttpServlet {
 		}
 			
 
-		request.getRequestDispatcher(LoginDao.REGISTER).forward(request, response);
+		request.getRequestDispatcher("Register.jsp").forward(request, response);
 	}
 	
 	public boolean checkEmpty()

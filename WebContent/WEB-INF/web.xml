@@ -166,7 +166,7 @@
     <param-value>Explorient.email</param-value>
   </context-param>
   <context-param>
-    <param-name>register</param-name>
+    <param-name>Register</param-name>
     <param-value>register</param-value>
   </context-param>
   <context-param>
