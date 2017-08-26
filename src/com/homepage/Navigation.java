@@ -58,17 +58,17 @@ public class Navigation extends HttpServlet {
 		if (request.getParameter(email) != null) 
 		{
 			session.setAttribute(HomepageDao.getHomepageNavigationSelected(), email);
-			response.sendRedirect("Homepage");
+			response.sendRedirect(LoginDao.HOMEPAGE);
         } 
 			else if(request.getParameter(profile) != null)
 			{
 				session.setAttribute(HomepageDao.getHomepageNavigationSelected(), profile);
-				response.sendRedirect("Homepage");
+				response.sendRedirect(LoginDao.HOMEPAGE);
 			}
 			else if(request.getParameter(setting) != null)
 			{
 				session.setAttribute(HomepageDao.getHomepageNavigationSelected(), setting);
-				response.sendRedirect("Homepage");
+				response.sendRedirect(LoginDao.HOMEPAGE);
 			}
 		else if (request.getParameter(search) != null) 
         {
@@ -119,7 +119,7 @@ public class Navigation extends HttpServlet {
 		// Log out
         else 
         {
-        	request.getRequestDispatcher("Logout").forward(request, response);
+        	request.getRequestDispatcher(LoginDao.LOGOUT).forward(request, response);
         }
 		
 		//request.getRequestDispatcher("Homepage.jsp").forward(request, response);

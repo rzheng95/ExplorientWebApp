@@ -49,6 +49,7 @@ public class LoginDao extends HttpServlet
 	public final static String REGISTER = "Register";
 	public final static String HOMEPAGE = "/";
 	public final static String LOGIN = "Login";
+	public final static String LOGOUT = "Logout";
 	
 	
 	private Connection conn = null;
