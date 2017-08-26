@@ -39,7 +39,7 @@ public class Logout extends HttpServlet {
 		
 
 		
-		response.sendRedirect("Login.jsp");
+		response.sendRedirect("Login");
 	}
 
 

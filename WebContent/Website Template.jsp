@@ -60,13 +60,13 @@
 				session.removeAttribute(LoginDao.getSessionName());
 				session.invalidate();
 			}
-			response.sendRedirect("Login.jsp");
+			response.sendRedirect("Login");
 			return;
 		}
 	}
 	else
 	{
-		response.sendRedirect("Login.jsp");
+		response.sendRedirect("Login");
 		return;
 	}
 	
