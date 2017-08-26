@@ -36,7 +36,6 @@ public class LoginDao extends HttpServlet
 	public final static String MAX_LOGIN_COOKIE_AGE = "max.login.cookie.age";
 	
 	// Register
-	public final static String REGISTER = "register";
 	public final static String REGISTER_FIRSTNAME = "register.firstname";
 	public final static String REGISTER_LASTNAME = "register.lastname";
 	public final static String REGISTER_COOKIE_NAME = "register.cookie.name";
@@ -47,6 +46,9 @@ public class LoginDao extends HttpServlet
 	public final static String REGISTER_FAILED = "register.failed";
 	public final static String REGISTER_MAX_LENGTH_FAILED = "register.max.lenth.failed.message";
 	
+	public final static String REGISTER = "Register";
+	public final static String HOMEPAGE = "/";
+	public final static String LOGIN = "Login";
 	
 	
 	private Connection conn = null;

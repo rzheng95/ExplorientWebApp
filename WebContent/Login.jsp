@@ -15,7 +15,7 @@
 		
 		if(session.getAttribute(LoginDao.getSessionName())!=null)
 		{
-			response.sendRedirect("Homepage");
+			response.sendRedirect(LoginDao.HOMEPAGE);
 			return;
 		}
 

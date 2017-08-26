@@ -36,7 +36,7 @@ public class Register extends HttpServlet {
 		// check if user is already logged in
 		if(session.getAttribute(LoginDao.getSessionName())!=null)
 		{
-			response.sendRedirect("Homepage");
+			response.sendRedirect(LoginDao.HOMEPAGE);
 			return;
 		}
 		
@@ -94,12 +94,12 @@ public class Register extends HttpServlet {
 			session.setAttribute(LoginDao.getSessionName(), cookieValue); 
 			dao.saveNonce(email, nonce);
 			
-			response.sendRedirect("Homepage");
+			response.sendRedirect(LoginDao.HOMEPAGE);
 			return;
 		}
 			
 
-		request.getRequestDispatcher("Register").forward(request, response);
+		request.getRequestDispatcher(LoginDao.REGISTER).forward(request, response);
 	}
 	
 	public boolean checkEmpty()
