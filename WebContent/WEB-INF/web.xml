@@ -24,6 +24,16 @@
     <servlet-class>com.homepage.HomepageDao</servlet-class>
     <load-on-startup>0</load-on-startup>
   </servlet>
+  <servlet>
+    <servlet-name>NewpageDao</servlet-name>
+    <servlet-class>com.newpage.NewpageDao</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+  <servlet>
+    <servlet-name>PassengerDao</servlet-name>
+    <servlet-class>com.passenger.PassengerDao</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
   <context-param>
     <param-name>max.inactive.interval</param-name>
     <param-value>1200</param-value>
@@ -34,7 +44,7 @@
   </context-param>
   <context-param>
     <param-name>database.get.email.and.password.query</param-name>
-    <param-value>SELECT * FROM Users WHERE Email = ? AND Password = ?;</param-value>
+    <param-value>SELECT * FROM Users WHERE Email = ? AND BINARY Password = ?;</param-value>
   </context-param>
   <context-param>
     <param-name>database.get.email.query</param-name>
@@ -76,6 +86,46 @@
     <param-name>database.get.agent.query</param-name>
     <param-value>select Agent, Firstname, Lastname from Agents;</param-value>
   </context-param>
+  <context-param>
+    <param-name>database.check.agent.query</param-name>
+    <param-value>select * from Agents where Agent=? and Firstname=? and Lastname=?;</param-value>
+  </context-param>
+  <context-param>
+    <param-name>database.add.booking.query</param-name>
+    <param-value>insert into Booking(Agent, Customer_Id, Destination, Air, Departure_Date ,Return_Date, Tour_Package) values (?,?,?,?,?,?,?);</param-value>
+  </context-param>
+  <context-param>
+    <param-name>database.get.destination.query</param-name>
+    <param-value>SELECT DISTINCT Destination FROM Booking;</param-value>
+  </context-param>
+  <context-param>
+    <param-name>database.get.air.query</param-name>
+    <param-value>SELECT DISTINCT Air FROM Booking;</param-value>
+  </context-param>
+  <context-param>
+    <param-name>database.get.tour.package.query</param-name>
+    <param-value>SELECT DISTINCT Tour_Package FROM Booking;</param-value>
+  </context-param>
+  <context-param>
+    <param-name>database.check.customer.id.query</param-name>
+    <param-value>select * from Booking where Customer_Id = ?;</param-value>
+  </context-param>
+  <context-param>
+    <param-name>database.get.customer.id.query</param-name>
+    <param-value>select Customer_Id from Booking;</param-value>
+  </context-param>
+  <context-param>
+    <param-name>database.add.passenger.query</param-name>
+    <param-value>insert into Passengers(Customer_Id, Title, Firstname, Middlename, Lastname)values(?,?,?,?,?);</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>database.get.passenger.query</param-name>
+    <param-value>select * from Passengers where Customer_Id = ?;</param-value>
+  </context-param>
+  
+
+  
   <context-param>
     <param-name>session.name</param-name>
     <param-value>Explorient.session</param-value>
@@ -201,6 +251,10 @@
     <param-value>agent</param-value>
   </context-param>
   <context-param>
+    <param-name>homepage.navigation.passenger</param-name>
+    <param-value>passenger</param-value>
+  </context-param>
+  <context-param>
     <param-name>homepage.navigation.new</param-name>
     <param-value>new</param-value>
   </context-param>
@@ -212,4 +266,107 @@
     <param-name>homepage.navigation.voucher</param-name>
     <param-value>voucher</param-value>
   </context-param>
+  <context-param>
+    <param-name>new.agent</param-name>
+    <param-value>agent</param-value>
+  </context-param>
+  <context-param>
+    <param-name>new.customer.id</param-name>
+    <param-value>customer_id</param-value>
+  </context-param>
+  <context-param>
+    <param-name>new.destination</param-name>
+    <param-value>destination</param-value>
+  </context-param>
+  <context-param>
+    <param-name>new.air</param-name>
+    <param-value>air</param-value>
+  </context-param>
+  <context-param>
+    <param-name>new.date.of.departure</param-name>
+    <param-value>date_of_departure</param-value>
+  </context-param>
+  <context-param>
+    <param-name>new.date.of.return</param-name>
+    <param-value>date_of_return</param-value>
+  </context-param>
+  <context-param>
+    <param-name>new.tour.package</param-name>
+    <param-value>tour_package</param-value>
+  </context-param>
+  <context-param>
+    <param-name>new.agent.not.found.failed</param-name>
+    <param-value>Agent not found.</param-value>
+  </context-param>
+  <context-param>
+    <param-name>new.equal.sign.failed</param-name>
+    <param-value>Can't have &quot;=&quot; sign.</param-value>
+  </context-param>
+  <context-param>
+    <param-name>new.empty.field.failed</param-name>
+    <param-value>Sorry, can't leave any field blank.</param-value>
+  </context-param>
+  <context-param>
+    <param-name>new.customer.id.exists.failed</param-name>
+    <param-value>This customer id already exists.</param-value>
+  </context-param>
+  <context-param>
+    <param-name>new.customer.id.invalid.failed</param-name>
+    <param-value>Correct customer id format: &quot;Lastname-Departure Date&quot;.</param-value>
+  </context-param>
+  <context-param>
+    <param-name>new.date.format.invalid.failed</param-name>
+    <param-value>Invalid date format.</param-value>
+  </context-param>
+  <context-param>
+    <param-name>new.agent.format.invalid.failed</param-name>
+    <param-value>Invalid agent format.</param-value>
+  </context-param>
+  <context-param>
+    <param-name>BookingCreated.add.passenger</param-name>
+    <param-value>Add passenger for booking</param-value>
+  </context-param>
+  <context-param>
+    <param-name>BookingCreated.add.shipping.address</param-name>
+    <param-value>Add shipping address for booking</param-value>
+  </context-param>
+  <context-param>
+    <param-name>BookingCreated.update.booking</param-name>
+    <param-value>Update booking</param-value>
+  </context-param>
+  <context-param>
+    <param-name>passenger.title</param-name>
+    <param-value>title</param-value>
+  </context-param>
+  <context-param>
+    <param-name>passenger.middlename</param-name>
+    <param-value>middlename</param-value>
+  </context-param>
+  <context-param>
+    <param-name>passenger.empty.field.failed</param-name>
+    <param-value>Customer Id, First name, and Last name are required.</param-value>
+  </context-param>
+  <context-param>
+    <param-name>passenger.customer.id.invalid.failed</param-name>
+    <param-value>Customer Id doesn't exist.</param-value>
+  </context-param>
+  
 </web-app>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

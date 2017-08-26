@@ -22,13 +22,16 @@
 			
 </script>
 
-
+ 
 
 
 <link rel="stylesheet" href="CSS/Website Template.css" type="text/css">
 <%@ page import="com.login.LoginDao"%>
 <%@ page import="com.homepage.HomepageDao"%>
+<%@ page import="com.newpage.NewpageDao"%>
+<%@ page import="com.passenger.PassengerDao"%>
 <%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.HashMap" %>
 
 <%	
 	// prevents backing after logout
@@ -41,8 +44,7 @@
 	response.setHeader("Expires", "0");
 
 	LoginDao dao = new LoginDao();
-	HomepageDao hpdao = new HomepageDao();
-	
+	 
 	Cookie[] emailAndNonceCookies = request.getCookies();
 	
 	String nonce = dao.getNonceCookie(emailAndNonceCookies);	
@@ -76,6 +78,7 @@
 		String hotel = HomepageDao.getHomepageNavigationHotel();
 		String vendor = HomepageDao.getHomepageNavigationVendor();
 		String agent = HomepageDao.getHomepageNavigationAgent();
+		String passenger = HomepageDao.getHomepageNavigationPassenger();
 	String booking = HomepageDao.getHomepageNavigationBooking();
 		String new1 = HomepageDao.getHomepageNavigationNew();
 		String itinerary = HomepageDao.getHomepageNavigationItinerary();
@@ -87,8 +90,8 @@
 	
 	String emailValue = "";
 	String sessionValue = request.getSession(false).getAttribute(LoginDao.getSessionName()).toString();
-	if(!sessionValue.isEmpty() && sessionValue.contains("="))
-		emailValue = sessionValue.split("=")[0];
+	if(!sessionValue.isEmpty() && sessionValue.contains(NewpageDao.EQUAL))
+		emailValue = sessionValue.split(NewpageDao.EQUAL)[0];
 	
 	String firstname = dao.getUserFirstNameByEmail(emailValue);
 	String emailStyle = "", searchStyle = "", bookingStlye = "";
@@ -97,7 +100,7 @@
 
 	if(selected!= null)
 	{
-		if(selected.equals(search) || selected.equals(hotel) || selected.equals(vendor) || selected.equals(agent))
+		if(selected.equals(search) || selected.equals(hotel) || selected.equals(vendor) || selected.equals(agent) || selected.equals(passenger))
 			searchStyle = HomepageDao.getCssStylingColorGold();
 		else if(selected.equals(booking) || selected.equals(new1) || selected.equals(itinerary) || selected.equals(voucher))
 			bookingStlye = HomepageDao.getCssStylingColorGold();
@@ -129,6 +132,7 @@
 			      <li><input class="nav_small_buttons" type="submit" name="<%=hotel %>" value="<%=LoginDao.CapitalizeFirstLetter(hotel) %>"></li>
 			      <li><input class="nav_small_buttons" type="submit" name="<%=vendor %>" value="<%=LoginDao.CapitalizeFirstLetter(vendor) %>"></li>
 			      <li><input class="nav_small_buttons" type="submit" name="<%=agent %>" value="<%=LoginDao.CapitalizeFirstLetter(agent) %>"></li>
+			      <li><input class="nav_small_buttons" type="submit" name="<%=passenger %>" value="<%=LoginDao.CapitalizeFirstLetter(passenger) %>"></li>
 		      </ul>
 		  </li>
 		  

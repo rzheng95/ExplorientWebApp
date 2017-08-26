@@ -14,10 +14,7 @@ import org.mariadb.jdbc.Driver;
 import com.login.SHA512;
 
 public class HomepageDao extends HttpServlet
-{
-	// database
-	public final static String GET_AGENT_QUERY = "database.get.agent.query";
-	
+{	
 	// db connection
 	public final static String DB_URL = "database.url";
 	public final static String DB_USERNAME = "database.username";
@@ -35,21 +32,11 @@ public class HomepageDao extends HttpServlet
 	public final static String HOMEPAGE_NAVIGATION_HOTEL = "homepage.navigation.hotel";
 	public final static String HOMEPAGE_NAVIGATION_VENDOR = "homepage.navigation.vendor";
 	public final static String HOMEPAGE_NAVIGATION_AGENT = "homepage.navigation.agent";
+	public final static String HOMEPAGE_NAVIGATION_PASSENGER = "homepage.navigation.passenger";
 	public final static String HOMEPAGE_NAVIGATION_NEW = "homepage.navigation.new";
 	public final static String HOMEPAGE_NAVIGATION_ITINERARY = "homepage.navigation.itinerary";
 	public final static String HOMEPAGE_NAVIGATION_VOUCHER = "homepage.navigation.voucher";
-	
-	// db connection
-	private Connection conn = null;
-	private PreparedStatement pstmt = null;
-	private ResultSet rs;
-	private static String db_username;
-	private static String db_password;
-	private static String db_url;
-	
-	// database
-	private static String getAgentQuery;
-	
+		
 	// Home page
 	private static String homepageNavigationSearch;
 	private static String homepageNavigationBooking;
@@ -62,26 +49,18 @@ public class HomepageDao extends HttpServlet
 	private static String homepageNavigationHotel;
 	private static String homepageNavigationVendor;
 	private static String homepageNavigationAgent;
+	private static String homepageNavigationPassenger;
 	private static String homepageNavigationNew;
 	private static String homepageNavigationItinerary;
 	private static String homepageNavigationVoucher;
 	
-	
+
 	public void init()
 	{
 		
 		
 		try {
 			ServletContext sc = this.getServletContext();
-			
-			// database
-			getAgentQuery = sc.getInitParameter(GET_AGENT_QUERY);
-			
-			
-			// db connection
-			db_username = sc.getInitParameter(DB_USERNAME);
-			db_password = sc.getInitParameter(DB_PASSWORD);
-			db_url = sc.getInitParameter(DB_URL);
 			
 			homepageNavigationSearch = sc.getInitParameter(HOMEPAGE_NAVIGATION_SEARCH);
 			homepageNavigationBooking = sc.getInitParameter(HOMEPAGE_NAVIGATION_BOOKING);
@@ -95,47 +74,16 @@ public class HomepageDao extends HttpServlet
 			homepageNavigationHotel = sc.getInitParameter(HOMEPAGE_NAVIGATION_HOTEL);
 			homepageNavigationVendor = sc.getInitParameter(HOMEPAGE_NAVIGATION_VENDOR);
 			homepageNavigationAgent = sc.getInitParameter(HOMEPAGE_NAVIGATION_AGENT);
+			homepageNavigationPassenger = sc.getInitParameter(HOMEPAGE_NAVIGATION_PASSENGER);
 			homepageNavigationNew = sc.getInitParameter(HOMEPAGE_NAVIGATION_NEW);
 			homepageNavigationItinerary = sc.getInitParameter(HOMEPAGE_NAVIGATION_ITINERARY);
 			homepageNavigationVoucher = sc.getInitParameter(HOMEPAGE_NAVIGATION_VOUCHER);
-			
-		
+					
 			DriverManager.registerDriver(new Driver());
 			
 		} catch (Exception e) {
 			System.err.println(e);
 		}
-	}
-	
-	public ArrayList<String> getAgent()
-	{			
-		ArrayList<String> returnList = new ArrayList<>();
-		try {				
-			conn = DriverManager.getConnection(db_url, db_username, db_password);	
-			
-			pstmt = conn.prepareStatement(getAgentQuery);
-			rs = pstmt.executeQuery();
-			
-			while(rs.next())
-			{
-				String temp = "";
-				temp += rs.getString("Agent");
-				temp += " - ";
-				temp += rs.getString("Firstname");
-				temp += " ";
-				temp += rs.getString("Lastname");
-				
-				returnList.add(temp);
-			}
-
-			conn.close();
-			pstmt.close();
-			rs.close();
-		} catch (Exception e) {
-			System.err.println(e);
-		}
-		
-		return returnList;
 	}
 
 	
@@ -183,6 +131,10 @@ public class HomepageDao extends HttpServlet
 	public static String getHomepageNavigationAgent() 
 	{
 		return homepageNavigationAgent;
+	}
+	public static String getHomepageNavigationPassenger() 
+	{
+		return homepageNavigationPassenger;
 	}
 	public static String getHomepageNavigationNew() 
 	{

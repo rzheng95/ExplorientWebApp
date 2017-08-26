@@ -48,26 +48,27 @@
 			<div id="login_div">
 			
 				<form action="Login" method="post">
-						<fieldset>
-						<legend id="legend" align= "center"><img id="legend_img" src="Image/Logo grey.png" style="width:3em;height:3em;"></legend> <br/>
+						<fieldset id="fieldset">
+							<fieldset id="fieldset_background">
+								<legend id="legend" align= "center"><img id="legend_img" src="Image/Logo gray.png" style="width:3em;height:3em;"></legend> 
+							</fieldset>
+						<legend id="legend" align= "center"><img id="legend_img" src="Image/Logo gray.png" style="width:3em;height:3em;"></legend> <br/>
 						
-						
-						<input class="textfields" type="text" name="<%=email%>" value="<%=emailValue%>" placeholder="<%=LoginDao.CapitalizeFirstLetter(email) %>">  <br/>
-		
-						<input class="textfields" type="password" name="<%=password%>" placeholder="<%=LoginDao.CapitalizeFirstLetter(password) %>"> 
-		
-						<p class="failedMessages" ><%=failed %></p>
-						
-						<input class="buttons" type="submit" name="sumbit" value="Log in"> <br/> <br/>
+						<div id="login_inner_div">
+							<input class="textfields" type="text" name="<%=email%>" value="<%=emailValue%>" placeholder="<%=LoginDao.CapitalizeFirstLetter(email) %>">  <br/>
+			
+							<input class="textfields" type="password" name="<%=password%>" placeholder="<%=LoginDao.CapitalizeFirstLetter(password) %>"> <br/><br/><br/>			
+							<p class="failedMessages" ><%=failed %></p> 
 							
-						
-						<a class="links" id="register" href="Register">Register</a>
-
+							<input class="buttons" type="submit" name="sumbit" value="Log in"> <br/> <br/>
+							
+							
+							<a class="links" id="register" href="Register">Register</a><br/><br/>
+						</div>
 						
 					</fieldset>		
 				</form>
 			</div>
 		</div>
-
 </body>
 </html>

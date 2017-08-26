@@ -1,7 +1,7 @@
 @charset "ISO-8859-1";
 
 
-body{
+html, body{
 	margin: 0;
 	padding: 0;
 	width: 100%;
@@ -11,6 +11,7 @@ body{
 	font-family: "Arial Narrow";
 	font-size: 1em;
 	color: white;
+	overflow: hidden;
 }
 
 
@@ -22,6 +23,8 @@ body{
 
 .header{
 	padding: 1em;
+	color: #8b7116;
+	font-family: "Times New Roman", Times, serif;
 }
 
 .content_wrap{
@@ -72,7 +75,7 @@ body{
 
 
 ul.nav {
-  background: black;
+  background: #181510;
   position: fixed;
   width: 13.5%;
   height: 100%;

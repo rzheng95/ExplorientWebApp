@@ -22,6 +22,7 @@ public class Navigation extends HttpServlet {
 	private String hotel;
 	private String vendor;
 	private String agent;
+	private String passenger;
 	private String booking;
 	private String new1;
 	private String itinerary;
@@ -47,6 +48,7 @@ public class Navigation extends HttpServlet {
 			hotel = HomepageDao.getHomepageNavigationHotel();
 			vendor = HomepageDao.getHomepageNavigationVendor();
 			agent = HomepageDao.getHomepageNavigationAgent();
+			passenger = HomepageDao.getHomepageNavigationPassenger();
 		booking = HomepageDao.getHomepageNavigationBooking();
 			new1 = HomepageDao.getHomepageNavigationNew();
 			itinerary = HomepageDao.getHomepageNavigationItinerary();
@@ -87,6 +89,11 @@ public class Navigation extends HttpServlet {
 			{
 				session.setAttribute(HomepageDao.getHomepageNavigationSelected(), agent);
 				response.sendRedirect("Search.jsp");
+			}
+			else if(request.getParameter(passenger) != null)
+			{
+				session.setAttribute(HomepageDao.getHomepageNavigationSelected(), passenger);
+				response.sendRedirect("Passenger.jsp");
 			}
         else if (request.getParameter(booking) != null) 
         {
