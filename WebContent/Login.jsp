@@ -13,6 +13,13 @@
 		// Proxies
 		response.setHeader("Expires", "0");
 		
+		if(session.getAttribute(LoginDao.getSessionName())!=null)
+		{
+			response.sendRedirect("Homepage.jsp");
+			return;
+		}
+		
+		
 		
         String email = LoginDao.getLoginEmail();
         String password = LoginDao.getLoginPassword();
