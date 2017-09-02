@@ -13,9 +13,10 @@
 
 	<%@include file="Website Template.jsp"%>
 
-		<script>
+	<script>
 	$(document).ready(function() {
 		
+		/* drop down items listeners */
 		
 		$('#agent')
 	    .editableSelect()
@@ -53,8 +54,8 @@
 	});
 		
 
-		
-	window.onload = function() {
+		// select all text when focus
+	window.onload = function() {	
 		var dropdowns = document.getElementsByClassName("es-input");
 		for(var i=0; i<dropdowns.length; i++)
 		{
@@ -63,15 +64,41 @@
 			}
 		}
 		
+		/* on key up listeners */
 		
-		
+		// customer id
 		var customer_id = document.getElementById("customer_id");
 		var customer_id_text = document.getElementById("customer_id_text");
 
 		customer_id.onkeyup = function() {
 			customer_id_text.innerHTML = 'CID: '+this.value;
+		}		
+		
+		// destination
+		var destination = document.getElementById("destination");
+		var destination_text = document.getElementById("destination_text");
+
+		destination.onkeyup = function() {
+			destination_text.innerHTML = 'DES: '+this.value;
 		}
 		
+		// air
+		var air = document.getElementById("air");
+		var air_text = document.getElementById("air_text");
+
+		air.onkeyup = function() {
+			air_text.innerHTML = 'AIR: '+this.value;
+		}
+		
+		// tour package
+		var tour_package = document.getElementById("tour_package");
+		var tour_package_text = document.getElementById("tour_package_text");
+
+		tour_package.onkeyup = function() {
+			tour_package_text.innerHTML = 'PKG: '+this.value;
+		}
+		
+		// date of departure
 		var date_of_departure = document.getElementById("date_of_departure");
 		var date_of_departure_text = document.getElementById("date_of_departure_text");
 
@@ -79,6 +106,7 @@
 			date_of_departure_text.innerHTML = 'DOP: '+this.value;
 		}
 		
+		// date of return
 		var date_of_return = document.getElementById("date_of_return");
 		var date_of_return_text = document.getElementById("date_of_return_text");
 
@@ -214,20 +242,23 @@
 		</div>
 			
 		<div class="new_booking">
+
 			<div class="display_panel">
+				<div id="display_panel_background"></div> 
 				<h2>Booking Information</h2>
-				<p class="booking_information" id="agent_text"><%="AGT: "+agentValue %></p>
-				<p class="booking_information" id="customer_id_text"><%="CID: "+customerIdValue %></p>
+				<p class="booking_information" id="agent_text"><%=agentValue %></p>
+				<p class="booking_information" id="customer_id_text"><%=customerIdValue %></p>
 				<br><br>
-				<p class="booking_information" id="destination_text"><%="DES: "+destinationValue %></p>
-				<p class="booking_information" id="air_text"><%="AIR: "+airValue %></p>
+				<p class="booking_information" id="destination_text"><%=destinationValue %></p>
+				<p class="booking_information" id="air_text"><%=airValue %></p>
 				<br><br>
-				<p class="booking_information" id="date_of_departure_text"><%="DOP: "+dateOfDepartureValue %></p>
-				<p class="booking_information" id="date_of_return_text"><%="DOR: "+dateOfReturnValue %></p>
+				<p class="booking_information" id="date_of_departure_text"><%=dateOfDepartureValue %></p>
+				<p class="booking_information" id="date_of_return_text"><%=dateOfReturnValue %></p>
 				<br><br>
-				<p class="booking_information" id="tour_package_text"><%="PKG: "+tourPackageValue %></p>
+				<p class="booking_information" id="tour_package_text"><%=tourPackageValue %></p>
 			</div>
 		</div>
+
 
 		
 	</div>

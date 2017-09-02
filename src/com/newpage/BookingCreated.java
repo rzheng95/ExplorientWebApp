@@ -26,8 +26,7 @@ public class BookingCreated extends HttpServlet {
 		
 		if (addPassenger != null) 
 		{
-			response.sendRedirect("Passenger.jsp");
-			return;
+			response.sendRedirect("Passenger");
 		}
 		else if (addShippingAddress != null) 
 		{

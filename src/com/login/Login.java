@@ -48,7 +48,7 @@ public class Login extends HttpServlet {
 		{
 			request.setAttribute(LoginDao.LOGIN_EMAIL, "");
 			request.setAttribute(LoginDao.LOGIN_FAILED, LoginDao.getLoginMaxLengthFailed());
-			request.getRequestDispatcher(LoginDao.LOGIN).forward(request, response);
+			request.getRequestDispatcher("Login.jsp").forward(request, response);
 		}
 		// check if email and password are correct
 		else if(dao.checkEmailAndPassword(email, password))
@@ -149,7 +149,7 @@ public class Login extends HttpServlet {
 		{		
 			request.setAttribute(LoginDao.LOGIN_EMAIL, email);
 			request.setAttribute(LoginDao.LOGIN_FAILED, LoginDao.getLoginFailed());
-			request.getRequestDispatcher(LoginDao.LOGIN).forward(request, response);
+			request.getRequestDispatcher("Login.jsp").forward(request, response);
 		}
 				
 	}

@@ -14,20 +14,23 @@
 	<script>
 		$(document).ready(function() {
 			
+			// populate textfield values when passenger clicked
+			 $("a.passengers").click(function(){
+				var element = $(this).text().split(" ");
+				if(element.length == 4)
+				{
+				   	$('#title').val( element[0] );
+					$('#firstname').val( element[1] );
+					$('#middlename').val( element[2] );
+					$('#lastname').val( element[3] );
+				}
+				
+			 });
 			
-			$('#customer_id')
-		    .editableSelect()
-		    .on('select.editable-select', function (e, li) {
-		        $('#passenger_h3').html(
-		        	'Passenger List for '+li.text()
-		        );
-		    });
-			
-	
 		});
 	
-	
-		window.onload = function() {
+		
+		/*window.onload = function() {
 			var dropdowns = document.getElementsByClassName("es-input");
 			for(var i=0; i<dropdowns.length; i++)
 			{
@@ -35,7 +38,7 @@
 					this.setSelectionRange(0, this.value.length);
 				}
 			}
-		};
+		};*/
 	
 	</script>
 	
@@ -53,16 +56,33 @@
 		// failed
 		String failed = (String)request.getAttribute(PassengerDao.PASSENGER_FAILED);
 		
+		// enteredValues
+		String customerIdValue = "", titleValue = "", firstnameValue = "", middlenameValue = "", lastnameValue = "";
+		String enteredValues = (String)request.getAttribute(PassengerDao.PASSENGER);
+		if(enteredValues != null)
+		{
+			String[] fragment = enteredValues.split("=", -1);
+			if(fragment.length == PassengerDao.PASSENGER_ENTERED_VALUE_LENGTH)
+			{
+				customerIdValue = fragment[PassengerDao.CUSTOMER_ID_INDEX];
+				titleValue = fragment[PassengerDao.TITLE_INDEX];
+				firstnameValue = fragment[PassengerDao.FIRST_NAME_INDEX];
+				middlenameValue = fragment[PassengerDao.MIDDLE_NAME_INDEX];
+				lastnameValue = fragment[PassengerDao.LAST_NAME_INDEX];
+			}
+		}
+		
+		
 		if(failed == null)
 		{
 			failed = " ";
 		}
 		
 	
-		
+		// populate existing customer ids from database
 		ArrayList<String> customerIdValues = pdao.getCustomerIds();
 	
-		String customerIdValue = "";
+		// get customer id if user just created a booking.
 		HashMap<String, String> map = NewpageDao.getHashMap();	
 		if(map.get(NewpageDao.getNewCustomerId()) != null)
 			customerIdValue = map.remove(NewpageDao.getNewCustomerId());
@@ -73,7 +93,7 @@
 			<form action="Passenger" method="post">
 				
 				<div id="customer_id_div">
-					<select class="editable-select font_choice" id="customer_id" name="<%=customer_id%>"  value="<%=customerIdValue%>" placeholder="Customer ID">
+					<select class="editable-select" id="customer_id" name="<%=customer_id%>"  value="<%=customerIdValue%>" placeholder="Customer ID">
 						<% for(int i=0; i < customerIdValues.size(); i++) { %>
 							<option class="selected"><%=customerIdValues.get(i) %></option>
 						<% } %>
@@ -81,30 +101,32 @@
 				</div>
 									
 				<div id="search_div">
-					<input type="submit" class="passenger_buttons" id="search" name="search" value="Search">
+					<input type="submit" class="passenger_buttons" id="getPassengers" name="getPassengers" value="Get Passengers">
 				</div>
 			
 				
-				<div id="hidden_div">
-					<select class="editable-select font_choice" id="title" name="<%=p_title %>"  value="" placeholder="<%=LoginDao.CapitalizeFirstLetter(p_title) %>">
-					</select>
-					
-					<select class="editable-select font_choice" id="firstname" name="<%=p_firstname %>"  value="" placeholder="<%=LoginDao.CapitalizeFirstLetter(p_firstname) %>">
-					</select>
-					
-					<select class="editable-select font_choice" id="middlename" name="<%=p_middlename %>"  value="" placeholder="<%=LoginDao.CapitalizeFirstLetter(p_middlename) %>">
-					</select>
-					
-					<select class="editable-select font_choice" id="lastname" name="<%=p_lastname %>"  value="" placeholder="<%=LoginDao.CapitalizeFirstLetter(p_lastname) %>">
-					</select>
-					
-					<div>					
-						<input type="submit" class="passenger_buttons addAndUpdate" id="add" name="add" value="Add">
-						<input type="submit" class="passenger_buttons addAndUpdate" id="update" name="update" value="Update">
-					</div>
-				</div>
+				
+				<select class="editable-select no_background_img" id="title" name="<%=p_title %>"  value="<%=titleValue %>" placeholder="<%=LoginDao.CapitalizeFirstLetter(p_title) %>">
+				</select>
+				
+				<select class="editable-select no_background_img" id="firstname" name="<%=p_firstname %>"  value="<%=firstnameValue %>" placeholder="<%=LoginDao.CapitalizeFirstLetter(p_firstname) %>">
+				</select>
+				
+				<select class="editable-select no_background_img" id="middlename" name="<%=p_middlename %>"  value="<%=middlenameValue %>" placeholder="<%=LoginDao.CapitalizeFirstLetter(p_middlename) %>">
+				</select>
+				
+				<select class="editable-select no_background_img" id="lastname" name="<%=p_lastname %>"  value="<%=lastnameValue %>" placeholder="<%=LoginDao.CapitalizeFirstLetter(p_lastname) %>">
+				</select>
 				
 				<p class="failedMessages" ><%=failed %></p>
+				
+				<div>	
+					<input type="submit" class="passenger_buttons addAndDelete" id="add" name="add" value="ADD">									
+					<input type="submit" class="passenger_buttons addAndDelete" id="delete" name="delete" value="DELETE">
+				</div>
+				
+				
+				
 				
 
 			</form>
@@ -112,25 +134,17 @@
 		
 		<div class="passenger_div">
 			<div class="display_panel">
-				<h3 id="passenger_h3">Passenger List</h3>
+			<div id="display_panel_background"></div> 
+				<h2 id="passenger_h3">Passenger List</h2>
 				
 					<%if(passengerList != null && !passengerList.isEmpty()) { %>
 					<%	for(int i=0; i < passengerList.size(); i++) { %>
-						<p class="passengers"><%=passengerList.get(i) %></p>
+						<a class="passengers"><%=passengerList.get(i).replaceAll("=", " ") %></a>
 						<% } %>
 					<% } %>
-				
+				 
 			</div>
 		</div>
-		
-		
-		<!--  
-		<div style="color: black;">Search Icons made by 
-			<a style="text-decoration: none; color: black; " href="https://www.flaticon.com/authors/madebyoliver" title="Madebyoliver">Madebyoliver</a> from 
-			<a style="text-decoration: none; color: black; "href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by 
-			<a style="text-decoration: none; color: black; "href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
-		</div>
-		-->
 	</div>
 	
 </body>

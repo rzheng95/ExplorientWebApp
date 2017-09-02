@@ -5,8 +5,11 @@ import java.util.ArrayList;
 public class test {
 
 	public static void main(String[] args) {
-		ArrayList<String> arr = new ArrayList<>();
-		System.out.println();
+		String x = "Mr. Yang Sama";
+		String[] arr = x.split(" ", -1);
+		for(String i : arr)
+			
+		System.out.println(i);
 
 				
 	}

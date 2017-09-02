@@ -118,6 +118,14 @@
     <param-name>database.get.passenger.query</param-name>
     <param-value>select * from Passengers where Customer_Id = ?;</param-value>
   </context-param>
+  <context-param>
+    <param-name>database.check.duplicate.passenger.query</param-name>
+    <param-value>select * from Passengers where Customer_Id=? and Title=? and Firstname=? and Middlename=? and Lastname=?;</param-value>
+  </context-param>
+  <context-param>
+    <param-name>database.delete.passenger.query</param-name>
+    <param-value>DELETE FROM Passengers WHERE Customer_Id=? and Title=? and Firstname=? and Middlename=? and Lastname=?;</param-value>
+  </context-param>
   
 
   
@@ -339,13 +347,28 @@
   </context-param>
   <context-param>
     <param-name>passenger.empty.field.failed</param-name>
-    <param-value>Customer Id, First name, and Last name are required.</param-value>
+    <param-value>Customer id, First name, and Last name are required.</param-value>
   </context-param>
   <context-param>
     <param-name>passenger.customer.id.invalid.failed</param-name>
     <param-value>Customer Id doesn't exist.</param-value>
   </context-param>
-  
+  <context-param>
+    <param-name>passenger.added</param-name>
+    <param-value>Passenger added.</param-value>
+  </context-param>
+  <context-param>
+    <param-name>passenger.already.exists.failed</param-name>
+    <param-value>Passenger already exists.</param-value>
+  </context-param>
+  <context-param>
+    <param-name>passenger.does.not.exist.failed</param-name>
+    <param-value>Passenger doesn't exist.</param-value>
+  </context-param>
+   <context-param>
+    <param-name>passenger.deleted</param-name>
+    <param-value>Passenger deleted.</param-value>
+  </context-param>
 </web-app>
 
 

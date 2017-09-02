@@ -112,7 +112,7 @@ public class New extends HttpServlet {
 			HashMap<String, String> map = NewpageDao.getHashMap();	
 			map.put(NewpageDao.getNewCustomerId(), customer_id); 
 			
-			response.sendRedirect("BookingCreated.jsp");
+			response.sendRedirect("BookingCreated");
 			return;
 		}
 

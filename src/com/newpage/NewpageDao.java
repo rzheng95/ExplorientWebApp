@@ -193,6 +193,7 @@ public class NewpageDao extends HttpServlet
 	
 	public boolean checkCustomerId(String customerId)
 	{			
+		if(customerId == null) return false;
 		try {				
 			conn = DriverManager.getConnection(db_url, db_username, db_password);	
 			

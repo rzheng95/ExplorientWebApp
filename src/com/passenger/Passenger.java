@@ -1,6 +1,8 @@
 	package com.passenger;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,9 +16,9 @@ import com.newpage.NewpageDao;
 public class Passenger extends HttpServlet {
 
 	private String customerId;
-	private String title = null;
+	private String title;
 	private String firstname;
-	private String middlename = null;
+	private String middlename ;
 	private String lastname;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -28,65 +30,88 @@ public class Passenger extends HttpServlet {
 		PassengerDao pdao = new PassengerDao();
 		
 		customerId = request.getParameter(NewpageDao.getNewCustomerId()).trim();
-		if(!request.getParameter(PassengerDao.getPassengerTitle()).trim().isEmpty())
-			title = request.getParameter(PassengerDao.getPassengerTitle()).trim();
+		title = request.getParameter(PassengerDao.getPassengerTitle()).trim();
 		firstname = request.getParameter(LoginDao.getRegisterFirstname()).trim();
-		if(!request.getParameter(PassengerDao.getPassengerMiddlename()).trim().isEmpty())
-			middlename = request.getParameter(PassengerDao.getPassengerMiddlename()).trim();
+		middlename = request.getParameter(PassengerDao.getPassengerMiddlename()).trim();
 		lastname = request.getParameter(LoginDao.getRegisterLastname()).trim();
 		
-		
-		
-		// search clicked
-		if (request.getParameter("search") != null) 
+		// check equal signs
+		if(customerId.contains(PassengerDao.EQUAL) || title.contains(PassengerDao.EQUAL) || firstname.contains(PassengerDao.EQUAL) || middlename.contains(PassengerDao.EQUAL) || lastname.contains(PassengerDao.EQUAL))
 		{
-			// check if customer Id exists
-			if(!npdao.checkCustomerId(customerId))
-			{
-				//request.setAttribute(PassengerDao.PASSENGER, "");
-				request.setAttribute(PassengerDao.PASSENGER_FAILED, PassengerDao.getPassengerCustomerIdInvalidFailed());
-				
-			}	
-			else
-			{
-				request.setAttribute(PassengerDao.PASSENGER_LIST, pdao.getPassenger(customerId));
- 
-			}
-			
-			request.getRequestDispatcher("Passenger.jsp").forward(request, response);
-		}
-		// not search clicked
+			request.setAttribute(PassengerDao.PASSENGER_FAILED, NewpageDao.getEqualSignFailed());	
+		}				
+		// customer Id doesn't exist
+		else if(customerId == null || !npdao.checkCustomerId(customerId))
+		{
+			request.setAttribute(PassengerDao.PASSENGER_FAILED, PassengerDao.getPassengerCustomerIdInvalidFailed());	
+		}	
+		// customer Id exists
 		else
-		{
-			// check required fields
-			if(customerId.isEmpty() || firstname.isEmpty() || lastname.isEmpty())
+		{ 
+			// get Passengers clicked
+			if (request.getParameter("getPassengers") != null) 
+			{
+				request.setAttribute(PassengerDao.PASSENGER, customerId+PassengerDao.EQUAL+
+																		PassengerDao.EQUAL+
+																		PassengerDao.EQUAL+
+																		PassengerDao.EQUAL);
+			}
+			else if(customerId.isEmpty() || firstname.isEmpty() || lastname.isEmpty())
 			{
 				request.setAttribute(PassengerDao.PASSENGER_FAILED, PassengerDao.getPassengerEmptyFieldFailed());
-				//request.setAttribute(PassengerDao.PASSENGER, "");
-				return;
-			}
-			
+				request.setAttribute(PassengerDao.PASSENGER, customerId+PassengerDao.EQUAL+
+															 title+PassengerDao.EQUAL+
+															 firstname+PassengerDao.EQUAL+
+															 middlename+PassengerDao.EQUAL+
+															 lastname);
+			}		
 			// add clicked
-			if(request.getParameter("add") != null) 
+			else if(request.getParameter("add") != null) 
 			{
+				// check if passenger already exists
+				if(!pdao.checkDuplicatePassenger(customerId, title, firstname, middlename, lastname))
+				{
+					pdao.addPassenger(customerId, title, firstname, middlename, lastname);
+					request.setAttribute(PassengerDao.PASSENGER_FAILED, PassengerDao.getPassengerAddedMessage());
+				}
+				// passenger already exists
+				else
+				{
+					request.setAttribute(PassengerDao.PASSENGER_FAILED, PassengerDao.getPassengerAlreadyExistsFailed());
+				}
+				request.setAttribute(PassengerDao.PASSENGER, customerId+PassengerDao.EQUAL+
+						PassengerDao.EQUAL+
+						PassengerDao.EQUAL+
+						PassengerDao.EQUAL);	
+			}
+			// delete clicked
+			else if(request.getParameter("delete") != null) 
+			{
+				// passenger exists
+				if(pdao.checkDuplicatePassenger(customerId, title, firstname, middlename, lastname))
+				{
+					pdao.deletePassenger(customerId, title, firstname, middlename, lastname);
+					request.setAttribute(PassengerDao.PASSENGER_FAILED, PassengerDao.getPassengerDeletedMessage());
+				}
+				// passenger doesn't exist
+				else
+				{
+					request.setAttribute(PassengerDao.PASSENGER_FAILED, PassengerDao.getPassengerDoesNotExistFailed());
+				}
+				request.setAttribute(PassengerDao.PASSENGER, customerId+PassengerDao.EQUAL+
+						PassengerDao.EQUAL+
+						PassengerDao.EQUAL+
+						PassengerDao.EQUAL);	
+			}
 
-			}
-			// update clicked
-			else if(request.getParameter("update") != null) 
-			{
-				
-			}
-			else
-			{
-				
-			}
+			
+			// update passenger list
+			request.setAttribute(PassengerDao.PASSENGER_LIST, pdao.getPassenger(customerId));
 		}
 		
-			
 
-
+		request.getRequestDispatcher("Passenger.jsp").forward(request, response);
 	}
-
 }
 
 
