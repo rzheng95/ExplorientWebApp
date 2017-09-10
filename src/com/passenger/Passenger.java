@@ -20,14 +20,18 @@ public class Passenger extends HttpServlet {
 	private String firstname;
 	private String middlename ;
 	private String lastname;
+	private NewpageDao npdao;
+	private PassengerDao pdao;
+	private LoginDao ldao;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getRequestDispatcher("Passenger.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		NewpageDao npdao = new NewpageDao();
-		PassengerDao pdao = new PassengerDao();
+		npdao = new NewpageDao();
+		pdao = new PassengerDao();
+		ldao = new LoginDao();
 		
 		customerId = request.getParameter(NewpageDao.getNewCustomerId()).trim();
 		title = request.getParameter(PassengerDao.getPassengerTitle()).trim();
@@ -35,10 +39,10 @@ public class Passenger extends HttpServlet {
 		middlename = request.getParameter(PassengerDao.getPassengerMiddlename()).trim();
 		lastname = request.getParameter(LoginDao.getRegisterLastname()).trim();
 		
-		// check equal signs
-		if(customerId.contains(PassengerDao.EQUAL) || title.contains(PassengerDao.EQUAL) || firstname.contains(PassengerDao.EQUAL) || middlename.contains(PassengerDao.EQUAL) || lastname.contains(PassengerDao.EQUAL))
+		// check invalid symbols
+		if(ldao.checkInvalidSymbols(title) || ldao.checkInvalidSymbols(firstname) || ldao.checkInvalidSymbols(middlename) || ldao.checkInvalidSymbols(lastname))
 		{
-			request.setAttribute(PassengerDao.PASSENGER_FAILED, NewpageDao.getEqualSignFailed());	
+			request.setAttribute(PassengerDao.PASSENGER_FAILED, LoginDao.getRegisterInvalidSymbolsLFailed());	
 		}				
 		// customer Id doesn't exist
 		else if(customerId == null || !npdao.checkCustomerId(customerId))

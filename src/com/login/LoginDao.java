@@ -46,7 +46,7 @@ public class LoginDao extends HttpServlet
 	public final static String REGISTER_UNMATCHED_PASSWORD = "register.unmatched.password.message";
 	public final static String REGISTER_FAILED = "register.failed";
 	public final static String REGISTER_MAX_LENGTH_FAILED = "register.max.lenth.failed.message";
-	public final static String REGISTER_HTML_FAILED = "register.HTML.failed.message";
+	public final static String REGISTER_INVALID_SYMBOLS_FAILED = "register.invalid.symbols.failed.message";
 	
 	public final static String REGISTER = "Register";
 	public final static String HOMEPAGE = "/";
@@ -54,6 +54,9 @@ public class LoginDao extends HttpServlet
 	public final static String LOGOUT = "Logout";
 	public final static String LESSTHANSIGN = "<";
 	public final static String GREATERTHANSIGN = ">";
+	public final static String ATSIGN = "@";
+	public final static String EQUALSIGN = "=";
+	public final static String ANDSIGN = "&";
 	
 	
 	private Connection conn = null;
@@ -103,7 +106,7 @@ public class LoginDao extends HttpServlet
 	private static String registerUnmatchedPassword;
 	private static String registerFailed;
 	private static String registerMaxLengthFailed;
-	private static String registerHTMLFailed;
+	private static String registerInvalidSymbolsFailed;
 	
 
 	
@@ -154,7 +157,7 @@ public class LoginDao extends HttpServlet
 			registerUnmatchedPassword = sc.getInitParameter(REGISTER_UNMATCHED_PASSWORD);
 			registerFailed = sc.getInitParameter(REGISTER_FAILED);
 			registerMaxLengthFailed = sc.getInitParameter(REGISTER_MAX_LENGTH_FAILED);
-			registerHTMLFailed = sc.getInitParameter(REGISTER_HTML_FAILED);
+			registerInvalidSymbolsFailed = sc.getInitParameter(REGISTER_INVALID_SYMBOLS_FAILED);
 			
 			
 			DriverManager.registerDriver(new Driver());
@@ -165,9 +168,9 @@ public class LoginDao extends HttpServlet
 		}
 	}
 	
-	public boolean checkHTML(String text)
+	public boolean checkInvalidSymbols(String text)
 	{
-		return (text.contains(LESSTHANSIGN) || text.contains(GREATERTHANSIGN));
+		return (text.contains(LESSTHANSIGN) || text.contains(GREATERTHANSIGN) || text.contains(ATSIGN) || text.contains(EQUALSIGN) || text.contains(ANDSIGN));
 	}
 	
 	public boolean checkMaxLength(String text)
@@ -572,8 +575,8 @@ public class LoginDao extends HttpServlet
 	{
 		return registerMaxLengthFailed;
 	}
-	public static String getRegisterHTMLFailed()
+	public static String getRegisterInvalidSymbolsLFailed()
 	{
-		return registerHTMLFailed;
+		return registerInvalidSymbolsFailed;
 	}
 }

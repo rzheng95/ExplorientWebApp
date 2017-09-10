@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.login.LoginDao;
+
 @WebServlet("/New")
 public class New extends HttpServlet {
 	private int DATE_LENGTH = NewpageDao.DATE_LENGTH;
@@ -21,6 +23,7 @@ public class New extends HttpServlet {
 	private String DASH = NewpageDao.DASH;
 	
 	private NewpageDao dao;
+	private LoginDao ldao;
 	private String agent;
 	private String customer_id;
 	private String destination;
@@ -40,6 +43,7 @@ public class New extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		dao = new NewpageDao();
+		ldao = new LoginDao();
 		
 		agent = request.getParameter(NewpageDao.getNewAgent()).trim();
 		customer_id = request.getParameter(NewpageDao.getNewCustomerId()).trim();
@@ -62,10 +66,10 @@ public class New extends HttpServlet {
 			}
 			
 		}
-		// check for = sign, which is reserved for split method
-		else if(agent.contains(EQUAL) || customer_id.contains(EQUAL) || destination.contains(EQUAL) || air.contains(EQUAL) || date_of_departure.contains(EQUAL) || date_of_return.contains(EQUAL) || tour_package.contains(EQUAL))
+		// check for = sign, which is reserved for split method and other symbols
+		else if(ldao.checkInvalidSymbols(customer_id) || ldao.checkInvalidSymbols(destination) || ldao.checkInvalidSymbols(air) || ldao.checkInvalidSymbols(tour_package))
 		{
-			request.setAttribute(NewpageDao.NEWPAGE_FAILED, NewpageDao.getEqualSignFailed());
+			request.setAttribute(NewpageDao.NEWPAGE_FAILED, LoginDao.getRegisterInvalidSymbolsLFailed());
 			agent = ""; customer_id = ""; destination = ""; air = ""; date_of_departure = ""; date_of_return = ""; tour_package = "";
 		}
 		// check for empty field

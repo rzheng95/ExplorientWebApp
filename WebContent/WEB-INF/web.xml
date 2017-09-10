@@ -112,10 +112,16 @@
     <param-name>database.check.customer.id.query</param-name>
     <param-value>select * from Booking where Customer_Id = ?;</param-value>
   </context-param>
+  
+  
   <context-param>
     <param-name>database.get.customer.id.query</param-name>
     <param-value>select Customer_Id from Booking;</param-value>
   </context-param>
+  
+  
+  
+  
   <context-param>
     <param-name>database.add.passenger.query</param-name>
     <param-value>insert into Passengers(Customer_Id, Title, Firstname, Middlename, Lastname)values(?,?,?,?,?);</param-value>
@@ -218,10 +224,10 @@
   </context-param>
   
   <context-param>
-    <param-name>register.HTML.failed.message</param-name>
-    <param-value>&quot;&lt;&quot; and &quot;&gt;&quot; not allowed</param-value>
+    <param-name>register.invalid.symbols.failed.message</param-name>
+    <param-value>Invalid symbols: &quot;=&quot; &quot;&lt;&quot;, &quot;&gt;&quot;, &quot;&amp;&quot;, and &quot;@&quot;</param-value>
   </context-param>
-  
+ 
   
   
   <context-param>

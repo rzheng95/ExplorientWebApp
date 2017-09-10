@@ -59,10 +59,11 @@ public class Register extends HttpServlet {
 			request.setAttribute(LoginDao.REGISTER, "==");
 			request.setAttribute(LoginDao.REGISTER_FAILED, LoginDao.getRegisterMaxLengthFailed());
 		}
-		else if(dao.checkHTML(email) || dao.checkHTML(password) || dao.checkHTML(confirmPassword) || dao.checkHTML(firstname) || dao.checkHTML(lastname))
+		// Emailchecker already checks the symbol for email. Password does not matter because it will never be shown
+		else if(dao.checkInvalidSymbols(firstname) || dao.checkInvalidSymbols(lastname))
 		{
 			request.setAttribute(LoginDao.REGISTER, "==");
-			request.setAttribute(LoginDao.REGISTER_FAILED, LoginDao.getRegisterHTMLFailed());
+			request.setAttribute(LoginDao.REGISTER_FAILED, LoginDao.getRegisterInvalidSymbolsLFailed());
 		}
 		// check if any textfields are empty
 		else if(!checkEmpty()) 
