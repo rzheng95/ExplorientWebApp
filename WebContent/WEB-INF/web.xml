@@ -29,6 +29,11 @@
     <servlet-class>com.passenger.PassengerDao</servlet-class>
     <load-on-startup>0</load-on-startup>
   </servlet>
+  <servlet>
+    <servlet-name>ItineraryDao</servlet-name>
+    <servlet-class>com.itinerary.ItineraryDao</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
   <context-param>
     <param-name>max.inactive.interval</param-name>
     <param-value>1200</param-value>
@@ -46,8 +51,14 @@
     <param-value>SELECT * FROM Users WHERE Email = ?;</param-value>
   </context-param>
   <context-param>
+    <param-name>database.get.salt.by.email</param-name>
+    <param-value>select Salt from Users where Email = ?;</param-value>
+  </context-param>
+  
+  
+  <context-param>
     <param-name>database.add.user.query</param-name>
-    <param-value>insert into Users (Email, Password, Firstname, Lastname) values (?, ?, ?, ?);</param-value>
+    <param-value>insert into Users (Email, Salt, Password, Firstname, Lastname) values (?, ?, ?, ?, ?);</param-value>
   </context-param>
   <context-param>
     <param-name>database.save.nonce.query</param-name>
@@ -90,16 +101,12 @@
     <param-value>insert into Booking(Agent, Customer_Id, Destination, Air, Departure_Date ,Return_Date, Tour_Package) values (?,?,?,?,?,?,?);</param-value>
   </context-param>
   <context-param>
-    <param-name>database.get.destination.query</param-name>
-    <param-value>SELECT DISTINCT Destination FROM Booking;</param-value>
-  </context-param>
-  <context-param>
     <param-name>database.get.air.query</param-name>
     <param-value>SELECT DISTINCT Air FROM Booking;</param-value>
   </context-param>
   <context-param>
     <param-name>database.get.tour.package.query</param-name>
-    <param-value>SELECT DISTINCT Tour_Package FROM Booking;</param-value>
+    <param-value>SELECT DISTINCT Tour_Package FROM Booking where Destination like Concat('%', ?,'%');</param-value>
   </context-param>
   <context-param>
     <param-name>database.check.customer.id.query</param-name>
@@ -113,7 +120,6 @@
     <param-name>database.add.passenger.query</param-name>
     <param-value>insert into Passengers(Customer_Id, Title, Firstname, Middlename, Lastname)values(?,?,?,?,?);</param-value>
   </context-param>
-  
   <context-param>
     <param-name>database.get.passenger.query</param-name>
     <param-value>select * from Passengers where Customer_Id = ?;</param-value>
@@ -126,9 +132,6 @@
     <param-name>database.delete.passenger.query</param-name>
     <param-value>DELETE FROM Passengers WHERE Customer_Id=? and Title=? and Firstname=? and Middlename=? and Lastname=?;</param-value>
   </context-param>
-  
-
-  
   <context-param>
     <param-name>session.name</param-name>
     <param-value>Explorient.session</param-value>
@@ -213,6 +216,14 @@
     <param-name>register.max.lenth.failed.message</param-name>
     <param-value>Email, password, first name, or last name length invalid.</param-value>
   </context-param>
+  
+  <context-param>
+    <param-name>register.HTML.failed.message</param-name>
+    <param-value>&quot;&lt;&quot; and &quot;&gt;&quot; not allowed</param-value>
+  </context-param>
+  
+  
+  
   <context-param>
     <param-name>homepage.navigation.search</param-name>
     <param-value>search</param-value>
@@ -294,6 +305,16 @@
     <param-value>date_of_return</param-value>
   </context-param>
   <context-param>
+    <param-name>new.country</param-name>
+    <param-value>country</param-value>
+  </context-param>
+  <context-param>
+    <param-name>new.get.packages</param-name>
+    <param-value>Get Packages</param-value>
+  </context-param>
+  
+  
+  <context-param>
     <param-name>new.tour.package</param-name>
     <param-value>tour_package</param-value>
   </context-param>
@@ -325,6 +346,15 @@
     <param-name>new.agent.format.invalid.failed</param-name>
     <param-value>Invalid agent format.</param-value>
   </context-param>
+  
+  <context-param>
+    <param-name>new.countries</param-name>
+    <param-value>China-Japan-Thailand-Hong Kong-Cambodia-Singapore-Indonesia-Malaysia-Vietnam-Myanmar-South Korea-Nepal-India</param-value>
+  </context-param>
+  
+  
+   
+  
   <context-param>
     <param-name>BookingCreated.add.passenger</param-name>
     <param-value>Add passenger for booking</param-value>
@@ -365,26 +395,33 @@
     <param-name>passenger.does.not.exist.failed</param-name>
     <param-value>Passenger doesn't exist.</param-value>
   </context-param>
-   <context-param>
+  <context-param>
     <param-name>passenger.deleted</param-name>
     <param-value>Passenger deleted.</param-value>
   </context-param>
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 </web-app>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

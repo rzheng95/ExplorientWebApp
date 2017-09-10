@@ -16,6 +16,7 @@ public class Register extends HttpServlet {
 	private HttpSession session;
 	private LoginDao dao;
 	private String email;
+	private String salt;
 	private String password;
 	private String confirmPassword;
 	private String firstname;
@@ -58,6 +59,11 @@ public class Register extends HttpServlet {
 			request.setAttribute(LoginDao.REGISTER, "==");
 			request.setAttribute(LoginDao.REGISTER_FAILED, LoginDao.getRegisterMaxLengthFailed());
 		}
+		else if(dao.checkHTML(email) || dao.checkHTML(password) || dao.checkHTML(confirmPassword) || dao.checkHTML(firstname) || dao.checkHTML(lastname))
+		{
+			request.setAttribute(LoginDao.REGISTER, "==");
+			request.setAttribute(LoginDao.REGISTER_FAILED, LoginDao.getRegisterHTMLFailed());
+		}
 		// check if any textfields are empty
 		else if(!checkEmpty()) 
 		{		
@@ -80,7 +86,8 @@ public class Register extends HttpServlet {
 		}
 		else
 		{
-			dao.addUser(email, confirmPassword, firstname, lastname);
+			salt = nonceGenerator.nextNonce();
+			dao.addUser(email, salt, confirmPassword, firstname, lastname);
 			
 			nonce = nonceGenerator.nextNonce();	
 			

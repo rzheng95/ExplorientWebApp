@@ -78,17 +78,17 @@ public class Navigation extends HttpServlet {
 			else if(request.getParameter(hotel) != null)
 			{
 				session.setAttribute(HomepageDao.getHomepageNavigationSelected(), hotel);
-				response.sendRedirect("Search.jsp");
+				response.sendRedirect("Hotel");
 			}
 			else if(request.getParameter(vendor) != null)
 			{
 				session.setAttribute(HomepageDao.getHomepageNavigationSelected(), vendor);
-				response.sendRedirect("Search.jsp");
+				response.sendRedirect("Vendor");
 			}
 			else if(request.getParameter(agent) != null)
 			{
 				session.setAttribute(HomepageDao.getHomepageNavigationSelected(), agent);
-				response.sendRedirect("Search.jsp");
+				response.sendRedirect("Agent");
 			}
 			else if(request.getParameter(passenger) != null)
 			{
@@ -108,7 +108,7 @@ public class Navigation extends HttpServlet {
 	        else if (request.getParameter(itinerary) != null) 
 	        {
 	        	session.setAttribute(HomepageDao.getHomepageNavigationSelected(), itinerary);      	
-	        	response.sendRedirect("Booking.jsp");
+	        	response.sendRedirect("Itinerary");
 	        } 
 			
 	        else if (request.getParameter(voucher) != null) 

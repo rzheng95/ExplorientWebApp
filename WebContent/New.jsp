@@ -123,10 +123,10 @@
 	
 		// database variables
 		ArrayList<String> agents = npdao.getAgent(); 
-		ArrayList<String> destinations = npdao.getDestination();
 		ArrayList<String> airs = npdao.getAir();
-		ArrayList<String> tourPackages = npdao.getTourPackage();
+		ArrayList<String> tourPackages = (ArrayList<String>) request.getAttribute("tourPackages");
 	
+		ArrayList<String> countries = npdao.getCountries();
 	 
 		// name variables
 		String new_agent = NewpageDao.getNewAgent(); 
@@ -135,32 +135,36 @@
 		String air = NewpageDao.getNewAir();
 		String date_of_departure = NewpageDao.getNewDateOfDeparture();
 		String date_of_return = NewpageDao.getNewDateOfReturn();
+		String country = NewpageDao.getCountry();
+		String getPackages = NewpageDao.getGetPackages();
 		String tour_package = NewpageDao.getNewTourPackage(); 
 		
 		// failed
 		String failed = (String)request.getAttribute(NewpageDao.NEWPAGE_FAILED);
 		
 		// previous entered values
-		String agentValue = "", customerIdValue = "", destinationValue = "", airValue = "", dateOfDepartureValue = "", dateOfReturnValue = "", tourPackageValue = "";
+		String agentValue = "", customerIdValue = "", destinationValue = "", airValue = "", dateOfDepartureValue = "", dateOfReturnValue = "", countryValue = "", tourPackageValue = "";
 		if(failed == null)
 		{
 			failed = " ";
 		}
-		else
-        {
-        	String enteredValues = (String)request.getAttribute(NewpageDao.NEWPAGE);
-        	String[] fragment = enteredValues.split("=", -1);
-        	if(fragment.length == NewpageDao.NEW_ENTERED_VALUE_LENGTH)
+
+       	String enteredValues = (String)request.getAttribute(NewpageDao.NEWPAGE);
+       	if(enteredValues != null && !enteredValues.isEmpty())
+       	{
+	       	String[] fragment = enteredValues.split("=", -1);
+	       	if(fragment.length == NewpageDao.NEW_ENTERED_VALUE_LENGTH)
 			{
-        		agentValue = fragment[NewpageDao.AGENT_VALUE_INDEX];
-        		customerIdValue = fragment[NewpageDao.CUSTOMER_ID_VALUE_INDEX];
-        		destinationValue = fragment[NewpageDao.DESTINATION_VALUE_INDEX];
-        		airValue = fragment[NewpageDao.Air_VALUE_INDEX];
-        		dateOfDepartureValue = fragment[NewpageDao.DATE_OF_DEPARTURE_VALUE_INDEX];
-        		dateOfReturnValue = fragment[NewpageDao.DATE_OF_RETURN_VALUE_INDEX];
-        		tourPackageValue = fragment[NewpageDao.TOUR_PACKAGE_VALUE_INDEX];
+	       		agentValue = fragment[NewpageDao.AGENT_VALUE_INDEX];
+	       		customerIdValue = fragment[NewpageDao.CUSTOMER_ID_VALUE_INDEX];
+	       		destinationValue = fragment[NewpageDao.DESTINATION_VALUE_INDEX];
+	       		airValue = fragment[NewpageDao.Air_VALUE_INDEX];
+	       		dateOfDepartureValue = fragment[NewpageDao.DATE_OF_DEPARTURE_VALUE_INDEX];
+	       		dateOfReturnValue = fragment[NewpageDao.DATE_OF_RETURN_VALUE_INDEX];
+	       		countryValue = fragment[NewpageDao.COUNTRY_INDEX];
+	       		tourPackageValue = fragment[NewpageDao.TOUR_PACKAGE_VALUE_INDEX];
 			}
-        }
+       	}
 		
 	%>
 
@@ -188,12 +192,10 @@
 				
 				
 				<div class="section_wrap">
+				
 					<div class="left_div">
-						<p class="new_tags">Destination: (separate with " - " if more than one country)</p>
+						<p class="new_tags">Destination: (separate with " - " if more than one country. Ex. China-Japan)</p>
 						<select class="editable-select font_choice" id="destination" name="<%=destination%>" value="<%=destinationValue%>">
-							<% for(int i=0; i < destinations.size(); i++) { %>
-								<option><%=destinations.get(i) %></option>
-							<% } %>
 						</select>			
 					</div>
 					
@@ -205,8 +207,7 @@
 								<option><%=airs.get(i) %></option>
 							<% } %>
 						</select>		
-					</div>
-				
+					</div>	
 				</div>
 				
 					
@@ -226,12 +227,29 @@
 				
 				
 				<div class="section_wrap">
-					<p class="new_tags">Tour Pacakge:</p> 
-					<select class="editable-select font_choice" id="tour_package" name="<%=tour_package%>" value="<%=tourPackageValue%>">
-						<% for(int i=0; i < tourPackages.size(); i++) { %>
-							<option><%=tourPackages.get(i) %></option>
-						<% } %>
-					</select>		
+					
+					<div class="right_div country_div">
+						<p class="new_tags">Country:</p> 
+						<select class="editable-select font_choice" id="<%=country%>" name="<%=country%>" value="<%=countryValue%>">
+							<% for(int i=0; i < countries.size(); i++) { %>
+								<option><%=countries.get(i) %></option>
+							<% } %>
+						</select>		
+						<input type="submit" id="getPackages" name="<%=getPackages%>" value="<%=getPackages%>"> 
+					</div>
+
+					
+
+				
+					<div class="left_div">
+						<p class="new_tags">Tour Pacakge:</p> 
+						<select class="editable-select font_choice" id="tour_package" name="<%=tour_package%>" value="<%=tourPackageValue%>">
+							<% if(tourPackages != null && !tourPackages.isEmpty()) { %>
+							<% for(int i=0; i < tourPackages.size(); i++) { %>
+								<option><%=tourPackages.get(i) %></option>
+							<% } }%>
+						</select>		
+					</div>
 				</div>
 				
 				<p class="failedMessages" ><%=failed %></p>

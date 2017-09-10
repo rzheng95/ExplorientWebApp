@@ -10,6 +10,7 @@ public class LoginDao extends HttpServlet
 	// Database query
 	public final static String LOGIN_QUERY = "database.get.email.and.password.query";
 	public final static String EMAIL_QUERY = "database.get.email.query";
+	public final static String GET_SALT_BY_EMAIL_QUERY = "database.get.salt.by.email";
 	public final static String ADD_USER_QUERY = "database.add.user.query";
 	public final static String SAVE_NONCE_QUERY = "database.save.nonce.query";
 	public final static String DELETE_NONCE_QUERY = "database.delete.nonce.query";
@@ -45,11 +46,14 @@ public class LoginDao extends HttpServlet
 	public final static String REGISTER_UNMATCHED_PASSWORD = "register.unmatched.password.message";
 	public final static String REGISTER_FAILED = "register.failed";
 	public final static String REGISTER_MAX_LENGTH_FAILED = "register.max.lenth.failed.message";
+	public final static String REGISTER_HTML_FAILED = "register.HTML.failed.message";
 	
 	public final static String REGISTER = "Register";
 	public final static String HOMEPAGE = "/";
 	public final static String LOGIN = "Login";
 	public final static String LOGOUT = "Logout";
+	public final static String LESSTHANSIGN = "<";
+	public final static String GREATERTHANSIGN = ">";
 	
 	
 	private Connection conn = null;
@@ -60,6 +64,7 @@ public class LoginDao extends HttpServlet
 	// Database query
 	private static String loginQuery;
 	private static String emailQuery;
+	private static String getSaltByEmailQuery;
 	private static String addUserrQuery;
 	private static String saveNonceQuery;
 	private static String deleteNonceQuery;
@@ -98,6 +103,7 @@ public class LoginDao extends HttpServlet
 	private static String registerUnmatchedPassword;
 	private static String registerFailed;
 	private static String registerMaxLengthFailed;
+	private static String registerHTMLFailed;
 	
 
 	
@@ -110,6 +116,7 @@ public class LoginDao extends HttpServlet
 			// Database query
 			loginQuery = sc.getInitParameter(LOGIN_QUERY);
 			emailQuery = sc.getInitParameter(EMAIL_QUERY);
+			getSaltByEmailQuery = sc.getInitParameter(GET_SALT_BY_EMAIL_QUERY);
 			addUserrQuery = sc.getInitParameter(ADD_USER_QUERY);
 			saveNonceQuery = sc.getInitParameter(SAVE_NONCE_QUERY);
 			deleteNonceQuery = sc.getInitParameter(DELETE_NONCE_QUERY);
@@ -147,7 +154,7 @@ public class LoginDao extends HttpServlet
 			registerUnmatchedPassword = sc.getInitParameter(REGISTER_UNMATCHED_PASSWORD);
 			registerFailed = sc.getInitParameter(REGISTER_FAILED);
 			registerMaxLengthFailed = sc.getInitParameter(REGISTER_MAX_LENGTH_FAILED);
-			
+			registerHTMLFailed = sc.getInitParameter(REGISTER_HTML_FAILED);
 			
 			
 			DriverManager.registerDriver(new Driver());
@@ -158,6 +165,11 @@ public class LoginDao extends HttpServlet
 		}
 	}
 	
+	public boolean checkHTML(String text)
+	{
+		return (text.contains(LESSTHANSIGN) || text.contains(GREATERTHANSIGN));
+	}
+	
 	public boolean checkMaxLength(String text)
 	{
 		return (text.length() > maxLength);
@@ -165,9 +177,9 @@ public class LoginDao extends HttpServlet
 
 	public boolean checkEmailAndPassword(String loginEmail, String loginPassword)
 	{			
-
+		String salt = getSalt(loginEmail);
 		try {				
-			hashedPassword = SHA512.hashText(loginPassword);
+			hashedPassword = SHA512.hashText(loginPassword+salt);
 			conn = DriverManager.getConnection(db_url, db_username, db_password);	
 			
 			pstmt = conn.prepareStatement(loginQuery);
@@ -185,6 +197,28 @@ public class LoginDao extends HttpServlet
 		}
 		
 		return false;
+	}
+	
+	public String getSalt(String email)
+	{
+		String salt = "";
+		try {				
+			conn = DriverManager.getConnection(db_url, db_username, db_password);	
+			pstmt = conn.prepareStatement(getSaltByEmailQuery);
+			pstmt.setString(1, email);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) 
+				salt = rs.getString("Salt");
+
+			conn.close();
+			pstmt.close();
+			rs.close();
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+		
+		return salt;
 	}
 	
 	public boolean checkEmail(String loginEmail)
@@ -233,18 +267,19 @@ public class LoginDao extends HttpServlet
 		return returnFirstname;
 	}
 	
-	public void addUser(String loginEmail, String loginPassword, String registerFirstname, String registerLastname)
+	public void addUser(String loginEmail, String salt, String loginPassword, String registerFirstname, String registerLastname)
 	{
 		
 		try {				
-			hashedPassword = SHA512.hashText(loginPassword);
+			hashedPassword = SHA512.hashText(loginPassword+salt);
 			conn = DriverManager.getConnection(db_url, db_username, db_password);	
 			
 			pstmt = conn.prepareStatement(addUserrQuery);
 			pstmt.setString(1, loginEmail);
-			pstmt.setString(2, hashedPassword);
-			pstmt.setString(3, registerFirstname);
-			pstmt.setString(4, registerLastname);
+			pstmt.setString(2, salt);
+			pstmt.setString(3, hashedPassword);
+			pstmt.setString(4, registerFirstname);
+			pstmt.setString(5, registerLastname);
 			rs = pstmt.executeQuery();
 			
 						
@@ -536,5 +571,9 @@ public class LoginDao extends HttpServlet
 	public static String getRegisterMaxLengthFailed()
 	{
 		return registerMaxLengthFailed;
+	}
+	public static String getRegisterHTMLFailed()
+	{
+		return registerHTMLFailed;
 	}
 }

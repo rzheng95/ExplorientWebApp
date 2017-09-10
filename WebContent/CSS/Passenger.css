@@ -34,13 +34,10 @@
 	overflow:hidden;
 }
 
-
-
-
-
 #search_div{
 	float: right;
 } 
+
 
 #passenger_h3{
 	color: #8b7116;
@@ -52,19 +49,21 @@
 }
 
 .passenger_buttons{
-	color: #313131;
-	background: #d1a91e;
+	font-weight: bold;
+	font-family: Georgia,Times,'Times New Roman',serif;
+	color: black;
+	background: #d6ad23;
 	border: none;
 	cursor:pointer;
 	box-shadow: 0px 3px 5px #4e4e4e; 
 	padding: 0.5em 2em 0.5em 2em;
-	font-size: 1em;
+	font-size: 0.9em;
 	font-weight: bold;
 }
 
 .passenger_buttons:active{
 	background: #9c7e16;
-	font-size: 0.97em;
+	font-size: 0.87em;
 }
 
 .addAndDelete{

@@ -9,6 +9,29 @@
 	background-image: none !important;
 }
 
+#destination{
+	background-image: none !important;
+}
+
+#getPackages{
+	color: black;
+	background: #d6ad23;
+	
+	font-family: Georgia,Times,'Times New Roman',serif;
+	margin-top: 1em;
+	padding: 0.5em 1em 0.5em 1em;
+	color: black;
+	background: #d6ad23;
+	font-weight: bold; 
+	border: none;
+	cursor:pointer;
+	box-shadow: 0px 3px 5px #4e4e4e; 
+}
+
+.country_div{
+	display: table;
+}
+
 .failedMessages{
 	float: left;
 	width: 100%;
@@ -67,12 +90,13 @@ h2{
 	display:inline-block;
 }
 
-
 .new_buttons{
+	font-weight: bold;
+	font-family: Georgia,Times,'Times New Roman',serif;
 	margin-top: 2.5em;
 	float: right;
-	color: #313131;
-	background: #d1a91e;
+	color: black;
+	background: #d6ad23;
 	padding: 0.7em 2.7em 0.7em 2.7em;
 	font-size: 1.3em;
 	font-weight: bold; 

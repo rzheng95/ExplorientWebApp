@@ -27,6 +27,8 @@ public class New extends HttpServlet {
 	private String air;
 	private String date_of_departure;
 	private String date_of_return;
+	private String country;
+	private String getPackages;
 	private String tour_package;
 	
 	
@@ -45,12 +47,23 @@ public class New extends HttpServlet {
 		air = request.getParameter(NewpageDao.getNewAir()).trim();
 		date_of_departure = request.getParameter(NewpageDao.getNewDateOfDeparture()).trim();
 		date_of_return =  request.getParameter(NewpageDao.getNewDateOfReturn()).trim();
+		country = request.getParameter(NewpageDao.getCountry()).trim();
+		getPackages = NewpageDao.getGetPackages();
 		tour_package = request.getParameter(NewpageDao.getNewTourPackage()).trim(); 
 		
-
-
+		
+		// get Packages button pressed
+		if (request.getParameter(getPackages) != null) 
+		{
+			if(dao.getCountries().contains(country))
+			{
+				request.setAttribute("tourPackages", dao.getTourPackages(country));
+				tour_package = "";
+			}
+			
+		}
 		// check for = sign, which is reserved for split method
-		if(agent.contains(EQUAL) || customer_id.contains(EQUAL) || destination.contains(EQUAL) || air.contains(EQUAL) || date_of_departure.contains(EQUAL) || date_of_return.contains(EQUAL) || tour_package.contains(EQUAL))
+		else if(agent.contains(EQUAL) || customer_id.contains(EQUAL) || destination.contains(EQUAL) || air.contains(EQUAL) || date_of_departure.contains(EQUAL) || date_of_return.contains(EQUAL) || tour_package.contains(EQUAL))
 		{
 			request.setAttribute(NewpageDao.NEWPAGE_FAILED, NewpageDao.getEqualSignFailed());
 			agent = ""; customer_id = ""; destination = ""; air = ""; date_of_departure = ""; date_of_return = ""; tour_package = "";
@@ -85,7 +98,6 @@ public class New extends HttpServlet {
 			date_of_departure = "";
 			date_of_return = "";
 		}
-		
 		// add booking
 		else
 		{						
@@ -116,7 +128,6 @@ public class New extends HttpServlet {
 			return;
 		}
 
-		
 		request.setAttribute(NewpageDao.NEWPAGE, 
 				agent+EQUAL+
 				customer_id+EQUAL+
@@ -124,7 +135,9 @@ public class New extends HttpServlet {
 				air+EQUAL+
 				date_of_departure+EQUAL+
 				date_of_return+EQUAL+
+				country+EQUAL+
 				tour_package);
+		
 		request.getRequestDispatcher("New.jsp").forward(request, response);
 
 	}

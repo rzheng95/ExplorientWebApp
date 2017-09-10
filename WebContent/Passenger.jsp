@@ -29,16 +29,6 @@
 			
 		});
 	
-		
-		/*window.onload = function() {
-			var dropdowns = document.getElementsByClassName("es-input");
-			for(var i=0; i<dropdowns.length; i++)
-			{
-				dropdowns[i].onfocus = function() {
-					this.setSelectionRange(0, this.value.length);
-				}
-			}
-		};*/
 	
 	</script>
 	
@@ -121,8 +111,8 @@
 				<p class="failedMessages" ><%=failed %></p>
 				
 				<div>	
-					<input type="submit" class="passenger_buttons addAndDelete" id="add" name="add" value="ADD">									
-					<input type="submit" class="passenger_buttons addAndDelete" id="delete" name="delete" value="DELETE">
+					<input type="submit" class="passenger_buttons addAndDelete" id="add" name="add" value="Add">									
+					<input type="submit" class="passenger_buttons addAndDelete" id="delete" name="delete" value="Delete">
 				</div>
 				
 				

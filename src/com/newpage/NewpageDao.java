@@ -32,21 +32,21 @@ public class NewpageDao extends HttpServlet
 	public final static String GET_AGENT_QUERY = "database.get.agent.query";
 	public final static String CHECK_AGENT_QUERY = "database.check.agent.query";
 	public final static String ADD_BOOKING_QUERY = "database.add.booking.query";
-	public final static String GET_DESTINATION_QUERY = "database.get.destination.query";
 	public final static String GET_AIR_QUERY = "database.get.air.query";
 	public final static String GET_TOUR_PACKAGE_QUERY = "database.get.tour.package.query";
 	public final static String CHECK_CUSTOMER_ID_QUERY = "database.check.customer.id.query";
 	
 	
 	// New Page
-	public final static int NEW_ENTERED_VALUE_LENGTH = 7;
+	public final static int NEW_ENTERED_VALUE_LENGTH = 8;
 	public final static int AGENT_VALUE_INDEX = 0;
 	public final static int CUSTOMER_ID_VALUE_INDEX = 1;
 	public final static int DESTINATION_VALUE_INDEX = 2;
 	public final static int Air_VALUE_INDEX = 3;
 	public final static int DATE_OF_DEPARTURE_VALUE_INDEX = 4;
 	public final static int DATE_OF_RETURN_VALUE_INDEX = 5;
-	public final static int TOUR_PACKAGE_VALUE_INDEX = 6;
+	public final static int COUNTRY_INDEX = 6;
+	public final static int TOUR_PACKAGE_VALUE_INDEX = 7;
 	public final static String NEWPAGE = "newpage";
 	public final static String NEW_AGENT = "new.agent";
 	public final static String NEW_CUSTOMER_ID = "new.customer.id";
@@ -54,7 +54,13 @@ public class NewpageDao extends HttpServlet
 	public final static String NEW_AIR = "new.air";
 	public final static String NEW_DATE_OF_DEPARTURE = "new.date.of.departure";
 	public final static String NEW_DATE_OF_RETURN = "new.date.of.return"; 
+	public final static String NEW_COUNTRY = "new.country";
+	public final static String NEW_GET_PACKAGES = "new.get.packages"; 
+	
+	
 	public final static String NEW_TOUR_PACKAGE = "new.tour.package";
+	public final static String COUNTRIES = "new.countries";
+	
 	
 	// failed messages
 	public final static String NEWPAGE_FAILED = "newpage.failed";
@@ -84,7 +90,6 @@ public class NewpageDao extends HttpServlet
 	private static String getAgentQuery;
 	private static String checkAgentQuery;
 	private static String addBookingQuery;
-	private static String getDestinationQuery;
 	private static String getAirQuery;
 	private static String getTourPackageQuery;
 	private static String checkCustomerIdQuery;
@@ -96,7 +101,11 @@ public class NewpageDao extends HttpServlet
 	private static String newAir;
 	private static String newDateOfDeparture;
 	private static String newDateOfReturn;
+	private static String newCountry;
+	private static String newGetPackages;
 	private static String newTourPackage;
+	private static String countries;
+
 	
 	// failed messages
 	private static String agentNotFoundFailed;
@@ -130,7 +139,6 @@ public class NewpageDao extends HttpServlet
 			getAgentQuery = sc.getInitParameter(GET_AGENT_QUERY);
 			checkAgentQuery = sc.getInitParameter(CHECK_AGENT_QUERY);
 			addBookingQuery = sc.getInitParameter(ADD_BOOKING_QUERY);
-			getDestinationQuery = sc.getInitParameter(GET_DESTINATION_QUERY);
 			getAirQuery = sc.getInitParameter(GET_AIR_QUERY);
 			getTourPackageQuery = sc.getInitParameter(GET_TOUR_PACKAGE_QUERY);
 			checkCustomerIdQuery = sc.getInitParameter(CHECK_CUSTOMER_ID_QUERY);
@@ -143,7 +151,10 @@ public class NewpageDao extends HttpServlet
 			newAir = sc.getInitParameter(NEW_AIR);
 			newDateOfDeparture = sc.getInitParameter(NEW_DATE_OF_DEPARTURE);
 			newDateOfReturn = sc.getInitParameter(NEW_DATE_OF_RETURN);
+			newCountry = sc.getInitParameter(NEW_COUNTRY);
+			newGetPackages = sc.getInitParameter(NEW_GET_PACKAGES);
 			newTourPackage = sc.getInitParameter(NEW_TOUR_PACKAGE);
+			countries = sc.getInitParameter(COUNTRIES);
 			
 			
 			// failed messages
@@ -166,6 +177,19 @@ public class NewpageDao extends HttpServlet
 			System.err.println(e);
 		}
 	}
+	
+	public ArrayList<String> getCountries()
+	{
+		ArrayList<String> returnList = new ArrayList<>();
+		if(countries.contains("-"))
+		{
+			String[] fragment = countries.split("-", -1);
+			for(String i : fragment)
+				returnList.add(i);		
+		}
+		return returnList;
+	}
+	
 	
 	public void addBooking(String agent, String customerId, String destination, String air, String dateOfDeparture, String dateOfReturn, String tourPackage)
 	{
@@ -250,26 +274,6 @@ public class NewpageDao extends HttpServlet
 		return false;
 	}
 	
-	public ArrayList<String> getDestination()
-	{			
-		ArrayList<String> returnList = new ArrayList<>();
-		try {				
-			conn = DriverManager.getConnection(db_url, db_username, db_password);			
-			pstmt = conn.prepareStatement(getDestinationQuery);
-			rs = pstmt.executeQuery();
-			
-			while(rs.next())
-			{			
-				returnList.add(rs.getString("Destination"));
-			}
-			conn.close();
-			pstmt.close();
-			rs.close();
-		} catch (Exception e) {
-			System.err.println(e);
-		}	
-		return returnList;
-	}
 	
 	public ArrayList<String> getAir()
 	{			
@@ -292,12 +296,13 @@ public class NewpageDao extends HttpServlet
 		return returnList;
 	}
 	
-	public ArrayList<String> getTourPackage()
+	public ArrayList<String> getTourPackages(String text)
 	{			
 		ArrayList<String> returnList = new ArrayList<>();
 		try {				
 			conn = DriverManager.getConnection(db_url, db_username, db_password);			
 			pstmt = conn.prepareStatement(getTourPackageQuery);
+			pstmt.setString(1, text);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next())
@@ -309,7 +314,7 @@ public class NewpageDao extends HttpServlet
 			rs.close();
 		} catch (Exception e) {
 			System.err.println(e);
-		}	
+		}
 		return returnList;
 	}
 	
@@ -373,6 +378,14 @@ public class NewpageDao extends HttpServlet
 	public static String getNewDateOfReturn() 
 	{
 		return newDateOfReturn;
+	}
+	public static String getCountry() 
+	{
+		return newCountry;
+	}
+	public static String getGetPackages() 
+	{
+		return newGetPackages;
 	}
 	public static String getNewTourPackage() 
 	{
