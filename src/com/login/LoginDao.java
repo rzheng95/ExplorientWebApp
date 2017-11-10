@@ -56,7 +56,7 @@ public class LoginDao extends HttpServlet
 	public final static String GREATERTHANSIGN = ">";
 	public final static String ATSIGN = "@";
 	public final static String EQUALSIGN = "=";
-	public final static String ANDSIGN = "&";
+	//public final static String ANDSIGN = "&";
 	
 	
 	private Connection conn = null;
@@ -170,7 +170,8 @@ public class LoginDao extends HttpServlet
 	
 	public boolean checkInvalidSymbols(String text)
 	{
-		return (text.contains(LESSTHANSIGN) || text.contains(GREATERTHANSIGN) || text.contains(ATSIGN) || text.contains(EQUALSIGN) || text.contains(ANDSIGN));
+		return (text.contains(LESSTHANSIGN) || text.contains(GREATERTHANSIGN) || text.contains(EQUALSIGN));
+		//return (text.contains(LESSTHANSIGN) || text.contains(GREATERTHANSIGN) || text.contains(ATSIGN) || text.contains(EQUALSIGN));
 	}
 	
 	public boolean checkMaxLength(String text)

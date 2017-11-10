@@ -17,6 +17,9 @@ public class ItineraryDao extends HttpServlet
 	public final static String DB_URL = "database.url";
 	public final static String DB_USERNAME = "database.username";
 	public final static String DB_PASSWORD = "database.password";
+	public final static String EQUAL = NewpageDao.EQUAL;
+	
+	public final static String ITINERARY = "itinerary";
 	
 	// db queries
 	

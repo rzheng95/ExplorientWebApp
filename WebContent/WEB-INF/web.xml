@@ -1,39 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>Explorient Web App</display-name>
+  
   <welcome-file-list>
     <welcome-file>Homepage.jsp</welcome-file>
   </welcome-file-list>
+  
   <servlet>
     <servlet-name>Login</servlet-name>
     <servlet-class>com.login.Login</servlet-class>
     <load-on-startup>0</load-on-startup>
   </servlet>
+  
   <servlet>
     <servlet-name>LoginDao</servlet-name>
     <servlet-class>com.login.LoginDao</servlet-class>
     <load-on-startup>0</load-on-startup>
   </servlet>
+  
   <servlet>
     <servlet-name>HomepageDao</servlet-name>
     <servlet-class>com.homepage.HomepageDao</servlet-class>
     <load-on-startup>0</load-on-startup>
   </servlet>
+  
   <servlet>
     <servlet-name>NewpageDao</servlet-name>
     <servlet-class>com.newpage.NewpageDao</servlet-class>
     <load-on-startup>0</load-on-startup>
   </servlet>
+  
   <servlet>
     <servlet-name>PassengerDao</servlet-name>
     <servlet-class>com.passenger.PassengerDao</servlet-class>
     <load-on-startup>0</load-on-startup>
   </servlet>
+  
   <servlet>
     <servlet-name>ItineraryDao</servlet-name>
     <servlet-class>com.itinerary.ItineraryDao</servlet-class>
     <load-on-startup>0</load-on-startup>
   </servlet>
+  
+  <servlet>
+    <servlet-name>HotelDao</servlet-name>
+    <servlet-class>com.hotel.HotelDao</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>VendorDao</servlet-name>
+    <servlet-class>com.vendor.VendorDao</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+  
   <context-param>
     <param-name>max.inactive.interval</param-name>
     <param-value>1200</param-value>
@@ -89,7 +109,7 @@
     <param-value>select * from Users where Email=?;</param-value>
   </context-param>
   <context-param>
-    <param-name>database.get.agent.query</param-name>
+    <param-name>database.get.agents.query</param-name>
     <param-value>select Agent, Firstname, Lastname from Agents;</param-value>
   </context-param>
   <context-param>
@@ -112,15 +132,28 @@
     <param-name>database.check.customer.id.query</param-name>
     <param-value>select * from Booking where Customer_Id = ?;</param-value>
   </context-param>
-  
-  
+
   <context-param>
-    <param-name>database.get.customer.id.query</param-name>
-    <param-value>select Customer_Id from Booking;</param-value>
+    <param-name>database.get.customer.id.like.customer.id.query</param-name>
+    <param-value>select Customer_Id from Booking where Customer_Id like Concat(?, '%');</param-value>
   </context-param>
   
-  
-  
+  <context-param>
+    <param-name>database.get.customer.id.with.date.range.query</param-name>
+    <param-value>SELECT Customer_Id FROM Booking WHERE Departure_Date BETWEEN CAST(? AS DATE) AND CAST(? AS DATE)</param-value>
+  </context-param>
+  <context-param>
+    <param-name>database.get.booking.info.by.customer.id.query</param-name>
+    <param-value>select Agent, Customer_Id, Destination, Air, Departure_Date ,Return_Date, Tour_Package from Booking where Customer_Id = ?;</param-value>
+  </context-param>
+  <context-param>
+    <param-name>database.update.booking.by.customer.id.query</param-name>
+    <param-value>UPDATE Booking SET Agent = ?, Destination = ?, Tour_Package =?, Air=?, Departure_Date=?, Return_Date=? WHERE Customer_Id = ?;</param-value>
+  </context-param>
+  <context-param>
+    <param-name>database.get.agent.query</param-name>
+    <param-value>select * from Agents where Agent=?;</param-value>
+  </context-param>
   
   <context-param>
     <param-name>database.add.passenger.query</param-name>
@@ -138,6 +171,106 @@
     <param-name>database.delete.passenger.query</param-name>
     <param-value>DELETE FROM Passengers WHERE Customer_Id=? and Title=? and Firstname=? and Middlename=? and Lastname=?;</param-value>
   </context-param>
+  
+  
+  <context-param>
+    <param-name>database.get.hotels.by.country.query</param-name>
+    <param-value>select Hotel from Hotels where Country=?;</param-value>
+  </context-param>
+  <context-param>
+    <param-name>database.get.hotels.by.city.query</param-name>
+    <param-value>select Hotel from Hotels where City=?;</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>database.get.hotel.by.hotel.name.query</param-name>
+    <param-value>select * from Hotels where Hotel=?;</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>database.add.hotel.query</param-name>
+    <param-value>insert into Hotels(Hotel, Vendor, Address, City, State, Country, Zipcode, Telephone_1, Telephone_2, Fax, Email_1, Email_2, Website) values (?,?,?,?,?,?,?,?,?,?,?,?,?);</param-value>
+  </context-param>
+  
+   <context-param>
+    <param-name>database.get.vendors.query</param-name>
+    <param-value>select DISTINCT Vendor from Vendors;</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>database.check.vendor.query</param-name>
+    <param-value>select * from Vendors where vendor = ?;</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>database.update.hotel.query</param-name>
+    <param-value>UPDATE Hotels SET Vendor = ?, Address = ?, City = ?, State = ?, Country = ?, Zipcode = ?, Telephone_1 = ?, Telephone_2 = ?, Fax = ?, Email_1 = ?, Email_2 = ?, Website = ? where Hotel = ?;</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>database.delete.hotel.query</param-name>
+    <param-value>DELETE FROM Hotels WHERE Hotel = ?;</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>database.get.hotel.countries.query</param-name>
+    <param-value>select DISTINCT Country from Hotels;</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>database.get.hotel.cities.query</param-name>
+    <param-value>select DISTINCT City from Hotels;</param-value>
+  </context-param>
+  
+  
+  
+  <context-param>
+    <param-name>database.get.vendor.countries.query</param-name>
+    <param-value>select DISTINCT Country from Vendors;</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>database.get.vendor.cities.query</param-name>
+    <param-value>select DISTINCT City from Vendors;</param-value>
+  </context-param>
+  
+  
+  <context-param>
+    <param-name>database.update.vendor.query</param-name>
+    <param-value>UPDATE Vendors SET Address = ?, City = ?, State = ?, Country = ?, Zipcode = ?, Telephone_1 = ?, Telephone_2 = ?, Fax = ?, Email_1 = ?, Email_2 = ?, Website = ? where Vendor = ?;</param-value>
+  </context-param>
+  
+    <context-param>
+    <param-name>database.delete.vendor.query</param-name>
+    <param-value>DELETE FROM Vendors WHERE Vendor = ?;</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>database.add.vendor.query</param-name>
+    <param-value>insert into Vendors(Vendor, Address, City, State, Country, Zipcode, Telephone_1, Telephone_2, Fax, Email_1, Email_2, Website) values (?,?,?,?,?,?,?,?,?,?,?,?);</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>database.get.vendors.by.country.query</param-name>
+    <param-value>select Vendor from Vendors where Country=?;</param-value>
+  </context-param>
+  <context-param>
+    <param-name>database.get.vendors.by.city.query</param-name>
+    <param-value>select Vendor from Vendors where City=?;</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>database.get.vendor.by.vendor.name.query</param-name>
+    <param-value>select * from Vendors where Vendor=?;</param-value>
+  </context-param>
+  
+  
+  
+  
+  
+  
+  
+  
   <context-param>
     <param-name>session.name</param-name>
     <param-value>Explorient.session</param-value>
@@ -225,7 +358,7 @@
   
   <context-param>
     <param-name>register.invalid.symbols.failed.message</param-name>
-    <param-value>Invalid symbols: &quot;=&quot; &quot;&lt;&quot;, &quot;&gt;&quot;, &quot;&amp;&quot;, and &quot;@&quot;</param-value>
+    <param-value>Invalid symbols: &quot;=&quot; &quot;&lt;&quot;, &quot;&gt;&quot;, and &quot;@&quot;</param-value>
   </context-param>
  
   
@@ -276,7 +409,7 @@
   </context-param>
   <context-param>
     <param-name>homepage.navigation.new</param-name>
-    <param-value>new</param-value>
+    <param-value>Booking</param-value>
   </context-param>
   <context-param>
     <param-name>homepage.navigation.itinerary</param-name>
@@ -293,6 +426,10 @@
   <context-param>
     <param-name>new.customer.id</param-name>
     <param-value>customer_id</param-value>
+  </context-param>
+  <context-param>
+    <param-name>new.search.box.customer.id</param-name>
+    <param-value>search_box_customer_id</param-value>
   </context-param>
   <context-param>
     <param-name>new.destination</param-name>
@@ -315,8 +452,24 @@
     <param-value>country</param-value>
   </context-param>
   <context-param>
-    <param-name>new.get.packages</param-name>
+    <param-name>new.get.packages.button</param-name>
     <param-value>Get Packages</param-value>
+  </context-param>
+  <context-param>
+    <param-name>new.get.booking.button</param-name>
+    <param-value>Get Booking</param-value>
+  </context-param>
+  <context-param>
+    <param-name>new.create.button</param-name>
+    <param-value>Create</param-value>
+  </context-param>
+  <context-param>
+    <param-name>new.update.button</param-name>
+    <param-value>Update</param-value>
+  </context-param>
+  <context-param>
+    <param-name>new.clear.button</param-name>
+    <param-value>Clear</param-value>
   </context-param>
   
   
@@ -330,7 +483,7 @@
   </context-param>
   <context-param>
     <param-name>new.equal.sign.failed</param-name>
-    <param-value>Can't have &quot;=&quot; sign.</param-value>
+    <param-value>Cannot have &quot;=&quot; sign.</param-value>
   </context-param>
   <context-param>
     <param-name>new.empty.field.failed</param-name>
@@ -338,7 +491,11 @@
   </context-param>
   <context-param>
     <param-name>new.customer.id.exists.failed</param-name>
-    <param-value>This customer id already exists.</param-value>
+    <param-value>Customer id already exists.</param-value>
+  </context-param>
+  <context-param>
+    <param-name>new.customer.id.does.not.exist.failed</param-name>
+    <param-value>Customer id does not exist.</param-value>
   </context-param>
   <context-param>
     <param-name>new.customer.id.invalid.failed</param-name>
@@ -351,6 +508,10 @@
   <context-param>
     <param-name>new.agent.format.invalid.failed</param-name>
     <param-value>Invalid agent format.</param-value>
+  </context-param>
+  <context-param>
+    <param-name>new.booking.updated.message</param-name>
+    <param-value>Booking updated.</param-value>
   </context-param>
   
   <context-param>
@@ -373,6 +534,39 @@
     <param-name>BookingCreated.update.booking</param-name>
     <param-value>Update booking</param-value>
   </context-param>
+  
+  
+  
+  <context-param>
+    <param-name>passenger.search.box.lastname</param-name>
+    <param-value>Last name</param-value>
+  </context-param>
+  <context-param>
+    <param-name>passenger.departure.date.from</param-name>
+    <param-value>Departure date from</param-value>
+  </context-param>
+  <context-param>
+    <param-name>passenger.departure.date.to</param-name>
+    <param-value>Departure date to</param-value>
+  </context-param>
+  <context-param>
+    <param-name>passenger.get.customer.ids</param-name>
+    <param-value>Get Customer Ids</param-value>
+  </context-param>
+  <context-param>
+    <param-name>passenger.get.passengers</param-name>
+    <param-value>Get Passengers</param-value>
+  </context-param>
+  <context-param>
+    <param-name>passenger.add</param-name>
+    <param-value>Add</param-value>
+  </context-param>
+  <context-param>
+    <param-name>passenger.delete</param-name>
+    <param-value>Delete</param-value>
+  </context-param>
+  
+  
   <context-param>
     <param-name>passenger.title</param-name>
     <param-value>title</param-value>
@@ -398,6 +592,11 @@
     <param-value>Passenger already exists.</param-value>
   </context-param>
   <context-param>
+    <param-name>passenger.one.letter.failed</param-name>
+    <param-value>Please enter more letters for better search result.</param-value>
+  </context-param>
+  
+  <context-param>
     <param-name>passenger.does.not.exist.failed</param-name>
     <param-value>Passenger doesn't exist.</param-value>
   </context-param>
@@ -406,22 +605,180 @@
     <param-value>Passenger deleted.</param-value>
   </context-param>
   
-  
+  <context-param>
+    <param-name>passenger.zero.result.found.failed</param-name>
+    <param-value>0 result found.</param-value>
+  </context-param>
 
   
+  <context-param>
+    <param-name>hotel.hotel</param-name>
+    <param-value>*Hotel</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>hotel.hotels.list</param-name>
+    <param-value>hotel list</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>hotel.vendor</param-name>
+    <param-value>*Vendor</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>hotel.address</param-name>
+    <param-value>*Address</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>hotel.city</param-name>
+    <param-value>*City</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>hotel.state</param-name>
+    <param-value>State/Province</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>hotel.country</param-name>
+    <param-value>*Country</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>hotel.zipcode</param-name>
+    <param-value>Zipcode</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>hotel.telephone1</param-name>
+    <param-value>*Telephone 1</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>hotel.telephone2</param-name>
+    <param-value>Telephone 2</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>hotel.fax</param-name>
+    <param-value>Fax</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>hotel.email1</param-name>
+    <param-value>Email 1</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>hotel.email2</param-name>
+    <param-value>Email 2</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>hotel.website</param-name>
+    <param-value>Website</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>hotel.search.country</param-name>
+    <param-value>search_country</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>hotel.search.city</param-name>
+    <param-value>search_city</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>hotel.get.hotels.button</param-name>
+    <param-value>Get Hotels</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>hotel.create.button</param-name>
+    <param-value>Create</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>hotel.update.button</param-name>
+    <param-value>Update</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>hotel.delete.button</param-name>
+    <param-value>Delete</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>hotel.clear.button</param-name>
+    <param-value>Clear</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>hotel.*.indicates.required.field.failed</param-name>
+    <param-value>* indicates required field</param-value>
+  </context-param>
+  
+  
+  <context-param>
+    <param-name>hotel.hotel.created.message</param-name>
+    <param-value>Hotel created.</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>hotel.hotel.updated.message</param-name>
+    <param-value>Hotel updated.</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>hotel.hotel.deleted.message</param-name>
+    <param-value>Hotel deleted.</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>hotel.vendor.not.found.failed</param-name>
+    <param-value>Vendor does not exist.</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>hotel.hotel.not.found.failed</param-name>
+    <param-value>Hotel does not exist.</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>hotel.hotel.already.exists.failed</param-name>
+    <param-value>Hotel already exists.</param-value>
+  </context-param>
   
   
   
   
+  <context-param>
+    <param-name>vendor.get.vendors.button</param-name>
+    <param-value>Get Vendors</param-value>
+  </context-param>
   
+    <context-param>
+    <param-name>vendor.vendor.created.message</param-name>
+    <param-value>Vendor created.</param-value>
+  </context-param>
   
+  <context-param>
+    <param-name>vendor.vendor.updated.message</param-name>
+    <param-value>Vendor updated.</param-value>
+  </context-param>
   
+  <context-param>
+    <param-name>vendor.vendor.deleted.message</param-name>
+    <param-value>Vendor deleted.</param-value>
+  </context-param>
   
-  
-  
-  
-  
-  
+  <context-param>
+    <param-name>vendor.vendor.already.exists.failed</param-name>
+    <param-value>Vendor already exists.</param-value>
+  </context-param>
   
   
   

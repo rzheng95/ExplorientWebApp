@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.login.LoginDao;
+import com.passenger.PassengerDao;
+
 
 @WebServlet("/BookingCreated")
 public class BookingCreated extends HttpServlet {
@@ -26,14 +29,16 @@ public class BookingCreated extends HttpServlet {
 		
 		if (addPassenger != null) 
 		{
-			response.sendRedirect("Passenger");
+			response.sendRedirect(PassengerDao.PASSENGER);
 		}
 		else if (addShippingAddress != null) 
 		{
 			//request.getRequestDispatcher("").forward(request, response);
+			response.sendRedirect(LoginDao.HOMEPAGE);
 		}
 		else if (updateBooking!= null) 
 		{
+			response.sendRedirect(NewpageDao.NEW);
 			//request.getRequestDispatcher("").forward(request, response);
 		}
 		

@@ -9,17 +9,24 @@
 	<style>
 		#bc_h2{
 			font-family: "Times New Roman", Times, serif;
+			color: grey;
+		}
+		
+		#customerID{
 			color: #8b7116;
 		}
 		
-		
 		.bc_li{
 			padding: 0em;
+			color: grey;  
+		}
+		
+		.bc_li:hover{
 			color: #8b7116;
 		}
 		
 		.bc_buttons{
-			color: #8b7116;
+			color: grey;
 			border: none;
 			outline: none;
 			background: none;
@@ -31,7 +38,7 @@
 		}
 		
 		.bc_buttons:hover{
-			color: #e9cb63;
+			color: #8b7116;
 		}
 		
 			
@@ -52,7 +59,7 @@
 		 
 	%>
 	<div class="content_wrap">
-	<h2 id="bc_h2">Booking <%=customerID %> Created</h2>
+	<h2 id="bc_h2">Booking <span id="customerID"><%=customerID %></span> Created</h2>
 	<form action="BookingCreated" method="post">
 		<ul id="bc_ul">
 			<li class="bc_li"><input class="bc_buttons" type="submit" name="<%=addPassenger %>" value="<%=addPassenger+" "+customerID%>"/></li>

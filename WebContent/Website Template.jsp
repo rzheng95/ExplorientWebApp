@@ -42,8 +42,12 @@
 <%@ page import="com.homepage.HomepageDao"%>
 <%@ page import="com.newpage.NewpageDao"%>
 <%@ page import="com.passenger.PassengerDao"%>
+<%@ page import="com.itinerary.ItineraryDao"%>
+<%@ page import="com.vendor.VendorDao"%>
+<%@ page import="com.hotel.HotelDao"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.Collections" %>
 
 <%	
 	// prevents backing after logout

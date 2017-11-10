@@ -6,7 +6,7 @@
 <head>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>Explorient | New</title>
+	<title>Explorient | Booking</title>
 	<link rel="stylesheet" href="CSS/New.css" type="text/css">
 </head>
 <body>
@@ -122,11 +122,21 @@
 		NewpageDao npdao = new NewpageDao();
 	
 		// database variables
-		ArrayList<String> agents = npdao.getAgent(); 
+		ArrayList<String> agents = npdao.getAgents(); 
+		if(agents != null && agents.size() != 0)
+			Collections.sort(agents);
+		
 		ArrayList<String> airs = npdao.getAir();
-		ArrayList<String> tourPackages = (ArrayList<String>) request.getAttribute("tourPackages");
+		if(airs != null && airs.size() != 0)
+			Collections.sort(airs);
+		
+		ArrayList<String> tourPackages = (ArrayList<String>) request.getAttribute(NewpageDao.NEW_TOUR_PACKAGE);
+		if(tourPackages != null && tourPackages.size() != 0)
+			Collections.sort(tourPackages);
 	
 		ArrayList<String> countries = npdao.getCountries();
+		if(countries != null && countries.size() != 0)
+			Collections.sort(countries);
 	 
 		// name variables
 		String new_agent = NewpageDao.getNewAgent(); 
@@ -139,11 +149,31 @@
 		String getPackages = NewpageDao.getGetPackages();
 		String tour_package = NewpageDao.getNewTourPackage(); 
 		
+		// customer id search box variables
+		String search_box_lastname = PassengerDao.getPassengerSearchBoxLastname();
+		String departure_date_from = PassengerDao.getPassengerDepartureDateFrom();
+		String departure_date_to = PassengerDao.getPassengerDepartureDateTo();
+		String get_customer_ids = PassengerDao.getPassengerGetCustomerIds();
+		String p_lastname = LoginDao.getRegisterLastname();
+		String customer_id_search_box = NewpageDao.getSearchBoxNewCustomerId();
+		String get_booking = NewpageDao.getNewGetBookingButton();
+		String create = NewpageDao.getNewCreateButton();
+		String update = NewpageDao.getNewUpdateButton();
+		String clear = NewpageDao.getNewClearButton();
+		
+		// get customer id list
+		ArrayList<String> customerIdList = (ArrayList<String>)request.getAttribute(PassengerDao.PASSENGER_CUSTOMER_IDS);
+		if(customerIdList != null && customerIdList.size() != 0)
+			Collections.sort(customerIdList);
+		
 		// failed
 		String failed = (String)request.getAttribute(NewpageDao.NEWPAGE_FAILED);
 		
 		// previous entered values
 		String agentValue = "", customerIdValue = "", destinationValue = "", airValue = "", dateOfDepartureValue = "", dateOfReturnValue = "", countryValue = "", tourPackageValue = "";
+		
+		// customer id search box entered values
+		String searchBoxLastnameValue = "", departureDateFromValue = "", departureDateToValue = "", searchCustomerIdValue = "";
 		if(failed == null)
 		{
 			failed = " ";
@@ -152,7 +182,7 @@
        	String enteredValues = (String)request.getAttribute(NewpageDao.NEWPAGE);
        	if(enteredValues != null && !enteredValues.isEmpty())
        	{
-	       	String[] fragment = enteredValues.split("=", -1);
+	       	String[] fragment = enteredValues.split(NewpageDao.EQUAL, -1);
 	       	if(fragment.length == NewpageDao.NEW_ENTERED_VALUE_LENGTH)
 			{
 	       		agentValue = fragment[NewpageDao.AGENT_VALUE_INDEX];
@@ -163,6 +193,10 @@
 	       		dateOfReturnValue = fragment[NewpageDao.DATE_OF_RETURN_VALUE_INDEX];
 	       		countryValue = fragment[NewpageDao.COUNTRY_INDEX];
 	       		tourPackageValue = fragment[NewpageDao.TOUR_PACKAGE_VALUE_INDEX];
+	       		searchBoxLastnameValue = fragment[NewpageDao.SEARCH_BOX_LAST_NAME_VALUE_INDEX];
+	       		departureDateFromValue = fragment[NewpageDao.SEARCH_BOX_DEPARTURE_DATE_FROM_VALUE_INDEX];
+	       		departureDateToValue = fragment[NewpageDao.SEARCH_BOX_DEPARTURE_DATE_TO_VALUE_INDEX];
+	       		searchCustomerIdValue = fragment[NewpageDao.SEARCH_BOX_CUSTOMER_ID_VALUE_INDEX];
 			}
        	}
 		
@@ -172,7 +206,42 @@
 		<div class="new_booking">
 			<form action="New" method="post">	
 			
-				<div class="section_wrap">
+				<fieldset class="fieldset">
+					<legend id="legend" align= "left">Get Customer IDs by last name or departure date range</legend> 
+					
+					<div id="customer_id_serach_div">
+					
+						<select class="editable-select font_choice no_background_img new_tags" id="search_box_lastname" name="<%=search_box_lastname%>"  value="<%=searchBoxLastnameValue%>" placeholder="<%=LoginDao.CapitalizeFirstLetter(p_lastname) %>" onkeyup="this.value=this.value.replace(/[^A-Za-z]/g,'');">
+						</select>
+						
+						<input type="text" class="datepicker font_choice new_tags" id="search_box_From" name="<%=departure_date_from%>" value="<%=departureDateFromValue%>" placeholder="<%=departure_date_from%>">
+						<input type="text" class="datepicker font_choice new_tags" id="search_box_To" name="<%=departure_date_to%>" value="<%=departureDateToValue%>" placeholder="<%=departure_date_to%>">
+					
+						<input type="submit" class="new_buttons search_box_buttons" id="getCustomerIds" name="<%=get_customer_ids%>" value="<%=get_customer_ids%>">
+						
+					</div> 
+					
+					<div id="customer_id_div">
+						<select class="editable-select font_choice new_tags" id="search_box_customer_id" name="<%=customer_id_search_box%>"  value="<%=searchCustomerIdValue%>" placeholder="Customer ID">
+							<% if(customerIdList != null && !customerIdList.isEmpty()){ %>
+							<% for(int i=0; i < customerIdList.size(); i++) { %>
+								<option class="selected"><%=customerIdList.get(i) %></option>
+							<% } }%>
+						</select>
+					
+										
+						<input type="submit" class="new_buttons search_box_buttons" id="<%=get_booking%>" name="<%=get_booking%>" value="<%=get_booking%>">
+
+					</div>
+					
+				</fieldset>
+				
+				<br><br><br><br>
+				
+				
+				
+			
+				<div class="section_wrap">			
 					<div class="left_div">
 						<p class="new_tags" id="test">Agent:</p>
 						<select class="editable-select font_choice" id="agent" name="<%=new_agent%>"  value="<%=agentValue%>">
@@ -184,7 +253,7 @@
 									
 					<div class="right_div">
 						<p class="new_tags">Customer ID:</p>
-						<select class="editable-select font_choice" id="customer_id" name="<%=customer_id%>"  value="<%=customerIdValue%>">
+						<select class="editable-select font_choice no_background_img" id="customer_id" name="<%=customer_id%>"  value="<%=customerIdValue%>">
 						</select>						
 					</div>
 				</div>
@@ -195,7 +264,7 @@
 				
 					<div class="left_div">
 						<p class="new_tags">Destination: (separate with " - " if more than one country. Ex. China-Japan)</p>
-						<select class="editable-select font_choice" id="destination" name="<%=destination%>" value="<%=destinationValue%>">
+						<select class="editable-select font_choice no_background_img" id="destination" name="<%=destination%>" value="<%=destinationValue%>">
 						</select>			
 					</div>
 					
@@ -235,7 +304,7 @@
 								<option><%=countries.get(i) %></option>
 							<% } %>
 						</select>		
-						<input type="submit" id="getPackages" name="<%=getPackages%>" value="<%=getPackages%>"> 
+						<input type="submit" class="new_buttons" id="getPackages" name="<%=getPackages%>" value="<%=getPackages%>"> 
 					</div>
 
 					
@@ -254,7 +323,9 @@
 				
 				<p class="failedMessages" ><%=failed %></p>
 				
-				<input class="new_buttons" type="submit" value="Create"/>
+				<input class="new_buttons" type="submit" name="<%=create %>" value="<%=create %>"/>
+				<input class="new_buttons" type="submit" name="<%=update %>" value="<%=update %>"/>
+				<input class="new_buttons" type="submit" name="<%=clear %>" value="<%=clear %>"/>
 			</form>
 	
 		</div>

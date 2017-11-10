@@ -1,5 +1,34 @@
 @charset "ISO-8859-1";
 
+#search_box_lastname{
+	float: left;
+	width: 20%;
+}
+
+#search_box_From{
+	float: left;
+	width: 20%;
+}
+
+#search_box_To{
+	float: left;
+	width: 20%;
+}
+
+#customer_id{
+	float: left;
+	width: 68.3%;
+	overflow:hidden; 
+}
+
+
+#customer_id_serach_div{
+	overflow: auto;
+}
+
+#customer_id_div{
+	overflow: auto;
+}
 
 .passenger_div{
 	float: left;
@@ -27,44 +56,42 @@
 	font-family: "Times New Roman", Times, serif;
 }
 
-
-#customer_id_div{
-	float: left;
-	width:calc(100% - 15em);
-	overflow:hidden;
+.fieldset{
+	border: 0px solid grey;
 }
 
-#search_div{
-	float: right;
-} 
-
+#legend{
+	font-family: Georgia,Times,'Times New Roman',serif;
+	color: #8b7116;
+	font-size: 0.9em;
+}
 
 #passenger_h3{
 	color: #8b7116;
 	text-align: center;
 }
 
-#getPassengers{
-	width: 12em;
-}
 
 .passenger_buttons{
-	font-weight: bold;
+	width: 20%;
+	float: left;
+	margin: 2em 0em 0em 1.5em;
+
 	font-family: Georgia,Times,'Times New Roman',serif;
 	color: black;
 	background: #d6ad23;
 	border: none;
 	cursor:pointer;
 	box-shadow: 0px 3px 5px #4e4e4e; 
-	padding: 0.5em 2em 0.5em 2em;
-	font-size: 0.9em;
+	padding: 0.5em 1em 0.5em 1em; 
+	font-size: 0.7em;
 	font-weight: bold;
 }
 
 .passenger_buttons:active{
 	background: #9c7e16;
-	font-size: 0.87em;
 }
+
 
 .addAndDelete{
 	margin: 2em 1em 0em 0em;
@@ -100,6 +127,25 @@
 
 .no_background_img{
 	background-image: none !important;
+}
+
+.datepicker{
+	color: white;
+	font-size: 1em;	
+	font-weight: 500;
+	font-family: "Times New Roman", Times, serif;
+    border-bottom: 1px solid gray !important;
+    outline: none;
+	border: none;
+	background: none;
+	width: 95%;
+	padding: 0em 1em 0em 1em !important; 
+	height: 3em;
+	
+}
+
+.datepicker:focus{
+	border-bottom: 1px solid #00b0b0!important;
 }
 
 .es-input{ 

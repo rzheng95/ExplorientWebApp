@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.login.LoginDao;
+import com.newpage.NewpageDao;
+import com.passenger.PassengerDao;
 
 @WebServlet("/Navigation")
 public class Navigation extends HttpServlet {
@@ -93,7 +95,7 @@ public class Navigation extends HttpServlet {
 			else if(request.getParameter(passenger) != null)
 			{
 				session.setAttribute(HomepageDao.getHomepageNavigationSelected(), passenger);
-				response.sendRedirect("Passenger");
+				response.sendRedirect(PassengerDao.PASSENGER);
 			}
         else if (request.getParameter(booking) != null) 
         {
@@ -103,7 +105,7 @@ public class Navigation extends HttpServlet {
 	        else if (request.getParameter(new1) != null) 
 	        {
 	        	session.setAttribute(HomepageDao.getHomepageNavigationSelected(), new1);      	
-	        	response.sendRedirect("New");
+	        	response.sendRedirect(NewpageDao.NEW);
 	        } 
 	        else if (request.getParameter(itinerary) != null) 
 	        {

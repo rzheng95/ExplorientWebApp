@@ -17,22 +17,44 @@
 		PassengerDao pdao = new PassengerDao();   
 	
 	
+		// name variables
 		String customer_id = NewpageDao.getNewCustomerId();
+		String search_box_lastname = PassengerDao.getPassengerSearchBoxLastname();
+		String departure_date_from = PassengerDao.getPassengerDepartureDateFrom();
+		String departure_date_to = PassengerDao.getPassengerDepartureDateTo();
+		String get_customer_ids = PassengerDao.getPassengerGetCustomerIds();
+		String get_passengers = PassengerDao.getPassengerGetPassengers();
+		String add = PassengerDao.getPassengerAdd();
+		String delete = PassengerDao.getPassengerDelete();
+		
+		
+		String p_lastname = LoginDao.getRegisterLastname();
+		
+		// get customer id list
+		ArrayList<String> customerIdList = (ArrayList<String>)request.getAttribute(PassengerDao.PASSENGER_CUSTOMER_IDS);
 
 		
 		// failed
 		String failed = (String)request.getAttribute(PassengerDao.PASSENGER_FAILED);
 		
+		
 		// enteredValues
-		String customerIdValue = "";
-		String enteredValues = (String)request.getAttribute(PassengerDao.PASSENGER);
+		String searchBoxLastnameValue = "", departureDateFromValue = "", departureDateToValue = "", customerIdValue = "";
+		
+		String enteredValues = (String)request.getAttribute(ItineraryDao.ITINERARY);
 		if(enteredValues != null)
 		{
 			String[] fragment = enteredValues.split("=", -1);
-			if(fragment.length == PassengerDao.PASSENGER_ENTERED_VALUE_LENGTH)
+			
+			searchBoxLastnameValue = fragment[0];
+			departureDateFromValue = fragment[1];
+			departureDateToValue = fragment[2];
+			customerIdValue = fragment[3];
+			
+			/*if(fragment.length == PassengerDao.PASSENGER_ENTERED_VALUE_LENGTH)
 			{
 				customerIdValue = fragment[PassengerDao.CUSTOMER_ID_INDEX];
-			}
+			}*/
 		}
 		
 		
@@ -43,7 +65,8 @@
 		
 	
 		// populate existing customer ids from database
-		ArrayList<String> customerIdValues = pdao.getCustomerIds();
+		//ArrayList<String> customerIdValues = pdao.getCustomerIds();
+		ArrayList<String> customerIdValues = new ArrayList<String>();
 	
 		// get customer id if user just created a booking.
 		HashMap<String, String> map = NewpageDao.getHashMap();	
@@ -68,15 +91,37 @@
 	<div class="itinerary_div">
 			<form action="Itinerary" method="post">
 				
-				<div id="customer_id_div">
-					<select class="editable-select" id="customer_id" name="<%=customer_id%>"  value="<%=customerIdValue%>" placeholder="Customer ID">
-						<% for(int i=0; i < customerIdValues.size(); i++) { %>
-							<option class="selected"><%=customerIdValues.get(i) %></option>
-						<% } %>
-					</select>
+				<fieldset class="fieldset">
+					<legend id="legend" align= "left">Get Customer IDs by last name or departure date range</legend> 
+					
+					<div id="customer_id_serach_div">
+					
+						<select class="editable-select no_background_img" id="search_box_lastname" name="<%=search_box_lastname%>"  value="<%=searchBoxLastnameValue%>" placeholder="<%=LoginDao.CapitalizeFirstLetter(p_lastname) %>" onkeyup="this.value=this.value.replace(/[^A-Za-z]/g,'');">
+						</select>
+						
+						<input type="text" class="datepicker" id="search_box_From" name="<%=departure_date_from%>" value="<%=departureDateFromValue%>" placeholder="<%=departure_date_from%>">
+						<input type="text" class="datepicker" id="search_box_To" name="<%=departure_date_to%>" value="<%=departureDateToValue%>" placeholder="<%=departure_date_to%>">
+					
+						<input type="submit" class="search_box_buttons itinerary_buttons" id="getCustomerIds" name="<%=get_customer_ids%>" value="<%=get_customer_ids%>">
+						
+					</div> 
+					
+					<div id="customer_id_div">
+						<select class="editable-select" id="customer_id" name="<%=customer_id%>"  value="<%=customerIdValue%>" placeholder="Customer ID">
+							<% if(customerIdList != null && !customerIdList.isEmpty()){ %>
+							<% for(int i=0; i < customerIdList.size(); i++) { %>
+								<option class="selected"><%=customerIdList.get(i) %></option>
+							<% } }%>
+						</select>
+					
+										
+						<input type="submit" class="search_box_buttons itinerary_buttons" id="getPassengers" name="<%=get_passengers%>" value="<%=get_passengers%>">
 
-					<input type="submit" class="itinerary_buttons" id="getItinerary" name="getItinerary" value="Get Itinerary">
-				</div>
+					</div>
+					
+				</fieldset>
+				
+
 				
 				<br><br><br><br><br><br>
 				
@@ -99,7 +144,16 @@
 					  </tr>
 					  
 					  <tr>
-					    <td>Accommodations: <select class="editable-select" id="accommodations" name="accommodations"  value="Shangri-La Hotel" placeholder="Customer ID"></select></td>
+					    <td>
+					    	<div>
+						    	<select class="editable-select countries"  name="countries"  value="" placeholder="Country"></select>
+						    	<select class="editable-select cities"  name="cities"  value="" placeholder="City"></select>
+						    	<input type="submit" class="itinerary_buttons" id="getHotels" name="getHotels" value="Get Hotels">
+					    	</div>
+					    	<p>Accommodations:</p> 
+					    	<select class="editable-select hotels"  name="hotels"  value="" placeholder="Hotel"></select>
+					    	
+					    </td>
 					  </tr>
 					   
 					   <tr>
