@@ -124,35 +124,35 @@
 				
 			
 			
-				<select class="editable-select hotel-info" id="hotel" name="<%=hotel_hotel%>"  value="<%=hotelValue %>" placeholder="<%=hotel_hotel%>"></select>
+				<select class="editable-select hotel-info" id="hotel" name="<%=hotel_hotel%>"  value="<%=hotelValue %>" placeholder="<%=hotel_hotel%>" title="<%=hotel_hotel%>"></select>
 				
-				<select class="editable-select" id="vendor" name="<%=hotel_vendor%>"  value="<%=vendorValue %>" placeholder="<%=hotel_vendor%>">
+				<select class="editable-select" id="vendor" name="<%=hotel_vendor%>"  value="<%=vendorValue %>" placeholder="<%=hotel_vendor%>" title="<%=hotel_vendor%>">
 					<% for(int i=0; i < vendors.size(); i++) { %>
 						<option class="selected"><%=vendors.get(i) %></option>
 					<% } %>
 				</select>
 				
-				<select class="editable-select hotel-info" id="address" name="<%=hotel_address%>"  value="<%=addressValue %>" placeholder="<%=hotel_address%>"></select>
+				<select class="editable-select hotel-info" id="address" name="<%=hotel_address%>"  value="<%=addressValue %>" placeholder="<%=hotel_address%>" title="<%=hotel_address%>"></select>
 				
-				<select class="editable-select hotel-info" id="city" name="<%=hotel_city%>"  value="<%=cityValue %>" placeholder="<%=hotel_city%>"></select>
+				<select class="editable-select hotel-info" id="city" name="<%=hotel_city%>"  value="<%=cityValue %>" placeholder="<%=hotel_city%>" title="<%=hotel_city%>"></select>
 				
-				<select class="editable-select hotel-info" id="state" name="<%=hotel_state%>"  value="<%=stateValue %>" placeholder="<%=hotel_state%>"></select>
+				<select class="editable-select hotel-info" id="state" name="<%=hotel_state%>"  value="<%=stateValue %>" placeholder="<%=hotel_state%>" title="<%=hotel_state%>"></select>
 				
-				<select class="editable-select hotel-info" id="country" name="<%=hotel_country%>"  value="<%=countryValue %>" placeholder="<%=hotel_country%>"></select>
+				<select class="editable-select hotel-info" id="country" name="<%=hotel_country%>"  value="<%=countryValue %>" placeholder="<%=hotel_country%>" title="<%=hotel_country%>"></select>
 				
-				<select class="editable-select hotel-info" id="zipcode" name="<%=hotel_zipcode%>"  value="<%=zipcodeValue %>" placeholder="<%=hotel_zipcode%>"></select>
+				<select class="editable-select hotel-info" id="zipcode" name="<%=hotel_zipcode%>"  value="<%=zipcodeValue %>" placeholder="<%=hotel_zipcode%>" title="<%=hotel_zipcode%>"></select>
 				
-				<select class="editable-select hotel-info" id="telephone1" name="<%=hotel_telephone1%>"  value="<%=telephone1Value %>" placeholder="<%=hotel_telephone1%>"></select>
+				<select class="editable-select hotel-info" id="telephone1" name="<%=hotel_telephone1%>"  value="<%=telephone1Value %>" placeholder="<%=hotel_telephone1%>" title="<%=hotel_telephone1%>"></select>
 				
-				<select class="editable-select hotel-info" id="telephone2" name="<%=hotel_telephone2%>"  value="<%=telephone2Value %>" placeholder="<%=hotel_telephone2%>"></select>
+				<select class="editable-select hotel-info" id="telephone2" name="<%=hotel_telephone2%>"  value="<%=telephone2Value %>" placeholder="<%=hotel_telephone2%>" title="<%=hotel_telephone2%>"></select>
 				
-				<select class="editable-select hotel-info" id="fax" name="<%=hotel_fax%>"  value="<%=faxValue %>" placeholder="<%=hotel_fax%>"></select>
+				<select class="editable-select hotel-info" id="fax" name="<%=hotel_fax%>"  value="<%=faxValue %>" placeholder="<%=hotel_fax%>" title="<%=hotel_fax%>"></select>
 				
-				<select class="editable-select hotel-info" id="email1" name="<%=hotel_email1%>"  value="<%=email1Value %>" placeholder="<%=hotel_email1%>"></select>
+				<select class="editable-select hotel-info" id="email1" name="<%=hotel_email1%>"  value="<%=email1Value %>" placeholder="<%=hotel_email1%>" title="<%=hotel_email1%>"></select>
 				
-				<select class="editable-select hotel-info" id="email2" name="<%=hotel_email2%>"  value="<%=email2Value %>" placeholder="<%=hotel_email2%>"></select>
+				<select class="editable-select hotel-info" id="email2" name="<%=hotel_email2%>"  value="<%=email2Value %>" placeholder="<%=hotel_email2%>" title="<%=hotel_email2%>"></select>
 				
-				<select class="editable-select hotel-info" id="website" name="<%=hotel_website%>"  value="<%=websiteValue %>" placeholder="<%=hotel_website%>"></select>
+				<select class="editable-select hotel-info" id="website" name="<%=hotel_website%>"  value="<%=websiteValue %>" placeholder="<%=hotel_website%>" title="<%=hotel_website%>"></select>
 				
 	
 				<p class="failedMessages" ><%=failed %></p>

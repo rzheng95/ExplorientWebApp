@@ -1,1 +1,124 @@
+
 @charset "ISO-8859-1";
+html, body{
+	overflow: auto !important;
+}
+.agents{
+	font-family: "Times New Roman", Times, serif;
+	font-size: 0.9em;
+	width: 100%;
+	text-align: left;
+	background: none;
+	border: none;
+	color: white;
+	display: block;
+	cursor:pointer;
+	margin: 0.5em 0em 0.5em 0em;
+	padding: 0.5em;
+}
+
+.agents:hover{
+	background: #5c5c5c;
+}
+
+.agent_buttons{
+	font-family: Georgia,Times,'Times New Roman',serif;
+	color: black;
+	background: #d6ad23;
+	border: none;
+	cursor:pointer;
+	box-shadow: 0px 3px 5px #4e4e4e; 
+	padding: 0.5em 1em 0.5em 1em; 
+	font-size: 0.7em;
+	font-weight: bold;
+}
+
+.agent_div{
+	float: left;
+	width: 50%;
+	height: 60em;
+	overflow: auto;
+}
+
+#agent_h3{
+	color: #8b7116;
+	text-align: center;
+}
+
+#display_panel_background{
+ 	background: #292929;
+ 	position: absolute;
+	width: 100%;
+	height: 100%;
+ 	opacity: 0.4;
+	filter: alpha(opacity=40);
+	z-index: -1;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+.display_panel{
+	position: relative;
+	font-family: "Times New Roman", Times, serif;
+	color: white;
+	background: none;
+	margin: 0em 5em 0em 8em;
+	padding: 2em 3em 2em 3em;
+	height: 70%;
+	overflow-y: auto;
+	z-index: 1;
+}
+
+
+.agent-info{
+	width: 95%;
+	background-image: none !important;
+}
+
+.failedMessages{
+	width: 100%;
+	color: #ff8080;
+	font-size: 1em;
+	text-align: left;
+	font-family: "Times New Roman", Times, serif;
+}
+
+.es-input{ 
+	color: white;
+	font-size: 1em;	
+	font-weight: 500;
+	font-family: "Times New Roman", Times, serif;
+    border-bottom: 1px solid gray !important;
+    outline: none;
+	border: none;
+	padding: 0em 1em 0em 1em !important; 
+	//margin-bottom: 0.5em;
+	height: 3em;
+}
+
+.es-input:focus{
+	border-bottom: 1px solid #00b0b0!important;
+}
+
+.es-list{
+	border: none !important;	
+	box-shadow: none !important;
+	background: transparent !important;
+}
+
+
+.es-list li { 
+	color: #cdcdcd;
+	font-size: 1em;	
+	font-weight: 500;
+	font-family: "Times New Roman", Times, serif;
+	display: block; 
+	padding: 5px 10px; 
+	margin: 0; }
+	
+.es-list li.selected { 
+	color: #e9cb63;
+	background: black !important; 
+}

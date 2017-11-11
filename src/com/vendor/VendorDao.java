@@ -132,7 +132,7 @@ public class VendorDao extends HttpServlet
 			addVendorQuery = sc.getInitParameter(ADD_VENDOR_QUERY);
 			getVendorByVendorNameQuery = sc.getInitParameter(GET_VENDOR_BY_VENDOR_NAME_QUERY);
 			
-			// hotel variables
+			// vendor variables
 
 			// search box variables
 

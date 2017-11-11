@@ -44,6 +44,7 @@
 <%@ page import="com.passenger.PassengerDao"%>
 <%@ page import="com.itinerary.ItineraryDao"%>
 <%@ page import="com.vendor.VendorDao"%>
+<%@ page import="com.agent.AgentDao"%>
 <%@ page import="com.hotel.HotelDao"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.HashMap" %>

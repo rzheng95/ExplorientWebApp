@@ -114,34 +114,34 @@
 						<option class="selected"><%=cities.get(i) %></option>
 						<% } %>
 					</select>
-					<input type="submit" class="vendor_buttons" id="getVendor" name="<%=getVendorsButton%>" value="<%=getVendorsButton%>">
+					<input type="submit" class="vendor_buttons" id="getVendors" name="<%=getVendorsButton%>" value="<%=getVendorsButton%>">
 				</div><br><br>
 				
 			
 				
-				<select class="editable-select vendor-info" id="vendor" name="<%=vendor_vendor%>"  value="<%=vendorValue %>" placeholder="<%=vendor_vendor%>"></select>
+				<select class="editable-select vendor-info" id="vendor" name="<%=vendor_vendor%>"  value="<%=vendorValue %>" placeholder="<%=vendor_vendor%>" title="<%=vendor_vendor%>"></select>
 				
-				<select class="editable-select vendor-info" id="address" name="<%=vendor_address%>"  value="<%=addressValue %>" placeholder="<%=vendor_address%>"></select>
+				<select class="editable-select vendor-info" id="address" name="<%=vendor_address%>"  value="<%=addressValue %>" placeholder="<%=vendor_address%>" title="<%=vendor_address%>"></select>
 				
-				<select class="editable-select vendor-info" id="city" name="<%=vendor_city%>"  value="<%=cityValue %>" placeholder="<%=vendor_city%>"></select>
+				<select class="editable-select vendor-info" id="city" name="<%=vendor_city%>"  value="<%=cityValue %>" placeholder="<%=vendor_city%>" title="<%=vendor_city%>"></select>
 				
-				<select class="editable-select vendor-info" id="state" name="<%=vendor_state%>"  value="<%=stateValue %>" placeholder="<%=vendor_state%>"></select>
+				<select class="editable-select vendor-info" id="state" name="<%=vendor_state%>"  value="<%=stateValue %>" placeholder="<%=vendor_state%>" title="<%=vendor_state%>"></select>
 				
-				<select class="editable-select vendor-info" id="country" name="<%=vendor_country%>"  value="<%=countryValue %>" placeholder="<%=vendor_country%>"></select>
+				<select class="editable-select vendor-info" id="country" name="<%=vendor_country%>"  value="<%=countryValue %>" placeholder="<%=vendor_country%>" title="<%=vendor_country%>"></select>
 				
-				<select class="editable-select vendor-info" id="zipcode" name="<%=vendor_zipcode%>"  value="<%=zipcodeValue %>" placeholder="<%=vendor_zipcode%>"></select>
+				<select class="editable-select vendor-info" id="zipcode" name="<%=vendor_zipcode%>"  value="<%=zipcodeValue %>" placeholder="<%=vendor_zipcode%>" title="<%=vendor_zipcode%>"></select>
 				
-				<select class="editable-select vendor-info" id="telephone1" name="<%=vendor_telephone1%>"  value="<%=telephone1Value %>" placeholder="<%=vendor_telephone1%>"></select>
+				<select class="editable-select vendor-info" id="telephone1" name="<%=vendor_telephone1%>"  value="<%=telephone1Value %>" placeholder="<%=vendor_telephone1%>" title="<%=vendor_telephone1%>"></select>
 				
-				<select class="editable-select vendor-info" id="telephone2" name="<%=vendor_telephone2%>"  value="<%=telephone2Value %>" placeholder="<%=vendor_telephone2%>"></select>
+				<select class="editable-select vendor-info" id="telephone2" name="<%=vendor_telephone2%>"  value="<%=telephone2Value %>" placeholder="<%=vendor_telephone2%>" title="<%=vendor_telephone2%>"></select>
 				
-				<select class="editable-select vendor-info" id="fax" name="<%=vendor_fax%>"  value="<%=faxValue %>" placeholder="<%=vendor_fax%>"></select>
+				<select class="editable-select vendor-info" id="fax" name="<%=vendor_fax%>"  value="<%=faxValue %>" placeholder="<%=vendor_fax%>" title="<%=vendor_fax%>"></select>
 				
-				<select class="editable-select vendor-info" id="email1" name="<%=vendor_email1%>"  value="<%=email1Value %>" placeholder="<%=vendor_email1%>"></select>
+				<select class="editable-select vendor-info" id="email1" name="<%=vendor_email1%>"  value="<%=email1Value %>" placeholder="<%=vendor_email1%>" title="<%=vendor_email1%>"></select>
 				
-				<select class="editable-select vendor-info" id="email2" name="<%=vendor_email2%>"  value="<%=email2Value %>" placeholder="<%=vendor_email2%>"></select>
+				<select class="editable-select vendor-info" id="email2" name="<%=vendor_email2%>"  value="<%=email2Value %>" placeholder="<%=vendor_email2%>" title="<%=vendor_email2%>"></select>
 				
-				<select class="editable-select vendor-info" id="website" name="<%=vendor_website%>"  value="<%=websiteValue %>" placeholder="<%=vendor_website%>"></select>
+				<select class="editable-select vendor-info" id="website" name="<%=vendor_website%>"  value="<%=websiteValue %>" placeholder="<%=vendor_website%>" title="<%=vendor_website%>"></select>
 				
 	
 				<p class="failedMessages" ><%=failed %></p>

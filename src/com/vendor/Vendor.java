@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.hotel.HotelDao;
+import com.login.EmailChecker;
 import com.login.LoginDao;
 
 
@@ -74,7 +75,7 @@ public class Vendor extends HttpServlet {
 		deleteButton = HotelDao.getHotelDeleteButton();
 		clearButton = HotelDao.getHotelClearButton();
 		
-		// hotel variables
+		// vendor variables
 		vendor = request.getParameter(HotelDao.getHotelVendor()).trim();
 		address = request.getParameter(HotelDao.getHotelAddress()).trim();
 		city = request.getParameter(HotelDao.getHotelCity()).trim();
@@ -104,22 +105,6 @@ public class Vendor extends HttpServlet {
 		{
 			clear();
 		}
-		// update button pressed
-		else if(request.getParameter(updateButton) != null)
-		{
-			// if vendor exists
-			if(hdao.checkVendor(vendor)) 
-			{
-				vdao.updateVendor(address, city, state, country, zipcode, telephone1, telephone2, fax, email1, email2, website, vendor);
-				clear();
-				request.setAttribute(VendorDao.VENDOR_FAILED, VendorDao.getVendorUpdatedMessage());
-			}
-			else // vendor doesn't exist
-			{
-				clear();
-				request.setAttribute(VendorDao.VENDOR_FAILED, HotelDao.getHotelVendorNotFoundFailed());
-			}
-		}
 		// delete button pressed
 		else if(request.getParameter(deleteButton) != null)
 		{
@@ -137,6 +122,28 @@ public class Vendor extends HttpServlet {
 			}
 			
 
+		}
+		// check valid email
+		else if((!email1.equals("") && !EmailChecker.validate(email1)) || (!email2.equals("") && !EmailChecker.validate(email2)))
+		{
+			request.setAttribute(VendorDao.VENDOR_FAILED, LoginDao.getRegisterInvalidEmailMessage());
+			email1 = ""; email2 = "";
+		}
+		// update button pressed
+		else if(request.getParameter(updateButton) != null)
+		{
+			// if vendor exists
+			if(hdao.checkVendor(vendor)) 
+			{
+				vdao.updateVendor(address, city, state, country, zipcode, telephone1, telephone2, fax, email1, email2, website, vendor);
+				clear();
+				request.setAttribute(VendorDao.VENDOR_FAILED, VendorDao.getVendorUpdatedMessage());
+			}
+			else // vendor doesn't exist
+			{
+				clear();
+				request.setAttribute(VendorDao.VENDOR_FAILED, HotelDao.getHotelVendorNotFoundFailed());
+			}
 		}
 		// one of the vendors is clicked
 		else if(request.getParameter(VendorDao.VENDOR_BUTTONS) != null)

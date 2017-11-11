@@ -6,7 +6,7 @@ import java.security.MessageDigest;
 public class SHA512 {
       public static void main(String args[]) throws Exception {
           
-    	  String password = "richard33.";
+    	  	String password = "testpassword";
 
     	    if ((args.length == 1) && (args[0].length() > 0))
     	    {

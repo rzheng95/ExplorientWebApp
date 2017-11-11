@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.login.EmailChecker;
 import com.login.LoginDao;
 import com.passenger.PassengerDao;
 
@@ -100,22 +101,6 @@ public class Hotel extends HttpServlet {
 		{
 			clear();
 		}
-		// update button pressed
-		else if(request.getParameter(updateButton) != null)
-		{
-			// if hotel exists
-			if(hdao.checkHotel(hotel))
-			{
-				hdao.updateHotel(vendor, address, city, state, country, zipcode, telephone1, telephone2, fax, email1, email2, website, hotel);
-				clear();
-				request.setAttribute(HotelDao.HOTEL_FAILED, HotelDao.getHotelUpdatedMessage());
-			}
-			else // hotel doesn't exist
-			{
-				clear();
-				request.setAttribute(HotelDao.HOTEL_FAILED, HotelDao.getHotelHotelNotFoundFailed());
-			}
-		}
 		// delete button pressed
 		else if(request.getParameter(deleteButton) != null)
 		{
@@ -133,6 +118,28 @@ public class Hotel extends HttpServlet {
 			}
 			
 
+		}
+		// check valid email
+		else if((!email1.equals("") && !EmailChecker.validate(email1)) || (!email2.equals("") && !EmailChecker.validate(email2)))
+		{
+			request.setAttribute(HotelDao.HOTEL_FAILED, LoginDao.getRegisterInvalidEmailMessage());
+			email1 = ""; email2 = "";
+		}
+		// update button pressed
+		else if(request.getParameter(updateButton) != null)
+		{
+			// if hotel exists
+			if(hdao.checkHotel(hotel))
+			{
+				hdao.updateHotel(vendor, address, city, state, country, zipcode, telephone1, telephone2, fax, email1, email2, website, hotel);
+				clear();
+				request.setAttribute(HotelDao.HOTEL_FAILED, HotelDao.getHotelUpdatedMessage());
+			}
+			else // hotel doesn't exist
+			{
+				clear();
+				request.setAttribute(HotelDao.HOTEL_FAILED, HotelDao.getHotelHotelNotFoundFailed());
+			}
 		}
 		// one of the hotels is clicked
 		else if(request.getParameter(HotelDao.HOTEL_BUTTONS) != null)

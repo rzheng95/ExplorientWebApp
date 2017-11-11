@@ -54,6 +54,12 @@
     <load-on-startup>0</load-on-startup>
   </servlet>
   
+  <servlet>
+    <servlet-name>AgentDao</servlet-name>
+    <servlet-class>com.agent.AgentDao</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+  
   <context-param>
     <param-name>max.inactive.interval</param-name>
     <param-value>1200</param-value>
@@ -240,7 +246,7 @@
     <param-value>UPDATE Vendors SET Address = ?, City = ?, State = ?, Country = ?, Zipcode = ?, Telephone_1 = ?, Telephone_2 = ?, Fax = ?, Email_1 = ?, Email_2 = ?, Website = ? where Vendor = ?;</param-value>
   </context-param>
   
-    <context-param>
+  <context-param>
     <param-name>database.delete.vendor.query</param-name>
     <param-value>DELETE FROM Vendors WHERE Vendor = ?;</param-value>
   </context-param>
@@ -267,6 +273,46 @@
   
   
   
+  
+  <context-param>
+    <param-name>database.get.agent.countries.query</param-name>
+    <param-value>select DISTINCT Country from Agents;</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>database.get.agent.cities.query</param-name>
+    <param-value>select DISTINCT City from Agents;</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>database.delete.agent.query</param-name>
+    <param-value>DELETE FROM Agents WHERE Agent = ?;</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>database.add.agent.query</param-name>
+    <param-value>insert into Agents(Agent, Lastname, Firstname, Address, City, State, Country, Zipcode, Telephone_1, Telephone_2, Fax, Email_1, Email_2, Website) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?);</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>database.update.agent.query</param-name>
+    <param-value>UPDATE Agents SET Lastname = ?, Firstname = ?, Address = ?, City = ?, State = ?, Country = ?, Zipcode = ?, Telephone_1 = ?, Telephone_2 = ?, Fax = ?, Email_1 = ?, Email_2 = ?, Website = ? where Agent = ?;</param-value>
+  </context-param>
+  
+  
+  <context-param>
+    <param-name>database.get.agents.by.country.query</param-name>
+    <param-value>select Agent from Agents where Country=?;</param-value>
+  </context-param>
+  <context-param>
+    <param-name>database.get.agents.by.city.query</param-name>
+    <param-value>select Agent from Agents where City=?;</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>database.get.agent.by.agent.name.query</param-name>
+    <param-value>select * from Agents where Agent=?;</param-value>
+  </context-param>
   
   
   
@@ -760,7 +806,7 @@
     <param-value>Get Vendors</param-value>
   </context-param>
   
-    <context-param>
+  <context-param>
     <param-name>vendor.vendor.created.message</param-name>
     <param-value>Vendor created.</param-value>
   </context-param>
@@ -778,6 +824,55 @@
   <context-param>
     <param-name>vendor.vendor.already.exists.failed</param-name>
     <param-value>Vendor already exists.</param-value>
+  </context-param>
+  
+  
+  
+  
+  <context-param>
+    <param-name>agent.agent</param-name>
+    <param-value>*Agent</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>agent.lastname</param-name>
+    <param-value>*Last name</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>agent.firstname</param-name>
+    <param-value>*First name</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>agent.get.Agents.button</param-name>
+    <param-value>Get Agents</param-value>
+  </context-param>
+  
+  
+  <context-param>
+    <param-name>agent.agent.created.message</param-name>
+    <param-value>Agent created.</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>agent.agent.updated.message</param-name>
+    <param-value>Agent updated.</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>agent.agent.deleted.message</param-name>
+    <param-value>Agent deleted.</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>agent.agent.already.exists.failed</param-name>
+    <param-value>Agent already exists.</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>agent.agent.not.found.failed</param-name>
+    <param-value>Agent does not exist.</param-value>
   </context-param>
   
   
