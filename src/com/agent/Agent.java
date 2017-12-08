@@ -12,14 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 import com.hotel.HotelDao;
 import com.login.EmailChecker;
 import com.login.LoginDao;
-import com.vendor.VendorDao;
+
 
 @WebServlet("/Agent")
 public class Agent extends HttpServlet {
 	
-	private HotelDao hdao;
 	private LoginDao ldao;
-	private VendorDao vdao;
 	private AgentDao adao;
 	private ArrayList<String> required;
 	private ArrayList<String> notRequired;
@@ -57,10 +55,7 @@ public class Agent extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		hdao = new HotelDao();
 		ldao = new LoginDao();
-		vdao = new VendorDao();
 		adao = new AgentDao();
 		
 		
@@ -122,7 +117,7 @@ public class Agent extends HttpServlet {
 				clear();
 				request.setAttribute(AgentDao.AGENT_FAILED, AgentDao.getAgentDeletedMessage());
 			}
-			else // vendor doesn't exist
+			else // agent doesn't exist
 			{
 				clear();		
 				request.setAttribute(AgentDao.AGENT_FAILED, AgentDao.getAgentAgentNotFoundFailed());
@@ -152,7 +147,7 @@ public class Agent extends HttpServlet {
 				request.setAttribute(AgentDao.AGENT_FAILED, AgentDao.getAgentAgentNotFoundFailed());
 			}
 		}
-		// one of the vendors is clicked
+		// one of the agents is clicked
 		else if(request.getParameter(AgentDao.AGENT_BUTTONS) != null)
 		{
 			
@@ -238,7 +233,7 @@ public class Agent extends HttpServlet {
 					clear();
 					request.setAttribute(AgentDao.AGENT_FAILED, AgentDao.getAgentAgentAlreadyExistsFailed());
 				}
-				else // create vendor if vendor doesn't exist
+				else // create agent if agent doesn't exist
 				{
 					adao.addAgent(agent, lastname, firstname, address, city, state, country, zipcode, telephone1, telephone2, fax, email1, email2, website);
 					request.setAttribute(AgentDao.AGENT_FAILED, AgentDao.getAgentCreatedMessage());

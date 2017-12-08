@@ -322,11 +322,6 @@ public class NewpageDao extends HttpServlet
 		}
 		return returnList;
 	}
-	
-	private String String(String temp) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 	// MONTH-0 DAY-1 YEAR-2

@@ -315,6 +315,19 @@
   </context-param>
   
   
+  <context-param>
+    <param-name>database.get.tours.by.customer.id.query</param-name>
+    <param-value>Select * from Tours where Customer_Id = ?;</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>database.get.booking.dates.by.customer.id.query</param-name>
+    <param-value>SELECT Departure_Date, Return_Date from Booking where Customer_Id = ?;</param-value>
+  </context-param>
+  
+  
+  
+  
   
   
   <context-param>
@@ -327,11 +340,11 @@
   </context-param>
   <context-param>
     <param-name>database.password</param-name>
-    <param-value>jay.yang.kwak</param-value>
+    <param-value>richard33.</param-value>
   </context-param>
   <context-param>
     <param-name>database.url</param-name>
-    <param-value>jdbc:mysql://db.explorient.com:3306/ExplorientDB</param-value>
+    <param-value>jdbc:mysql://107.173.183.162:3306/ExplorientDB</param-value>
   </context-param>
   <context-param>
     <param-name>user.login.email</param-name>
@@ -471,7 +484,7 @@
   </context-param>
   <context-param>
     <param-name>new.customer.id</param-name>
-    <param-value>customer_id</param-value>
+    <param-value>Customer Id</param-value>
   </context-param>
   <context-param>
     <param-name>new.search.box.customer.id</param-name>
@@ -874,6 +887,25 @@
     <param-name>agent.agent.not.found.failed</param-name>
     <param-value>Agent does not exist.</param-value>
   </context-param>
+  
+  
+  
+  <context-param>
+    <param-name>itinerary.get.itinerary.button</param-name>
+    <param-value>Get Itinerary</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>itinerary.hotel.country</param-name>
+    <param-value>Country</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>itinerary.hotel.city</param-name>
+    <param-value>City</param-value>
+  </context-param>
+  
+  
   
   
   

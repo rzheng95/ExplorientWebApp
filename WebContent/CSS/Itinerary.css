@@ -33,6 +33,20 @@ html, body{
 	overflow: auto;
 }
 
+#search_box{
+	width: 100%;
+	overflow: auto;
+}
+
+.days{
+	text-align: center;
+	font-size: 0.95em;
+}
+
+.accommodations_div{
+	margin-top: 1em;
+}
+
 .datepicker{
 	color: white;
 	font-size: 1em;	
@@ -87,13 +101,16 @@ html, body{
 	display: block;
 }
 
-.activities{
+.textfield{
 	background: none;
 	border: none;
 	color: white;
 	font-family: Arial Narrow;
 }
 
+.accommodations_div{
+	width: 100%;
+}
 
 #getItinerary{
 	float: right;

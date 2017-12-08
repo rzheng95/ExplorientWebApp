@@ -108,13 +108,13 @@
 		<div class="hotel_div">
 			
 				<div class="hotel_search_div">
-					<select class="editable-select countries"  name="<%=searchCountry%>"  value="<%=searchCountryValue%>" placeholder="<%=hotel_country.substring(1)%>">
+					<select class="editable-select countries"  name="<%=searchCountry%>"  value="<%=searchCountryValue%>" placeholder="<%=hotel_country.substring(1)%>" title="<%=hotel_country.substring(1)%>">
 						<% for(int i=0; i < countries.size(); i++) { %>
 						<option class="selected"><%=countries.get(i) %></option>
 						<% } %>
 					</select>
 					
-					<select class="editable-select cities"  name="<%=searchCity%>"  value="<%=searchCityValue %>" placeholder="<%=hotel_city.substring(1)%>">
+					<select class="editable-select cities"  name="<%=searchCity%>"  value="<%=searchCityValue %>" placeholder="<%=hotel_city.substring(1)%>" title="<%=hotel_city.substring(1)%>">
 						<% for(int i=0; i < cities.size(); i++) { %>
 						<option class="selected"><%=cities.get(i) %></option>
 						<% } %>

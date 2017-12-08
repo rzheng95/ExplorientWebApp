@@ -46,9 +46,8 @@
 <%@ page import="com.vendor.VendorDao"%>
 <%@ page import="com.agent.AgentDao"%>
 <%@ page import="com.hotel.HotelDao"%>
-<%@ page import="java.util.ArrayList"%>
-<%@ page import="java.util.HashMap" %>
-<%@ page import="java.util.Collections" %>
+<%@ page import="java.util.*"%>
+<%@ page import="java.time.*"%>
 
 <%	
 	// prevents backing after logout
