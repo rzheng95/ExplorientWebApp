@@ -226,7 +226,7 @@ public class HotelDao extends HttpServlet
 	
 	
 	
-	public ArrayList<String> getCountries()
+	public ArrayList<String> getHotelCountries()
 	{
 		ArrayList<String> returnList = new ArrayList<>();
 
@@ -249,7 +249,7 @@ public class HotelDao extends HttpServlet
 	}
 	
 	
-	public ArrayList<String> getCities()
+	public ArrayList<String> getHotelCities()
 	{
 		ArrayList<String> returnList = new ArrayList<>();
 

@@ -325,6 +325,25 @@
     <param-value>SELECT Departure_Date, Return_Date from Booking where Customer_Id = ?;</param-value>
   </context-param>
   
+  <context-param>
+    <param-name>database.get.tour.countries.query</param-name>
+    <param-value>select Distinct Country from Tours;</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>database.get.tour.cities.query</param-name>
+    <param-value>select Distinct City from Tours;</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>database.get.tour.names.by.country.query</param-name>
+    <param-value>select Distinct Tour from Tours where Country = ?;</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>database.get.tour.names.by.city.query</param-name>
+    <param-value>select Distinct Tour from Tours where City = ?;</param-value>
+  </context-param>
   
   
   
@@ -484,7 +503,7 @@
   </context-param>
   <context-param>
     <param-name>new.customer.id</param-name>
-    <param-value>Customer Id</param-value>
+    <param-value>Customer ID</param-value>
   </context-param>
   <context-param>
     <param-name>new.search.box.customer.id</param-name>
@@ -896,6 +915,16 @@
   </context-param>
   
   <context-param>
+    <param-name>itinerary.get.tours.button</param-name>
+    <param-value>Get Tours</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>itinerary.get.activity.button</param-name>
+    <param-value>Get Activity</param-value>
+  </context-param>
+  
+  <context-param>
     <param-name>itinerary.hotel.country</param-name>
     <param-value>Country</param-value>
   </context-param>
@@ -906,11 +935,30 @@
   </context-param>
   
   
+  <context-param>
+    <param-name>itinerary.day</param-name>
+    <param-value>Day</param-value>
+  </context-param>
   
+  <context-param>
+    <param-name>itinerary.activity</param-name>
+    <param-value>Activity</param-value>
+  </context-param>
   
+  <context-param>
+    <param-name>itinerary.accommodations</param-name>
+    <param-value>Accommodations</param-value>
+  </context-param>
   
+  <context-param>
+    <param-name>itinerary.tours</param-name>
+    <param-value>Tours</param-value>
+  </context-param>
   
-  
+  <context-param>
+    <param-name>itinerary.vendors</param-name>
+    <param-value>Vendors</param-value>
+  </context-param>
   
   
   

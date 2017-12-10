@@ -38,14 +38,48 @@ html, body{
 	overflow: auto;
 }
 
+.div_width{
+	width: 55%;
+}
+
+.countries{
+	width:38%
+}
+
+.cities{
+	width:38%
+}
+
+.tours{
+	width: 75%;
+}
+
+.vendors{
+	width: 73%;
+}
+
+.hotels{
+	width: 65.5%;
+}
+
+.text{
+	padding-top: 1em;
+	font-size: 1em;
+	font-family: "Times New Roman";
+	color: #e2c04b;
+}
+
+
 .days{
 	text-align: center;
 	font-size: 0.95em;
 }
 
-.accommodations_div{
-	margin-top: 1em;
+.days:focus{
+	outline: none;
+	border: none;
 }
+
 
 .datepicker{
 	color: white;
@@ -62,9 +96,7 @@ html, body{
 	
 }
 
-.hotels{
-	width: 50%;
-}
+
 
 .search_box_buttons{
 	width: 20%;
@@ -93,7 +125,7 @@ html, body{
 
 #legend{
 	font-family: Georgia,Times,'Times New Roman',serif;
-	color: #8b7116;
+	color: #e2c04b;
 	font-size: 0.9em;
 }
 
@@ -108,9 +140,6 @@ html, body{
 	font-family: Arial Narrow;
 }
 
-.accommodations_div{
-	width: 100%;
-}
 
 #getItinerary{
 	float: right;

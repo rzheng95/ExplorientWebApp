@@ -25,13 +25,13 @@
 			Collections.sort(vendors);
 		
 		// country list
-		ArrayList<String> countries = hdao.getCountries();
+		ArrayList<String> countries = hdao.getHotelCountries();
 		if(countries != null && countries.size() != 0)
 			Collections.sort(countries);
 		
 		
 		// city list
-		ArrayList<String> cities = hdao.getCities();
+		ArrayList<String> cities = hdao.getHotelCities();
 		if(cities != null && cities.size() != 0)
 			Collections.sort(cities);
 		

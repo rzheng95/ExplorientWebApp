@@ -17,19 +17,15 @@ public class test {
 			System.out.println("yes");
 		else
 			System.out.println("no");
-		/*
-		 								<% String activity =  ""; %>
-								<% String accommodation =  ""; %>
-									<% if(tourList.size() > i) { %>
-										<% activity = ((ArrayList<String>)tourList.get(i)).get(2).trim(); %>
-										<% if(((ArrayList<String>)tourList.get(i)).get(4) != null) {%>
-											<% accommodation = ((ArrayList<String>)tourList.get(i)).get(4); }%>
-									<% } %>
-		 *
-		 *
-		 *
-		 */
-				
+
+		ArrayList<String> x = new ArrayList<>();
+		
+		x.add(0, "one");
+		x.add(5, "five");
+		
+		System.out.println(x.get(0));
+		
+
 	}
 	
 	// yyyy-mm-dd
