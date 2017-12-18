@@ -22,27 +22,14 @@
 		ItineraryDao idao = new ItineraryDao();
 	
 		
-		// hotel country list
-		ArrayList<String> hotelCountries = hdao.getHotelCountries();
-		if(hotelCountries != null && hotelCountries.size() != 0)
-			Collections.sort(hotelCountries);
 		
 		
-		// hotel city list
-		ArrayList<String> hotelCities = hdao.getHotelCities();
-		if(hotelCities != null && hotelCities.size() != 0)
-			Collections.sort(hotelCities);
+		// country list
+		ArrayList<String> tourCountries = idao.getCountries();
+
 		
-		
-		// tour country list
-		ArrayList<String> tourCountries = idao.getTourCountries();
-		if(tourCountries != null && tourCountries.size() != 0)
-			Collections.sort(tourCountries);
-		
-		// tour city list
-		ArrayList<String> tourCities = idao.getTourCities();
-		if(tourCities != null && tourCities.size() != 0)
-			Collections.sort(tourCities);
+		// city list
+		ArrayList<String> tourCities = idao.getCities();
 		
 		
 		
@@ -61,25 +48,35 @@
 		String day = ItineraryDao.getItineraryDay();
 		String activity = ItineraryDao.getItineraryActivity();
 		String accommodations = ItineraryDao.getItineraryAccommodations();
-		String tours = ItineraryDao.getItineraryTours();
+		String activityTemplates = ItineraryDao.getItineraryActivityTemplates();
 		String vendors = ItineraryDao.getItineraryVendors();
 		
 		// itinerary button
-		String getHotelsButton = HotelDao.getHotelGetHotelsButton();
-		String getToursButton = ItineraryDao.getItineraryGetToursButton();
+		String searchButton = ItineraryDao.getItinerarySearchButton();
 		String getActivityButton = ItineraryDao.getItineraryGetActivityButton();
 		
 		// hotel search textfields
 		String hotelCountry = ItineraryDao.getItineraryHotelCountry();
 		String hotelCity = ItineraryDao.getItineraryHotelCity();
-		String tourCountry = ItineraryDao.getItineraryHotelCountry();
-		String tourCity = ItineraryDao.getItineraryHotelCity();
+		String searchCountry = ItineraryDao.getItineraryHotelCountry();
+		String searchCity = ItineraryDao.getItineraryHotelCity();
+		
+		
+		// current row id
+		String rowId = (String)request.getAttribute(ItineraryDao.ROW_ID);
+		
+		
+		// get tour list
+		ArrayList<ArrayList<String>> tourList = (ArrayList<ArrayList<String>>)request.getAttribute(ItineraryDao.TOUR_LIST);
+		
+		// get tour name list
+		ArrayList<ArrayList<String>> tourNameList = (ArrayList<ArrayList<String>>)request.getAttribute(ItineraryDao.TOUR_NAME_LIST);
 		
 		// hotel list
 		ArrayList<String> hotelList = (ArrayList<String>)request.getAttribute(ItineraryDao.HOTEL_LIST);
 		
-		// tour list
-		ArrayList<String> tourNameList = (ArrayList<String>)request.getAttribute(ItineraryDao.TOUR_NAME_LIST);
+		// activity template list
+		ArrayList<String> activityTemplateList = (ArrayList<String>)request.getAttribute(ItineraryDao.ACTIVITY_TEMPLATE_LIST);
 		
 		// vendor list
 		ArrayList<String> vendorList = (ArrayList<String>)request.getAttribute(ItineraryDao.VENDOR_LIST);
@@ -87,8 +84,7 @@
 		// get customer id list
 		ArrayList<String> customerIdList = (ArrayList<String>)request.getAttribute(PassengerDao.PASSENGER_CUSTOMER_IDS);
 		
-		// get tour list
-		ArrayList<ArrayList<String>> tourList = (ArrayList<ArrayList<String>>)request.getAttribute(ItineraryDao.TOUR_LIST);
+
 		
 
 		
@@ -129,8 +125,34 @@
 	$(document).ready(function() {
 			
 		autosize($('textarea'));
+		
+		// delay 10ms before click otherwise it will trigger the event before the handler is attached
+		setTimeout(function() {
+			$("#scroll-down").trigger( "click" );
+	    },10);
+
+		
 			
 	});
+	
+
+	$(function(){
+
+		   $("#scroll-down").click(function(event) {
+
+		       event.preventDefault(); //stops browser updating url
+
+		       var id = $(this).attr("href");
+
+		       var divPosition = $(id).offset().top - 200;
+
+		       $("html, body").animate({scrollTop: divPosition});
+
+		   });
+
+		});
+	
+	
 	
 	</script>
 	
@@ -193,69 +215,58 @@
 					  <% if(tourList != null && !tourList.isEmpty()){ %> 
 							<% for(int i=0; i < tourList.size(); i++) { %>
 								<% String dayValue = tourList.get(i).get(Itinerary.TRAVEL_DATE); %>
-								<% String activityValue = ""; %>
-								<% String accommodationValue = ""; %>
-								<% String tourValue = ""; %>
-								<% String tourCountryValue = ""; %>
-								<% String tourCityValue = ""; %>
-								<% String vendorValue = ""; %>
+								<% String activityTemplatesValue = ""; %>
+								<% String activityValue = ""; %>	
+								<% String searchCityValue = ""; %>						
+								<% String searchCountryValue = ""; %>
+								
+
 								<% if(tourList.get(i).size() == Itinerary.TOUR_LIST_SIZE) { %>
-									<% tourCityValue = tourList.get(i).get(Itinerary.CITY); %>
+									<% activityTemplatesValue = tourList.get(i).get(Itinerary.ACTIVITY_TEMPLATE); %>
 									<% activityValue = tourList.get(i).get(Itinerary.ACTIVITY); %>
-									<% accommodationValue = tourList.get(i).get(Itinerary.ACCOMMODATION); %>
-									<% tourValue = tourList.get(i).get(Itinerary.TOUR); %>
-									<% tourCountryValue = tourList.get(i).get(Itinerary.COUNTRY); %>
-									<% tourCityValue = tourList.get(i).get(Itinerary.CITY); %>
-									<% vendorValue = tourList.get(i).get(Itinerary.VENDOR); %>
+									<% searchCityValue = tourList.get(i).get(Itinerary.CITY); %>
+									<% searchCountryValue = tourList.get(i).get(Itinerary.COUNTRY); %>
+									
+									
 								<%}%>
 								
- 
+ 							  
 							  <tr>
-
-							    <td rowspan="3">
+								
+							    <td rowspan="3" id="row<%=i%>">
 									<textarea class="textfield days" name="<%=day+i%>" readonly><%=dayValue %> </textarea>   
 								</td>
 								
-							    
+							   
 								
 							    <td>						
-								    <div class="div_width tour_search_div">
-									    	<select class="editable-select countries"  name="<%=tourCountry+i %>"  value="<%=tourCountryValue%>" placeholder="Country">
+								    	<div class="div_width search_div" >
+								    		
+									    	<select class="editable-select countries" name="<%=searchCountry+i %>" value="<%=searchCountryValue%>" placeholder="Country">
 										    	<% for(int t=0; t < tourCountries.size(); t++) { %>
 													<option class="selected"><%=tourCountries.get(t) %></option>
 												<% } %>	
 									    	</select>
-									    	<select class="editable-select cities"  name="<%=tourCity+i %>"  value="<%=tourCityValue %>" placeholder="City">
+									    	<select class="editable-select cities" name="<%=searchCity+i %>"  value="<%=searchCityValue %>" placeholder="City">
 									    		<% for(int c=0; c < tourCities.size(); c++) { %>
 													<option class="selected"><%=tourCities.get(c) %></option>
 												<% } %>
 									    	</select>
-									    	<input type="submit" class="itinerary_buttons" id="getTours" name="<%=getToursButton+i %>" value="<%=getToursButton%>">
+									    	<input type="submit" class="itinerary_buttons" id="search" name="<%=searchButton+i %>" value="<%=searchButton%>">
 								    	</div>
 								    	
-								    	<div class="div_width tours_div">
-									    	<span class="text">Tours: </span><select class="editable-select tours"  name="<%=tours+i %>" value="<%=tourValue %>" >
-												<%if(tourNameList != null && !tourNameList.isEmpty()) { %>
-													<% for(int j=0; j < tourNameList.size(); j++) { %>
-														<option class="selected"><%=tourNameList.get(j) %></option>
+								    	<div class="div_width activity_template_div">
+									    	<span class="text"><%=activityTemplates %>: </span><select class="editable-select activity_templates"  name="<%=activityTemplates+i %>" value="<%=activityTemplatesValue %>" >
+												<%if(activityTemplateList != null && !activityTemplateList.isEmpty()) { %>
+													<% for(int j=0; j < activityTemplateList.size(); j++) { %>
+														<option class="selected"><%=activityTemplateList.get(j) %></option>
 													<% } %>
 												<% } %>
 									    		
 									    	</select>
 									    	<input type="submit" class="itinerary_buttons" id="getActivity" name="<%=getActivityButton+i %>" value="<%=getActivityButton%>">
 								    	</div>
-								    	
-								    	<div class="div_width vendors_div">
-									    	<span class="text">Vendors: </span><select class="editable-select vendors"  name="<%=vendors+i %>" value="<%=vendorValue %>" >
-												<%if(vendorList != null && !vendorList.isEmpty()) { %>
-													<% for(int j=0; j < vendorList.size(); j++) { %>
-														<option class="selected"><%=vendorList.get(j) %></option>
-													<% } %>
-												<% } %>
-									    		
-									    	</select>
-								    	</div>
-								    	
+	    	
 
 							    </td>
 							  </tr>
@@ -271,25 +282,52 @@
 							  	  <td><textarea class="textfield" name="<%=activity+i %>" placeholder="<%=activity+" for "+dayValue %>"><%=activityValue %></textarea></td>
 							  </tr>
 							  
-							  <tr>
-							  	
-							    <td>
-							    	<div class="div_width hotel_search_div">
-								    	<select class="editable-select countries"  name="<%=hotelCountry+i %>"  value="" placeholder="Country">
-									    	<% for(int h=0; h < hotelCountries.size(); h++) { %>
-												<option class="selected"><%=hotelCountries.get(h) %></option>
-											<% } %>	
-								    	</select>
-								    	<select class="editable-select cities"  name="<%=hotelCity+i %>"  value="" placeholder="City">
-								    		<% for(int c=0; c < hotelCities.size(); c++) { %>
-												<option class="selected"><%=hotelCities.get(c) %></option>
+							  <tr>		  	
+							    <td>	  
+							    	<div class="div_width service_and_vendor_div">
+								    		<span class="text">Land Service 1: </span><select class="editable-select tourName"  name="tourName1" value="" >
+												<%if(tourNameList != null && !tourNameList.isEmpty()) { %>
+													<% for(int j=0; j < tourNameList.size(); j++) { %>
+														<option class="selected"><%=tourNameList.get(j) %></option>
+													<% } %>
+												<% } %>
+									    		
+									    	</select>
+								    		
+								    		<span class="text">Vendor 1: </span><select class="editable-select vendors"  name="<%=vendors+i %>" value="" >
+												<%if(vendorList != null && !vendorList.isEmpty()) { %>
+													<% for(int j=0; j < vendorList.size(); j++) { %>
+														<option class="selected"><%=vendorList.get(j) %></option>
+													<% } %>
+												<% } %>
+									    		
+									    	</select>
+									    	
+									    	
+									    	<select class="editable-select countries" name="<%=searchCountry+i %>" value="<%=searchCountryValue%>" placeholder="Country">
+										    	<% for(int t=0; t < tourCountries.size(); t++) { %>
+													<option class="selected"><%=tourCountries.get(t) %></option>
+												<% } %>	
+									    	</select>
+									    	<select class="editable-select cities" name="<%=searchCity+i %>"  value="<%=searchCityValue %>" placeholder="City">
+									    		<% for(int c=0; c < tourCities.size(); c++) { %>
+													<option class="selected"><%=tourCities.get(c) %></option>
+												<% } %>
+									    	</select>
+									    	
+									    	
+								    	</div>  	
+							    	<div class="accommodations_div">
+								    	<span class="text">Accommodations: </span> <select class="editable-select hotels"  name="<%=accommodations+i %>" value="" >
+											<%if(hotelList != null && !hotelList.isEmpty()) { %>
+												<% for(int j=0; j < hotelList.size(); j++) { %>
+													<option class="selected"><%=hotelList.get(j) %></option>
+												<% } %>
 											<% } %>
+								    		
 								    	</select>
-								    	<input type="submit" class="itinerary_buttons" id="getHotels" name="<%=getHotelsButton+i %>" value="<%=getHotelsButton%>">
-							    	</div>
-							    	
-							    	<div class="div_width accommodations_div">
-								    	<span class="text">Accommodations: </span> <select class="editable-select hotels"  name="<%=accommodations+i %>" value="<%=accommodationValue %>" >
+								    	
+								    	<span class="text">Room type: </span> <select class="editable-select room_type"  name="<%=accommodations+i %>" value="" >
 											<%if(hotelList != null && !hotelList.isEmpty()) { %>
 												<% for(int j=0; j < hotelList.size(); j++) { %>
 													<option class="selected"><%=hotelList.get(j) %></option>
@@ -298,24 +336,26 @@
 								    		
 								    	</select>
 							    	</div>
+							    	
 							    </td>
 							  </tr>
 							  
 					  <% } }%>
   
 					</table>
-				
+					
+					
+					<p class="failedMessages" ><%=failed %></p>
+					
+					<div>	
+						<input type="submit" class="itinerary_buttons" id="save" name="save" value="Save">									
+					</div>
+					
+					<a id ="scroll-down" href="<%=rowId %>"></a>
+					
+					
+					
 				</div>
-				
-				
-				<p class="failedMessages" ><%=failed %></p>
-				
-				<div>	
-					<input type="submit" class="itinerary_buttons" id="save" name="save" value="Save">									
-				</div>
-				
-				
-				
 				
 
 			</form>

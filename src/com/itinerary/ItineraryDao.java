@@ -22,19 +22,29 @@ public class ItineraryDao extends HttpServlet
 	public final static String EQUAL = NewpageDao.EQUAL;
 	
 	public final static String ITINERARY = "itinerary";
+	public final static String ROW_ID = "ROW_ID";
+	
 	public final static String TOUR_LIST = "tour list";
-	public final static String HOTEL_LIST = "hotel list";
 	public final static String TOUR_NAME_LIST = "tour name list";
+	public final static String HOTEL_LIST = "hotel list";
+	public final static String ACTIVITY_TEMPLATE_LIST = "activity template list";
 	public final static String VENDOR_LIST = "vendor list";
 	
 	
 	// db queries
 	public final static String GET_TOURS_BY_CUSTOMER_ID_QUERY = "database.get.tours.by.customer.id.query";
 	public final static String GET_BOOKING_DATES_BY_CUSTOMER_ID_QUERY = "database.get.booking.dates.by.customer.id.query";
-	public final static String GET_TOUR_COUNTRIES_QUERY = "database.get.tour.countries.query";
-	public final static String GET_TOUR_CITIES_QUERY = "database.get.tour.cities.query";
-	public final static String GET_TOUR_NAMES_BY_CITY_QUERY = "database.get.tour.names.by.city.query";
-	public final static String GET_TOUR_NAMES_BY_COUNTRRY_QUERY = "database.get.tour.names.by.country.query";
+	
+	public final static String GET_COUNTRIES_FROM_TOURS_TOURTEMPLATES_HOTELS_AND_VENDORS_QUERY = "database.get.countries.from.Tours.Tour_Templates.Hotels.and.Vendors.query";
+	public final static String GET_CITIES_FROM_TOURS_TOURTEMPLATES_HOTELS_AND_VENDORS_QUERY = "database.get.cities.from.Tours.Tour_Templates.Hotels.and.Vendors.query";
+	
+	public final static String GET_ACTIVITY_TEMPLATES_BY_CITY_QUERY = "database.get.activity.templates.by.city.query";
+	public final static String GET_ACTIVITY_TEMPLATES_BY_COUNTRRY_QUERY = "database.get.activity.templates.by.country.query";
+	
+	public final static String GET_TOURS_FROM_TOURS_AND_TOUR_TEMPLATES_BY_COUNTRY_QUERY = "database.get.tours.from.Tours.and.Tour_Templates.by.country.query";
+	public final static String GET_TOURS_FROM_TOURS_AND_TOUR_TEMPLATES_BY_CITY_QUERY = "database.get.tours.from.Tours.and.Tour_Templates.by.city.query";
+	
+	public final static String GET_ACTIVITY_CITY_AND_COUNTRY_BY_TOURNAME_QUERY = "database.get.activity.city.and.country.by.tourName.query";
 	
 	// failed
 	
@@ -45,12 +55,12 @@ public class ItineraryDao extends HttpServlet
 	public final static String ITINERARY_DAY = "itinerary.day";
 	public final static String ITINERARY_ACTIVITY = "itinerary.activity";
 	public final static String ITINERARY_ACCOMMODATIONS = "itinerary.accommodations";
-	public final static String ITINERARY_TOURS = "itinerary.tours";
+	public final static String ITINERARY_ACTIVITY_TEMPLATES = "itinerary.activity.templates";
 	public final static String ITINERARY_VENDORS = "itinerary.vendors";
 	
 	// button
 	public final static String ITINERARY_GET_ITINERARY_BUTTON = "itinerary.get.itinerary.button";
-	public final static String ITINERARY_GET_TOURS_BUTTON = "itinerary.get.tours.button";
+	public final static String ITINERARY_SEARCH_BUTTON = "itinerary.search.button";
 	public final static String ITINERARY_GET_ACTIVITY_BUTTON = "itinerary.get.activity.button";
 	
 	// message
@@ -72,12 +82,17 @@ public class ItineraryDao extends HttpServlet
 	// db queries
 	private static String getToursByCustomerIdQuery;
 	private static String getBookingDatesByCustomerIdQuery;
-	private static String getTourCountriesQuery;
-	private static String getTourCitiesQuery;
-	private static String getTourNamesByCityQuery;
-	private static String getTourNamesByCountryQuery;
 	
+	private static String getCountriesFromToursTourtemplatesHotelsAndVendorsQuery;
+	private static String getCitiesFromToursTourtemplatesHotelsAndVendorsQuery;
 	
+	private static String getActivityTemplatesByCityQuery;
+	private static String getActivityTemplatesByCountryQuery;
+	
+	private static String getToursFromToursAndTourtemplatesByCountryQuery;
+	private static String getToursFromToursAndTourtemplatesByCityQuery;
+	
+	private static String getActivityCityAndCountryByTournameQuery;
 	
 	// failed
 	public final static String ITINERARY_FAILED = "itinerary.failed";
@@ -88,12 +103,12 @@ public class ItineraryDao extends HttpServlet
 	private static String itineraryDay;
 	private static String itineraryActivity;
 	private static String itineraryAccommodations;
-	private static String itineraryTours;
+	private static String itineraryActivityTemplates;
 	private static String itineraryVendors;
 
 	// button
 	private static String itineraryGetItineraryButton;
-	private static String itineraryGetToursButton;
+	private static String itinerarySearchButton;
 	private static String itineraryGetActivityButton;
 	
 	// message
@@ -117,11 +132,16 @@ public class ItineraryDao extends HttpServlet
 			// db queries
 			getToursByCustomerIdQuery = sc.getInitParameter(GET_TOURS_BY_CUSTOMER_ID_QUERY);
 			getBookingDatesByCustomerIdQuery = sc.getInitParameter(GET_BOOKING_DATES_BY_CUSTOMER_ID_QUERY);
-			getTourCountriesQuery = sc.getInitParameter(GET_TOUR_COUNTRIES_QUERY);
-			getTourCitiesQuery = sc.getInitParameter(GET_TOUR_CITIES_QUERY);
-			getTourNamesByCountryQuery = sc.getInitParameter(GET_TOUR_NAMES_BY_COUNTRRY_QUERY);
-			getTourNamesByCityQuery = sc.getInitParameter(GET_TOUR_NAMES_BY_CITY_QUERY);
+			getCountriesFromToursTourtemplatesHotelsAndVendorsQuery = sc.getInitParameter(GET_COUNTRIES_FROM_TOURS_TOURTEMPLATES_HOTELS_AND_VENDORS_QUERY);
+			getCitiesFromToursTourtemplatesHotelsAndVendorsQuery = sc.getInitParameter(GET_CITIES_FROM_TOURS_TOURTEMPLATES_HOTELS_AND_VENDORS_QUERY);
 			
+			getActivityTemplatesByCountryQuery = sc.getInitParameter(GET_ACTIVITY_TEMPLATES_BY_COUNTRRY_QUERY);
+			getActivityTemplatesByCityQuery = sc.getInitParameter(GET_ACTIVITY_TEMPLATES_BY_CITY_QUERY);
+			
+			getToursFromToursAndTourtemplatesByCountryQuery = sc.getInitParameter(GET_TOURS_FROM_TOURS_AND_TOUR_TEMPLATES_BY_COUNTRY_QUERY);
+			getToursFromToursAndTourtemplatesByCityQuery = sc.getInitParameter(GET_TOURS_FROM_TOURS_AND_TOUR_TEMPLATES_BY_CITY_QUERY);
+			
+			getActivityCityAndCountryByTournameQuery = sc.getInitParameter(GET_ACTIVITY_CITY_AND_COUNTRY_BY_TOURNAME_QUERY);
 			
 			// failed
 			
@@ -131,12 +151,12 @@ public class ItineraryDao extends HttpServlet
 			itineraryDay = sc.getInitParameter(ITINERARY_DAY);
 			itineraryActivity = sc.getInitParameter(ITINERARY_ACTIVITY);
 			itineraryAccommodations = sc.getInitParameter(ITINERARY_ACCOMMODATIONS);
-			itineraryTours = sc.getInitParameter(ITINERARY_TOURS);
+			itineraryActivityTemplates = sc.getInitParameter(ITINERARY_ACTIVITY_TEMPLATES);
 			itineraryVendors = sc.getInitParameter(ITINERARY_VENDORS);
 			
 			// button
 			itineraryGetItineraryButton = sc.getInitParameter(ITINERARY_GET_ITINERARY_BUTTON);
-			itineraryGetToursButton = sc.getInitParameter(ITINERARY_GET_TOURS_BUTTON);
+			itinerarySearchButton = sc.getInitParameter(ITINERARY_SEARCH_BUTTON);
 			itineraryGetActivityButton = sc.getInitParameter(ITINERARY_GET_ACTIVITY_BUTTON);
 			 
 			// message
@@ -154,9 +174,12 @@ public class ItineraryDao extends HttpServlet
 	}
 	
 	
-	public ArrayList<String> getTourNames(String country, String city)
+	public ArrayList<String> getActivityTemplates(String country, String city)
 	{		
 		ArrayList<String> returnList = new ArrayList<>();
+		
+		country = country.trim();
+		city = city.trim();
 		
 		try {				
 			conn = DriverManager.getConnection(db_url, db_username, db_password);	
@@ -168,13 +191,14 @@ public class ItineraryDao extends HttpServlet
 				return returnList;
 			else if(!city.equals(""))
 			{
-				query = getTourNamesByCityQuery;
+				query = getActivityTemplatesByCityQuery;
 				pstmt = conn.prepareStatement(query);
 				pstmt.setString(1, city);
+				
 			}
 			else
 			{
-				query = getTourNamesByCountryQuery;
+				query = getActivityTemplatesByCountryQuery;
 				pstmt = conn.prepareStatement(query);
 				pstmt.setString(1, country);
 			}
@@ -198,13 +222,62 @@ public class ItineraryDao extends HttpServlet
 	}
 	
 	
-	public ArrayList<String> getTourCountries()
+	public ArrayList<String> getTourNames(String country, String city)
+	{
+		ArrayList<String> returnList = new ArrayList<>();
+		
+		country = country.trim();
+		city = city.trim();
+		
+		try {				
+			conn = DriverManager.getConnection(db_url, db_username, db_password);	
+			
+			String query = "";
+
+			
+			if(city.equals("") && country.equals(""))
+				return returnList;
+			else if(!city.equals(""))
+			{
+				query = getToursFromToursAndTourtemplatesByCityQuery;
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, city);
+				pstmt.setString(2, city);
+			}
+			else
+			{
+				query = getToursFromToursAndTourtemplatesByCountryQuery;
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, country);
+				pstmt.setString(2, country);
+			}
+			
+				
+			rs = pstmt.executeQuery();
+			
+			while(rs.next())
+			{							  
+				returnList.add(rs.getString("Tour"));
+			}
+			
+			conn.close();
+			pstmt.close();
+			rs.close();
+		} catch (Exception e) {
+			System.err.println(e);
+		}	
+		
+		return returnList;
+	}
+	
+	
+	public ArrayList<String> getCountries()
 	{
 		ArrayList<String> returnList = new ArrayList<>();
 
 		try {				
 			conn = DriverManager.getConnection(db_url, db_username, db_password);			
-			pstmt = conn.prepareStatement(getTourCountriesQuery);
+			pstmt = conn.prepareStatement(getCountriesFromToursTourtemplatesHotelsAndVendorsQuery);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next())
@@ -220,18 +293,46 @@ public class ItineraryDao extends HttpServlet
 		return returnList;
 	}
 	
-	public ArrayList<String> getTourCities()
+	public ArrayList<String> getCities()
 	{
 		ArrayList<String> returnList = new ArrayList<>();
 
 		try {				
 			conn = DriverManager.getConnection(db_url, db_username, db_password);			
-			pstmt = conn.prepareStatement(getTourCitiesQuery);
+			pstmt = conn.prepareStatement(getCitiesFromToursTourtemplatesHotelsAndVendorsQuery);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next())
 			{								  
 				returnList.add(rs.getString("City"));
+			}
+			conn.close();
+			pstmt.close();
+			rs.close();
+		} catch (Exception e) {
+			System.err.println(e);
+		}	
+		return returnList;
+	}
+	
+	
+	
+	
+	public ArrayList<String> getActivityCityAndCountryByActivityTemplate(String activityTemplate)
+	{
+		ArrayList<String> returnList = new ArrayList<>();
+
+		try {				
+			conn = DriverManager.getConnection(db_url, db_username, db_password);
+			pstmt = conn.prepareStatement(getActivityCityAndCountryByTournameQuery);
+			pstmt.setString(1, activityTemplate);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next())
+			{								  
+				returnList.add(rs.getString("Activity"));
+				returnList.add(rs.getString("City"));
+				returnList.add(rs.getString("Country"));
 			}
 			conn.close();
 			pstmt.close();
@@ -296,8 +397,6 @@ public class ItineraryDao extends HttpServlet
 				temp.add(rs.getString("Travel_Date"));
 				temp.add(rs.getString("Tour"));
 				temp.add(rs.getString("Activity"));
-				temp.add(rs.getString("Vendor"));
-				temp.add(rs.getString("Hotel"));
 				temp.add(rs.getString("City"));
 				temp.add(rs.getString("Country"));
 				returnList.add(temp);
@@ -340,9 +439,9 @@ public class ItineraryDao extends HttpServlet
 	{
 		return itineraryAccommodations;
 	}
-	public static String getItineraryTours()
+	public static String getItineraryActivityTemplates()
 	{
-		return itineraryTours;
+		return itineraryActivityTemplates;
 	}
 	public static String getItineraryVendors()
 	{
@@ -354,9 +453,9 @@ public class ItineraryDao extends HttpServlet
 		return itineraryGetItineraryButton;
 	}
 	
-	public static String getItineraryGetToursButton()
+	public static String getItinerarySearchButton()
 	{
-		return itineraryGetToursButton;
+		return itinerarySearchButton;
 	}
 	public static String getItineraryGetActivityButton()
 	{

@@ -16,8 +16,6 @@
 	
 		// hotel list
 		ArrayList<String> hotels = (ArrayList<String>)request.getAttribute(HotelDao.HOTEL_LIST);
-		if(hotels != null && hotels.size() != 0)
-			Collections.sort(hotels);
 		
 		// vendor list
 		ArrayList<String> vendors = hdao.getVendors();

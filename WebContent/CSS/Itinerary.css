@@ -1,8 +1,9 @@
 @charset "ISO-8859-1";
 
 html, body{
-	overflow: auto !important;
+	overflow: visible !important;
 }
+
 
 #search_box_lastname{
 	float: left;
@@ -50,16 +51,16 @@ html, body{
 	width:38%
 }
 
-.tours{
-	width: 75%;
+.activity_templates{
+	width: 64%;
 }
 
 .vendors{
-	width: 73%;
+	//width: 73%;
 }
 
 .hotels{
-	width: 65.5%;
+	//width: 65.5%;
 }
 
 .text{
@@ -130,7 +131,17 @@ html, body{
 }
 
 .itinerary_div{
-	display: block;
+	//width: 90%;
+
+}
+
+::-webkit-scrollbar { 
+    //display: none; 
+}
+
+#itinerary_div{
+	position: absolute;
+	width: 83%;
 }
 
 .textfield{

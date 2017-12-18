@@ -181,11 +181,11 @@
   
   <context-param>
     <param-name>database.get.hotels.by.country.query</param-name>
-    <param-value>select Hotel from Hotels where Country=?;</param-value>
+    <param-value>select Hotel from Hotels where Country=? order by Hotel;</param-value>
   </context-param>
   <context-param>
     <param-name>database.get.hotels.by.city.query</param-name>
-    <param-value>select Hotel from Hotels where City=?;</param-value>
+    <param-value>select Hotel from Hotels where City=? order by Hotel;</param-value>
   </context-param>
   
   <context-param>
@@ -271,9 +271,6 @@
   </context-param>
   
   
-  
-  
-  
   <context-param>
     <param-name>database.get.agent.countries.query</param-name>
     <param-value>select DISTINCT Country from Agents;</param-value>
@@ -326,26 +323,39 @@
   </context-param>
   
   <context-param>
-    <param-name>database.get.tour.countries.query</param-name>
-    <param-value>select Distinct Country from Tours;</param-value>
+    <param-name>database.get.countries.from.Tours.Tour_Templates.Hotels.and.Vendors.query</param-name>
+    <param-value>select Distinct Country from Tours UNION select Distinct Country from Tour_Templates UNION select Distinct Country from Hotels UNION select Distinct Country from Vendors order by Country;</param-value>
   </context-param>
   
   <context-param>
-    <param-name>database.get.tour.cities.query</param-name>
-    <param-value>select Distinct City from Tours;</param-value>
+    <param-name>database.get.cities.from.Tours.Tour_Templates.Hotels.and.Vendors.query</param-name>
+    <param-value>select Distinct City from Tours UNION select Distinct City from Tour_Templates UNION select Distinct City from Hotels UNION select Distinct City from Vendors order by City;</param-value>
   </context-param>
   
   <context-param>
-    <param-name>database.get.tour.names.by.country.query</param-name>
-    <param-value>select Distinct Tour from Tours where Country = ?;</param-value>
+    <param-name>database.get.activity.templates.by.country.query</param-name>
+    <param-value>select Distinct Tour from Tour_Templates where Country = ? order by Tour;</param-value>
   </context-param>
   
   <context-param>
-    <param-name>database.get.tour.names.by.city.query</param-name>
-    <param-value>select Distinct Tour from Tours where City = ?;</param-value>
+    <param-name>database.get.activity.templates.by.city.query</param-name>
+    <param-value>select Distinct Tour from Tour_Templates where City = ? order by Tour;</param-value>
   </context-param>
   
+  <context-param>
+    <param-name>database.get.tours.from.Tours.and.Tour_Templates.by.country.query</param-name>
+    <param-value>select Distinct Tour from Tours where Country = ? UNION select Distinct Tour from Tour_Templates where Country = ? order by Tour;</param-value>
+  </context-param>
   
+  <context-param>
+    <param-name>database.get.tours.from.Tours.and.Tour_Templates.by.city.query</param-name>
+    <param-value>select Distinct Tour from Tours where city = ? UNION select Distinct Tour from Tour_Templates where city = ? order by Tour;</param-value>
+  </context-param> 
+  
+  <context-param>
+    <param-name>database.get.activity.city.and.country.by.tourName.query</param-name>
+    <param-value>select Activity, City, Country from Tour_Templates where Tour = ?;</param-value>
+  </context-param> 
   
   
   
@@ -915,8 +925,8 @@
   </context-param>
   
   <context-param>
-    <param-name>itinerary.get.tours.button</param-name>
-    <param-value>Get Tours</param-value>
+    <param-name>itinerary.search.button</param-name>
+    <param-value>Search</param-value>
   </context-param>
   
   <context-param>
@@ -951,8 +961,8 @@
   </context-param>
   
   <context-param>
-    <param-name>itinerary.tours</param-name>
-    <param-value>Tours</param-value>
+    <param-name>itinerary.activity.templates</param-name>
+    <param-value>Activity Templates</param-value>
   </context-param>
   
   <context-param>

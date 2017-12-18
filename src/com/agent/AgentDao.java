@@ -223,7 +223,9 @@ public class AgentDao extends HttpServlet
 	public ArrayList<String> getAgents(String country, String city)
 	{		
 		ArrayList<String> returnList = new ArrayList<>();
-
+		
+		country = country.trim();
+		city = city.trim();
 			
 		try {				
 			conn = DriverManager.getConnection(db_url, db_username, db_password);	
