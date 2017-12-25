@@ -357,6 +357,18 @@
     <param-value>select Activity, City, Country from Tour_Templates where Tour = ?;</param-value>
   </context-param> 
   
+  <context-param>
+    <param-name>database.get.land.vouchers.by.customer.id.query</param-name>
+    <param-value>select * from Land_Vouchers where Customer_Id = ?;</param-value>
+  </context-param> 
+  
+  <context-param>
+    <param-name>database.get.hotel.vouchers.by.customer.id.query</param-name>
+    <param-value>select * from Hotel_Vouchers where Customer_Id = ?;</param-value>
+  </context-param> 
+  
+  
+  
   
   
   <context-param>
@@ -955,20 +967,49 @@
     <param-value>Activity</param-value>
   </context-param>
   
+  
+  
+  <context-param>
+    <param-name>itinerary.activity.templates</param-name>
+    <param-value>Activity Templates</param-value>
+  </context-param>
+
+  
+  
+  <context-param>
+    <param-name>itinerary.land.service</param-name>
+    <param-value>Land Service</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>itinerary.vendors</param-name>
+    <param-value>Vendor</param-value>
+  </context-param>
+  
   <context-param>
     <param-name>itinerary.accommodations</param-name>
     <param-value>Accommodations</param-value>
   </context-param>
   
   <context-param>
-    <param-name>itinerary.activity.templates</param-name>
-    <param-value>Activity Templates</param-value>
+    <param-name>itinerary.room.type</param-name>
+    <param-value>Room Type</param-value>
   </context-param>
   
   <context-param>
-    <param-name>itinerary.vendors</param-name>
-    <param-value>Vendors</param-value>
+    <param-name>itinerary.more.land.service.button</param-name>
+    <param-value>More Land Service</param-value>
   </context-param>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   
   

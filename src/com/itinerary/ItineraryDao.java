@@ -44,7 +44,12 @@ public class ItineraryDao extends HttpServlet
 	public final static String GET_TOURS_FROM_TOURS_AND_TOUR_TEMPLATES_BY_COUNTRY_QUERY = "database.get.tours.from.Tours.and.Tour_Templates.by.country.query";
 	public final static String GET_TOURS_FROM_TOURS_AND_TOUR_TEMPLATES_BY_CITY_QUERY = "database.get.tours.from.Tours.and.Tour_Templates.by.city.query";
 	
-	public final static String GET_ACTIVITY_CITY_AND_COUNTRY_BY_TOURNAME_QUERY = "database.get.activity.city.and.country.by.tourName.query";
+	public final static String GET_ACTIVITY_CITY_AND_COUNTRY_BY_TOURNAME_QUERY = "database.get.activity.city.and.country.by.tourName.query";	
+	
+	public final static String GET_LAND_VOUCHERS_BY_CUSTOMER_ID_QUERY = "database.get.land.vouchers.by.customer.id.query";
+	public final static String GET_HOTEL_VOUCHERS_BY_CUSTOMER_ID_QUERY = "database.get.hotel.vouchers.by.customer.id.query";
+	
+	
 	
 	// failed
 	
@@ -54,14 +59,17 @@ public class ItineraryDao extends HttpServlet
 	public final static String ITINERARY_HOTEL_CITY = "itinerary.hotel.city";
 	public final static String ITINERARY_DAY = "itinerary.day";
 	public final static String ITINERARY_ACTIVITY = "itinerary.activity";
-	public final static String ITINERARY_ACCOMMODATIONS = "itinerary.accommodations";
 	public final static String ITINERARY_ACTIVITY_TEMPLATES = "itinerary.activity.templates";
+	public final static String ITINERARY_LAND_SERVICE = "itinerary.land.service";
 	public final static String ITINERARY_VENDORS = "itinerary.vendors";
+	public final static String ITINERARY_ACCOMMODATIONS = "itinerary.accommodations";
+	public final static String ITINERARY_ROOM_TYPE = "itinerary.room.type";
 	
 	// button
 	public final static String ITINERARY_GET_ITINERARY_BUTTON = "itinerary.get.itinerary.button";
 	public final static String ITINERARY_SEARCH_BUTTON = "itinerary.search.button";
 	public final static String ITINERARY_GET_ACTIVITY_BUTTON = "itinerary.get.activity.button";
+	public final static String ITINERARY_MORE_LAND_SERVICE_BUTTON = "itinerary.more.land.service.button";
 	
 	// message
 
@@ -94,6 +102,9 @@ public class ItineraryDao extends HttpServlet
 	
 	private static String getActivityCityAndCountryByTournameQuery;
 	
+	private static String getLandVouchersByCustomerIdQuery;
+	private static String getHotelVouchersByCustomerIdQuery;
+	
 	// failed
 	public final static String ITINERARY_FAILED = "itinerary.failed";
 	
@@ -102,14 +113,19 @@ public class ItineraryDao extends HttpServlet
 	private static String itineraryHotelCity;
 	private static String itineraryDay;
 	private static String itineraryActivity;
-	private static String itineraryAccommodations;
+	
 	private static String itineraryActivityTemplates;
+	
+	private static String itineraryLandService;
 	private static String itineraryVendors;
+	private static String itineraryAccommodations;
+	private static String itineraryRoomType;
 
 	// button
 	private static String itineraryGetItineraryButton;
 	private static String itinerarySearchButton;
 	private static String itineraryGetActivityButton;
+	private static String itineraryMoreLandServiceButton;
 	
 	// message
 
@@ -143,22 +159,30 @@ public class ItineraryDao extends HttpServlet
 			
 			getActivityCityAndCountryByTournameQuery = sc.getInitParameter(GET_ACTIVITY_CITY_AND_COUNTRY_BY_TOURNAME_QUERY);
 			
+			getLandVouchersByCustomerIdQuery = sc.getInitParameter(GET_LAND_VOUCHERS_BY_CUSTOMER_ID_QUERY);
+			getHotelVouchersByCustomerIdQuery = sc.getInitParameter(GET_HOTEL_VOUCHERS_BY_CUSTOMER_ID_QUERY);
+			
 			// failed
 			
 			// itinerary variables
 			itineraryHotelCountry = sc.getInitParameter(ITINERARY_HOTEL_COUNTRY);
 			itineraryHotelCity = sc.getInitParameter(ITINERARY_HOTEL_CITY);
 			itineraryDay = sc.getInitParameter(ITINERARY_DAY);
-			itineraryActivity = sc.getInitParameter(ITINERARY_ACTIVITY);
-			itineraryAccommodations = sc.getInitParameter(ITINERARY_ACCOMMODATIONS);
+			itineraryActivity = sc.getInitParameter(ITINERARY_ACTIVITY);			
 			itineraryActivityTemplates = sc.getInitParameter(ITINERARY_ACTIVITY_TEMPLATES);
+			
+			
+			itineraryLandService = sc.getInitParameter(ITINERARY_LAND_SERVICE);
 			itineraryVendors = sc.getInitParameter(ITINERARY_VENDORS);
+			itineraryAccommodations = sc.getInitParameter(ITINERARY_ACCOMMODATIONS);
+			itineraryRoomType = sc.getInitParameter(ITINERARY_ROOM_TYPE);
 			
 			// button
 			itineraryGetItineraryButton = sc.getInitParameter(ITINERARY_GET_ITINERARY_BUTTON);
 			itinerarySearchButton = sc.getInitParameter(ITINERARY_SEARCH_BUTTON);
 			itineraryGetActivityButton = sc.getInitParameter(ITINERARY_GET_ACTIVITY_BUTTON);
-			 
+			itineraryMoreLandServiceButton = sc.getInitParameter(ITINERARY_MORE_LAND_SERVICE_BUTTON);
+			
 			// message
 
 			
@@ -172,6 +196,75 @@ public class ItineraryDao extends HttpServlet
 			System.err.println(e);
 		}
 	}
+	
+	
+	public ArrayList<ArrayList<String>> getLandVouchers(String customerId)
+	{
+		ArrayList<ArrayList<String>> returnList = new ArrayList<>();
+
+		try {				
+			conn = DriverManager.getConnection(db_url, db_username, db_password);			
+			pstmt = conn.prepareStatement(getLandVouchersByCustomerIdQuery);
+			pstmt.setString(1, customerId);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next())
+			{			
+				ArrayList<String> temp = new ArrayList<>();
+				temp.add(rs.getString("Customer_Id"));
+				temp.add(rs.getString("Service_Date"));
+				temp.add(rs.getString("Service"));
+				temp.add(rs.getString("Vendor"));
+				temp.add(rs.getString("Breakfast"));
+				temp.add(rs.getString("Lunch"));
+				temp.add(rs.getString("Dinner"));
+				temp.add(rs.getString("City"));
+				temp.add(rs.getString("Country"));
+		
+				returnList.add(temp);
+			}
+			conn.close();
+			pstmt.close();
+			rs.close();
+		} catch (Exception e) {
+			System.err.println(e);
+		}	
+		return returnList;
+	}
+	
+	public ArrayList<ArrayList<String>> getHotelVouchers(String customerId)
+	{
+		ArrayList<ArrayList<String>> returnList = new ArrayList<>();
+
+		try {				
+			conn = DriverManager.getConnection(db_url, db_username, db_password);			
+			pstmt = conn.prepareStatement(getHotelVouchersByCustomerIdQuery);
+			pstmt.setString(1, customerId);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next())
+			{			
+				ArrayList<String> temp = new ArrayList<>();
+				temp.add(rs.getString("Customer_Id"));
+				temp.add(rs.getString("Service_Date"));
+				temp.add(rs.getString("Hotel"));
+				temp.add(rs.getString("Breakfast"));
+				temp.add(rs.getString("Lunch"));
+				temp.add(rs.getString("Dinner"));
+				temp.add(rs.getString("City"));
+				temp.add(rs.getString("Country"));
+		
+				returnList.add(temp);
+			}
+			conn.close();
+			pstmt.close();
+			rs.close();
+		} catch (Exception e) {
+			System.err.println(e);
+		}	
+		return returnList;
+	}
+	
 	
 	
 	public ArrayList<String> getActivityTemplates(String country, String city)
@@ -381,9 +474,9 @@ public class ItineraryDao extends HttpServlet
 	}
 	
 	
-	public ArrayList<ArrayList<String>> getToursByCustomerId(String customerId)
+	public ArrayList<Object> getToursByCustomerId(String customerId)
 	{
-		ArrayList<ArrayList<String>> returnList = new ArrayList<>();
+		ArrayList<Object> returnList = new ArrayList<>();
 
 		try {				
 			conn = DriverManager.getConnection(db_url, db_username, db_password);			
@@ -435,18 +528,30 @@ public class ItineraryDao extends HttpServlet
 	{
 		return itineraryActivity;
 	}
-	public static String getItineraryAccommodations()
-	{
-		return itineraryAccommodations;
-	}
 	public static String getItineraryActivityTemplates()
 	{
 		return itineraryActivityTemplates;
+	}
+	
+	public static String getItineraryLandService()
+	{
+		return itineraryLandService;
 	}
 	public static String getItineraryVendors()
 	{
 		return itineraryVendors;
 	}
+	public static String getItineraryAccommodations()
+	{
+		return itineraryAccommodations;
+	}
+	public static String getItineraryRoomType()
+	{
+		return itineraryRoomType;
+	}
+	
+	
+	
 	// button
 	public static String getItineraryGetItineraryButton()
 	{
@@ -461,6 +566,11 @@ public class ItineraryDao extends HttpServlet
 	{
 		return itineraryGetActivityButton;
 	}
+	public static String getItineraryMoreLandServiceButton()
+	{
+		return itineraryMoreLandServiceButton;
+	}
+	
 	
 	// message
 

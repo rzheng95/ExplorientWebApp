@@ -47,17 +47,21 @@
 		// itinerary variables
 		String day = ItineraryDao.getItineraryDay();
 		String activity = ItineraryDao.getItineraryActivity();
-		String accommodations = ItineraryDao.getItineraryAccommodations();
 		String activityTemplates = ItineraryDao.getItineraryActivityTemplates();
+		
+		String landService = ItineraryDao.getItineraryLandService();
 		String vendors = ItineraryDao.getItineraryVendors();
+		String accommodations = ItineraryDao.getItineraryAccommodations();
+		String roomType = ItineraryDao.getItineraryRoomType();
 		
 		// itinerary button
 		String searchButton = ItineraryDao.getItinerarySearchButton();
 		String getActivityButton = ItineraryDao.getItineraryGetActivityButton();
+		String moreLandServiceButton = ItineraryDao.getItineraryMoreLandServiceButton();
 		
 		// hotel search textfields
-		String hotelCountry = ItineraryDao.getItineraryHotelCountry();
-		String hotelCity = ItineraryDao.getItineraryHotelCity();
+		String landServiceCountry = ItineraryDao.getItineraryHotelCountry();
+		String landServiceCity = ItineraryDao.getItineraryHotelCity();
 		String searchCountry = ItineraryDao.getItineraryHotelCountry();
 		String searchCity = ItineraryDao.getItineraryHotelCity();
 		
@@ -67,7 +71,7 @@
 		
 		
 		// get tour list
-		ArrayList<ArrayList<String>> tourList = (ArrayList<ArrayList<String>>)request.getAttribute(ItineraryDao.TOUR_LIST);
+		ArrayList<Object> tourList = (ArrayList<Object>)request.getAttribute(ItineraryDao.TOUR_LIST);
 		
 		// get tour name list
 		ArrayList<ArrayList<String>> tourNameList = (ArrayList<ArrayList<String>>)request.getAttribute(ItineraryDao.TOUR_NAME_LIST);
@@ -205,30 +209,31 @@
 					<table style="width:100%">
 						 <colgroup>
 						    <col style="width:10%">
-						    <col style="width:90%">
+						    <col style="width:45%">
+						    <col style="width:45%">
 						  </colgroup>  
 					  <tr>
-					    <th>Day</th>
-					    <th>Activity Summary</th>
+					  	<th>Day</th>
+					  	<th colspan="2">Activity Summary</th>
 					  </tr>
 					  
 					  <% if(tourList != null && !tourList.isEmpty()){ %> 
 							<% for(int i=0; i < tourList.size(); i++) { %>
-								<% String dayValue = tourList.get(i).get(Itinerary.TRAVEL_DATE); %>
+								<% ArrayList<Object> currentTour =  (ArrayList<Object>) tourList.get(i); %>
+								
+								<% String dayValue = currentTour.get(Itinerary.TRAVEL_DATE).toString(); %>
 								<% String activityTemplatesValue = ""; %>
 								<% String activityValue = ""; %>	
 								<% String searchCityValue = ""; %>						
 								<% String searchCountryValue = ""; %>
+								<% int landServiceSize = 1; %>
+							
+								<% if(currentTour.size() > Itinerary.ACTIVITY_TEMPLATE) activityTemplatesValue = currentTour.get(Itinerary.ACTIVITY_TEMPLATE).toString(); %>
+								<% if(currentTour.size() > Itinerary.ACTIVITY) activityValue = currentTour.get(Itinerary.ACTIVITY).toString(); %>
+								<% if(currentTour.size() > Itinerary.CITY) searchCityValue = currentTour.get(Itinerary.CITY).toString(); %>
+								<% if(currentTour.size() > Itinerary.COUNTRY) searchCountryValue = currentTour.get(Itinerary.COUNTRY).toString(); %>
+								<% if(currentTour.size() > Itinerary.LAND_VOUCHERS && currentTour.get(Itinerary.LAND_VOUCHERS) instanceof ArrayList) landServiceSize = ((ArrayList<String>) currentTour.get(Itinerary.LAND_VOUCHERS)).size(); %>
 								
-
-								<% if(tourList.get(i).size() == Itinerary.TOUR_LIST_SIZE) { %>
-									<% activityTemplatesValue = tourList.get(i).get(Itinerary.ACTIVITY_TEMPLATE); %>
-									<% activityValue = tourList.get(i).get(Itinerary.ACTIVITY); %>
-									<% searchCityValue = tourList.get(i).get(Itinerary.CITY); %>
-									<% searchCountryValue = tourList.get(i).get(Itinerary.COUNTRY); %>
-									
-									
-								<%}%>
 								
  							  
 							  <tr>
@@ -239,24 +244,25 @@
 								
 							   
 								
-							    <td>						
-								    	<div class="div_width search_div" >
+							    <td colspan="2">						
+								    	<div class="search_div full_width_div" >
 								    		
-									    	<select class="editable-select countries" name="<%=searchCountry+i %>" value="<%=searchCountryValue%>" placeholder="Country">
+									    	<select class="float_left editable-select countries" name="<%=searchCountry+i %>" value="<%=searchCountryValue%>" placeholder="Country">
 										    	<% for(int t=0; t < tourCountries.size(); t++) { %>
 													<option class="selected"><%=tourCountries.get(t) %></option>
 												<% } %>	
 									    	</select>
-									    	<select class="editable-select cities" name="<%=searchCity+i %>"  value="<%=searchCityValue %>" placeholder="City">
+									    	<select class="float_left editable-select cities" name="<%=searchCity+i %>"  value="<%=searchCityValue %>" placeholder="City">
 									    		<% for(int c=0; c < tourCities.size(); c++) { %>
 													<option class="selected"><%=tourCities.get(c) %></option>
 												<% } %>
 									    	</select>
-									    	<input type="submit" class="itinerary_buttons" id="search" name="<%=searchButton+i %>" value="<%=searchButton%>">
+									    	<input type="submit" class="float_left itinerary_buttons search_buttons" id="search" name="<%=searchButton+i %>" value="<%=searchButton%>">
 								    	</div>
 								    	
-								    	<div class="div_width activity_template_div">
-									    	<span class="text"><%=activityTemplates %>: </span><select class="editable-select activity_templates"  name="<%=activityTemplates+i %>" value="<%=activityTemplatesValue %>" >
+								    	<div class="activity_template_div full_width_div">
+									    	<div class="float_left text"><%=activityTemplates %>: </div>
+									    	<select class="float_left editable-select activity_templates"  name="<%=activityTemplates+i %>" value="<%=activityTemplatesValue %>" >
 												<%if(activityTemplateList != null && !activityTemplateList.isEmpty()) { %>
 													<% for(int j=0; j < activityTemplateList.size(); j++) { %>
 														<option class="selected"><%=activityTemplateList.get(j) %></option>
@@ -264,7 +270,7 @@
 												<% } %>
 									    		
 									    	</select>
-									    	<input type="submit" class="itinerary_buttons" id="getActivity" name="<%=getActivityButton+i %>" value="<%=getActivityButton%>">
+									    	<input type="submit" class="float_left itinerary_buttons get_activity_buttons" id="getActivity" name="<%=getActivityButton+i %>" value="<%=getActivityButton%>">
 								    	</div>
 	    	
 
@@ -272,20 +278,24 @@
 							  </tr>
 							  
 							  
-							  
-							  
-							  
-							  
-							  
-							  
+					  
 							  <tr>
-							  	  <td><textarea class="textfield" name="<%=activity+i %>" placeholder="<%=activity+" for "+dayValue %>"><%=activityValue %></textarea></td>
+							  	  <td colspan="2"><textarea class="textfield" name="<%=activity+i %>" placeholder="<%=activity+" for "+dayValue %>"><%=activityValue %></textarea></td>
 							  </tr>
+			
+			
+			
 							  
 							  <tr>		  	
 							    <td>	  
-							    	<div class="div_width service_and_vendor_div">
-								    		<span class="text">Land Service 1: </span><select class="editable-select tourName"  name="tourName1" value="" >
+							    
+							     <% //if(tourList != null && !tourList.isEmpty()) { %> 
+							    	 <% for(int l=0; l < landServiceSize; l++)  { %>
+							    	
+								    	<div class="service_div full_width_div">
+											
+								    		<div class="float_left text larger_width_text"><%=landService+" "+(l+1) %>: </div>
+								    		<select class="float_left larger_width_textfield editable-select land_services"  name="<%=l+landService+i %>" value="" >
 												<%if(tourNameList != null && !tourNameList.isEmpty()) { %>
 													<% for(int j=0; j < tourNameList.size(); j++) { %>
 														<option class="selected"><%=tourNameList.get(j) %></option>
@@ -293,8 +303,11 @@
 												<% } %>
 									    		
 									    	</select>
-								    		
-								    		<span class="text">Vendor 1: </span><select class="editable-select vendors"  name="<%=vendors+i %>" value="" >
+								    	</div> 
+								    	
+								    	<div class="vendor_div full_width_div">
+								    		<div class="float_left text larger_width_text"><%=vendors+" "+(l+1) %>: </div>
+								    		<select class="float_left larger_width_textfield editable-select vendors"  name="<%=l+vendors+i %>" value="" >
 												<%if(vendorList != null && !vendorList.isEmpty()) { %>
 													<% for(int j=0; j < vendorList.size(); j++) { %>
 														<option class="selected"><%=vendorList.get(j) %></option>
@@ -302,23 +315,15 @@
 												<% } %>
 									    		
 									    	</select>
-									    	
-									    	
-									    	<select class="editable-select countries" name="<%=searchCountry+i %>" value="<%=searchCountryValue%>" placeholder="Country">
-										    	<% for(int t=0; t < tourCountries.size(); t++) { %>
-													<option class="selected"><%=tourCountries.get(t) %></option>
-												<% } %>	
-									    	</select>
-									    	<select class="editable-select cities" name="<%=searchCity+i %>"  value="<%=searchCityValue %>" placeholder="City">
-									    		<% for(int c=0; c < tourCities.size(); c++) { %>
-													<option class="selected"><%=tourCities.get(c) %></option>
-												<% } %>
-									    	</select>
-									    	
-									    	
-								    	</div>  	
-							    	<div class="accommodations_div">
-								    	<span class="text">Accommodations: </span> <select class="editable-select hotels"  name="<%=accommodations+i %>" value="" >
+										</div>		
+									
+									<% } %>	    	
+								     	
+								    <div class="full_width_div"><input type="submit" class="itinerary_buttons more_land_service_button" name="<%=moreLandServiceButton+i %>" value="<%=moreLandServiceButton %>"></div>
+		    		
+							    	<div class="accommodations_div full_width_div">
+								    	<div class="float_left text larger_width_text"><%=accommodations %>: </div> 
+								    	<select class="float_left larger_width_textfield editable-select hotels"  name="<%=accommodations+i %>" value="" >
 											<%if(hotelList != null && !hotelList.isEmpty()) { %>
 												<% for(int j=0; j < hotelList.size(); j++) { %>
 													<option class="selected"><%=hotelList.get(j) %></option>
@@ -327,7 +332,44 @@
 								    		
 								    	</select>
 								    	
-								    	<span class="text">Room type: </span> <select class="editable-select room_type"  name="<%=accommodations+i %>" value="" >
+							    	</div>
+							    	
+							    </td>
+							    
+							    
+							    
+							    <td>
+							    
+							    	<% //if(tourList != null && !tourList.isEmpty()) { %> 
+							    	 	<% for(int l=0; l < landServiceSize; l++)  { %>
+							    	 	
+									    	<div class="land_country_div full_width_div">
+										    	<div class="float_left text larger_width_text"><%=landServiceCity+" "+(l+1) %>: </div> 
+										    	<select class="float_left larger_width_textfield editable-select land_service_city" name="<%=l+landServiceCity+i %>"  value="" >
+											    		<% for(int c=0; c < tourCities.size(); c++) { %>
+															<option class="selected"><%=tourCities.get(c) %></option>
+														<% } %>
+											    </select>
+											    	
+										    	
+										    </div>
+										    
+										    <div class="land_city_div full_width_div">							    
+										    	<div class="float_left text larger_width_text"><%=landServiceCountry+" "+(l+1) %>: </div> 
+										    	<select class="float_left larger_width_textfield editable-select land_service_country" name="<%=l+landServiceCountry+i %>" value="" >
+											    	<% for(int t=0; t < tourCountries.size(); t++) { %>
+														<option class="selected"><%=tourCountries.get(t) %></option>
+													<% } %>	
+										    	</select>						    
+										    </div>
+								    
+								    <% } %>
+								    
+								    <div class="full_width_div"><input type="submit" class="itinerary_buttons more_land_service_button" name="<%=moreLandServiceButton+i %>" value="<%=moreLandServiceButton %>"></div>
+								    
+								    <div class="room_type_div full_width_div">
+								    	<div class="float_left text larger_width_text"><%=roomType %>: </div> 
+								    	<select class="float_left larger_width_textfield editable-select room_type"  name="<%=roomType+i %>" value="" >
 											<%if(hotelList != null && !hotelList.isEmpty()) { %>
 												<% for(int j=0; j < hotelList.size(); j++) { %>
 													<option class="selected"><%=hotelList.get(j) %></option>
@@ -335,9 +377,10 @@
 											<% } %>
 								    		
 								    	</select>
-							    	</div>
-							    	
+								    
+								    </div>
 							    </td>
+							    
 							  </tr>
 							  
 					  <% } }%>

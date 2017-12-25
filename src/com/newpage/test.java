@@ -18,12 +18,25 @@ public class test {
 		else
 			System.out.println("no");
 
-		ArrayList<String> x = new ArrayList<>();
+
 		
-		x.add(0, "one");
-		x.add(5, "five");
+
+		ArrayList<Integer> test = new ArrayList<>();
+		test.add(0);
+		test.add(1);
+		test.add(2);
+		test.add(3);
+		test.add(4);
 		
-		System.out.println(x.get(0));
+		for(int i=0; i<test.size(); i++)
+		{
+			if(i != test.size()-1 && test.get(i) == 0)
+			{
+				test.remove(i);
+				//i--;
+			}
+			System.out.println(test.get(i));
+		}
 		
 
 	}

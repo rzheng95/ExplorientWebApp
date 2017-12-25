@@ -23,12 +23,37 @@ public class Itinerary extends HttpServlet {
 	private final int RETURN_DATE = 1;
 	
 	
-	public final static int TOUR_LIST_SIZE = 5;
+	public final static int TOUR_LIST_SIZE = 7;
 	public final static int TRAVEL_DATE = 0;
 	public final static int ACTIVITY_TEMPLATE = 1;
 	public final static int ACTIVITY = 2;
 	public final static int CITY = 3;
 	public final static int COUNTRY = 4;
+	public final static int LAND_VOUCHERS = 5;
+	public final static int HOTEL_VOUCHERS = 6;
+	
+	
+	public final static int LAND_VOUCHER_LIST_SIZE = 9;
+	public final static int LAND_VOUCHER_CUSTOMER_ID = 0;
+	public final static int LAND_VOUCHER_SERVICE_DATE = 1;
+	public final static int LAND_VOUCHER_SERVICE = 2;
+	public final static int LAND_VOUCHER_VENDOR = 3;
+	public final static int LAND_VOUCHER_BREAKFAST = 4;
+	public final static int LAND_VOUCHER_LUNCH = 5;
+	public final static int LAND_VOUCHER_DINNER = 6;
+	public final static int LAND_VOUCHER_CITY = 7;
+	public final static int LAND_VOUCHER_COUNTRY = 8;
+	
+	
+	public final static int HOTEL_VOUCHER_LIST_SIZE = 8;
+	public final static int HOTEL_VOUCHER_CUSTOMER_ID = 0;
+	public final static int HOTEL_VOUCHER_SERVICE_DATE = 1;
+	public final static int HOTEL_VOUCHER_HOTEL = 2;
+	public final static int HOTEL_VOUCHER_BREAKFAST = 3;
+	public final static int HOTEL_VOUCHER_LUNCH = 4;
+	public final static int HOTEL_VOUCHER_DINNER = 5;
+	public final static int HOTEL_VOUCHER_CITY = 6;
+	public final static int HOTEL_VOUCHER_COUNTRY = 7;
 	
 	private String customerId;
 	private String searchBoxLastname;
@@ -39,6 +64,7 @@ public class Itinerary extends HttpServlet {
 	private String getItineraryButton;
 	private String searchButton;
 	private String getActivityButton;
+	private String moreLandServiceButton;
 	
 	private String searchCountry;
 	private String searchCity;
@@ -49,15 +75,21 @@ public class Itinerary extends HttpServlet {
 	private HotelDao hdao;
 	private VendorDao vdao;
 	
-	private ArrayList<ArrayList<String>> tourList;
+	private ArrayList<Object> tourList;
+	private ArrayList<ArrayList<String>> landVouchers;
+	private ArrayList<ArrayList<String>> hotelVouchers;
 	private ArrayList<String> dates;
 	private boolean buttonClicked;
 	
 	private String day;
 	private String activity;
-	private String accommodations;
 	private String activityTemplates;
+	
+	private String landService;
 	private String vendors;
+	private String accommodations;
+	private String roomType;
+	
 
 	private int daysBetweenDates;
 
@@ -88,6 +120,7 @@ public class Itinerary extends HttpServlet {
 		getItineraryButton = ItineraryDao.getItineraryGetItineraryButton();
 		searchButton = ItineraryDao.getItinerarySearchButton();
 		getActivityButton = ItineraryDao.getItineraryGetActivityButton();
+		moreLandServiceButton = ItineraryDao.getItineraryMoreLandServiceButton();
 		
 		// itinerary variables
 		day = ItineraryDao.getItineraryDay();
@@ -95,6 +128,8 @@ public class Itinerary extends HttpServlet {
 		accommodations = ItineraryDao.getItineraryAccommodations();
 		activityTemplates = ItineraryDao.getItineraryActivityTemplates();
 		vendors = ItineraryDao.getItineraryVendors();
+		landService = ItineraryDao.getItineraryLandService();
+		roomType = ItineraryDao.getItineraryRoomType();
 		
 		// hotel search textfields
 		searchCountry = ItineraryDao.getItineraryHotelCountry();
@@ -206,48 +241,87 @@ public class Itinerary extends HttpServlet {
 			// customerId exists
 			else
 			{
-				ArrayList<ArrayList<String>> returnTourList = new ArrayList<>();
+				ArrayList<Object> returnTourList = new ArrayList<>();
 				
 				// get all the tours with the customerId given
 				tourList = idao.getToursByCustomerId(customerId);
-	
-		 		
+				
+				// get land vouchers
+				landVouchers = idao.getLandVouchers(customerId);
+				
+				// get hotel vouchers
+				hotelVouchers = idao.getHotelVouchers(customerId);
+			 		
 		 		// starting day, first day, also the departure day
 		 		LocalDate day = LocalDate.parse(dates.get(DEPARTURE_DATE));
 		 		
+
 		 		// loop total travel days times
 		 		for(int i=0; i <= daysBetweenDates; i++) 
 		 		{
 		 			boolean found = false;
 		 			ArrayList<String> emptyTour = new ArrayList<>();
+		 			emptyTour.add(day.toString().trim());
 		 			
-		 			// loop through the existing tours or previously added tours in the database
-		 			for(int j=0; j < tourList.size(); j++)
+		 			// loop through tourList
+		 			for(int t=0; t < tourList.size(); t++)
 		 			{
-			 			// check if the dates are the same
-			 			if(day.equals(LocalDate.parse(tourList.get(j).get(TRAVEL_DATE))))
+		 				ArrayList<Object> currentTour =  (ArrayList<Object>) tourList.get(t);
+		 				
+		 				String travelDate = (String) currentTour.get(TRAVEL_DATE);
+
+		 				// merge if travel_date is matched
+		 				if(day.equals(LocalDate.parse( travelDate )))
 			 			{
-			 				returnTourList.add(tourList.get(j));
+		 					ArrayList<ArrayList<String>> temp = new ArrayList<>();
+				 			// loop through land vouchers
+				 			for(int l=0; l < landVouchers.size(); l++)
+				 			{	 				
+				 				ArrayList<String> currentLandVoucher = landVouchers.get(l);
+					 			// merge if land service_date is matched
+					 			if(day.equals(LocalDate.parse(currentLandVoucher.get(LAND_VOUCHER_SERVICE_DATE))))
+					 			{
+					 				temp.add(landVouchers.remove(l));
+					 				l--;
+					 			}
+				 			}
+				 			
+				 			if(!temp.isEmpty()) currentTour.add(temp);	
+		 					
+		 					temp = new ArrayList<>();
+				 			// loop through hotel vouchers
+				 			for(int h=0; h < hotelVouchers.size(); h++)
+				 			{
+				 				ArrayList<String> currentHotelVoucher = hotelVouchers.get(h);
+					 			// merge if hotel service_date is matched
+					 			if(day.equals(LocalDate.parse(currentHotelVoucher.get(HOTEL_VOUCHER_SERVICE_DATE))))
+					 			{
+					 				temp.add(hotelVouchers.remove(h));
+					 				h--;
+					 			}
+				 			}
+				 			
+				 			if(!temp.isEmpty()) currentTour.add(temp);		
+			 				returnTourList.add(currentTour);
 			 				found = true;
+			 				break;
 			 			}
+		 				
 		 			}
+		 			if(!found) returnTourList.add(emptyTour);
 		 			
-		 			// if tour can not be found, add empty tour & the date
-		 			if(!found)
-		 			{
-			 			emptyTour.add(day.toString().trim());
-			 			returnTourList.add(emptyTour);
-		 			}
+
 		 			// increment day
 		 			day = day.plusDays(1);
 		 		}
+	 			System.out.println(returnTourList);
 		 			 		
 		 		tourList = returnTourList;		
 				request.setAttribute(ItineraryDao.TOUR_LIST, tourList);
 			}
 		}
 		
-		
+
 
 		// check if tourList is empty
 		if(!buttonClicked && tourList != null && !tourList.isEmpty())
@@ -258,7 +332,7 @@ public class Itinerary extends HttpServlet {
 			for(int i=0; i<tourList.size(); i++)
 			{
 				
-				// one of the search button clicked
+				// one of the search buttons clicked
 				if(request.getParameter(searchButton+i) != null)
 				{
 					buttonClicked = true;
@@ -274,7 +348,7 @@ public class Itinerary extends HttpServlet {
 					break;
 				}
 				
-				// one of the get activity button clicked
+				// one of the get activity buttons clicked
 				if(request.getParameter(getActivityButton+i) != null)
 				{
 					buttonClicked = true;
@@ -299,6 +373,13 @@ public class Itinerary extends HttpServlet {
 					break;
 				}
 				
+				// one of the MoreLandService buttons clicked
+				if(request.getParameter(moreLandServiceButton) != null)
+				{
+					buttonClicked = true;
+					
+					
+				}
 				
 			}
 			
@@ -312,13 +393,12 @@ public class Itinerary extends HttpServlet {
 			}
 
 			// entered tour list
+			System.out.println(enteredTourList);
 			request.setAttribute(ItineraryDao.TOUR_LIST, enteredTourList);
 			
 		}
 		
-		
 
-		
 		// customer ID search box entered values
 		request.setAttribute(ItineraryDao.ITINERARY, 
 				 searchBoxLastname+ItineraryDao.EQUAL+

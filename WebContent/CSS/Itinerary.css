@@ -39,36 +39,60 @@ html, body{
 	overflow: auto;
 }
 
-.div_width{
-	width: 55%;
+.full_width_div{
+	width: 100%;
+	overflow: auto;
 }
 
+.float_left{
+	float: left;
+}
+
+
 .countries{
-	width:38%
+	width:20%
 }
 
 .cities{
-	width:38%
+	width:20%
 }
 
-.activity_templates{
-	width: 64%;
+.search_buttons{
+	width: 10%;
 }
 
-.vendors{
-	//width: 73%;
-}
-
-.hotels{
-	//width: 65.5%;
-}
 
 .text{
 	padding-top: 1em;
 	font-size: 1em;
 	font-family: "Times New Roman";
 	color: #e2c04b;
+	width: 10%;
 }
+
+
+.activity_templates{
+	width: 32.7%;
+}
+
+.get_activity_buttons{
+	width: 10%;
+}
+
+
+
+.larger_width_text{
+	width: 20%;
+}
+
+.larger_width_textfield{
+	width: 73%;
+}
+
+.more_land_service_button{
+	float: right;
+}
+
 
 
 .days{
@@ -115,6 +139,7 @@ html, body{
 	padding: 0.5em 1em 0.5em 1em; 
 	font-size: 0.7em;
 	font-weight: bold;
+	margin: 1.5em 0 0 1em;
 }
 
 .fieldset{
