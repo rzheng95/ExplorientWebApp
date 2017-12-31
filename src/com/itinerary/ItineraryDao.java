@@ -65,11 +65,22 @@ public class ItineraryDao extends HttpServlet
 	public final static String ITINERARY_ACCOMMODATIONS = "itinerary.accommodations";
 	public final static String ITINERARY_ROOM_TYPE = "itinerary.room.type";
 	
+	public final static String ITINERARY_LAND_BREAKFAST = "itinerary.land.breakfast";
+	public final static String ITINERARY_LAND_LUNCH = "itinerary.land.lunch";
+	public final static String ITINERARY_LAND_DINNER = "itinerary.land.dinner";
+	
+	public final static String ITINERARY_HOTEL_BREAKFAST = "itinerary.hotel.breakfast";
+	public final static String ITINERARY_HOTEL_LUNCH = "itinerary.hotel.lunch";
+	public final static String ITINERARY_HOTEL_DINNER = "itinerary.hotel.dinner";
+	
+	
+	
 	// button
 	public final static String ITINERARY_GET_ITINERARY_BUTTON = "itinerary.get.itinerary.button";
 	public final static String ITINERARY_SEARCH_BUTTON = "itinerary.search.button";
 	public final static String ITINERARY_GET_ACTIVITY_BUTTON = "itinerary.get.activity.button";
 	public final static String ITINERARY_MORE_LAND_SERVICE_BUTTON = "itinerary.more.land.service.button";
+	public final static String ITINERARY_MORE_HOTEL_SERVICE_BUTTON = "itinerary.more.hotel.service.button";
 	
 	// message
 
@@ -113,19 +124,27 @@ public class ItineraryDao extends HttpServlet
 	private static String itineraryHotelCity;
 	private static String itineraryDay;
 	private static String itineraryActivity;
-	
 	private static String itineraryActivityTemplates;
-	
 	private static String itineraryLandService;
 	private static String itineraryVendors;
 	private static String itineraryAccommodations;
 	private static String itineraryRoomType;
+	
+	private static String itineraryLandBreakfast;
+	private static String itineraryLandLunch;
+	private static String itineraryLandDinner;
+	
+	private static String itineraryHotelBreakfast;
+	private static String itineraryHotelLunch;
+	private static String itineraryHotelDinner;
+	
 
 	// button
 	private static String itineraryGetItineraryButton;
 	private static String itinerarySearchButton;
 	private static String itineraryGetActivityButton;
 	private static String itineraryMoreLandServiceButton;
+	private static String itineraryMoreHotelServiceButton;
 	
 	// message
 
@@ -171,17 +190,26 @@ public class ItineraryDao extends HttpServlet
 			itineraryActivity = sc.getInitParameter(ITINERARY_ACTIVITY);			
 			itineraryActivityTemplates = sc.getInitParameter(ITINERARY_ACTIVITY_TEMPLATES);
 			
-			
 			itineraryLandService = sc.getInitParameter(ITINERARY_LAND_SERVICE);
 			itineraryVendors = sc.getInitParameter(ITINERARY_VENDORS);
 			itineraryAccommodations = sc.getInitParameter(ITINERARY_ACCOMMODATIONS);
 			itineraryRoomType = sc.getInitParameter(ITINERARY_ROOM_TYPE);
+			
+			itineraryLandBreakfast = sc.getInitParameter(ITINERARY_LAND_BREAKFAST);
+			itineraryLandLunch = sc.getInitParameter(ITINERARY_LAND_LUNCH);
+			itineraryLandDinner = sc.getInitParameter(ITINERARY_LAND_DINNER);
+			
+			itineraryHotelBreakfast = sc.getInitParameter(ITINERARY_HOTEL_BREAKFAST);
+			itineraryHotelLunch = sc.getInitParameter(ITINERARY_HOTEL_LUNCH);
+			itineraryHotelDinner = sc.getInitParameter(ITINERARY_HOTEL_DINNER);
+			
 			
 			// button
 			itineraryGetItineraryButton = sc.getInitParameter(ITINERARY_GET_ITINERARY_BUTTON);
 			itinerarySearchButton = sc.getInitParameter(ITINERARY_SEARCH_BUTTON);
 			itineraryGetActivityButton = sc.getInitParameter(ITINERARY_GET_ACTIVITY_BUTTON);
 			itineraryMoreLandServiceButton = sc.getInitParameter(ITINERARY_MORE_LAND_SERVICE_BUTTON);
+			itineraryMoreHotelServiceButton = sc.getInitParameter(ITINERARY_MORE_HOTEL_SERVICE_BUTTON);
 			
 			// message
 
@@ -220,6 +248,8 @@ public class ItineraryDao extends HttpServlet
 				temp.add(rs.getString("Dinner"));
 				temp.add(rs.getString("City"));
 				temp.add(rs.getString("Country"));
+				
+
 		
 				returnList.add(temp);
 			}
@@ -251,8 +281,6 @@ public class ItineraryDao extends HttpServlet
 				temp.add(rs.getString("Breakfast"));
 				temp.add(rs.getString("Lunch"));
 				temp.add(rs.getString("Dinner"));
-				temp.add(rs.getString("City"));
-				temp.add(rs.getString("Country"));
 		
 				returnList.add(temp);
 			}
@@ -550,6 +578,33 @@ public class ItineraryDao extends HttpServlet
 		return itineraryRoomType;
 	}
 	
+	public static String getItineraryLandBreakfast()
+	{
+		return itineraryLandBreakfast;
+	}
+	public static String getItineraryLandLunch()
+	{
+		return itineraryLandLunch;
+	}
+	public static String getItineraryLandDinner()
+	{
+		return itineraryLandDinner;
+	}
+	
+	public static String getItineraryHotelBreakfast()
+	{
+		return itineraryHotelBreakfast;
+	}
+	public static String getItineraryHotelLunch()
+	{
+		return itineraryHotelLunch;
+	}
+	public static String getItineraryHotelDinner()
+	{
+		return itineraryHotelDinner;
+	}
+	
+	
 	
 	
 	// button
@@ -569,6 +624,10 @@ public class ItineraryDao extends HttpServlet
 	public static String getItineraryMoreLandServiceButton()
 	{
 		return itineraryMoreLandServiceButton;
+	}
+	public static String getItineraryMoreHotelServiceButton()
+	{
+		return itineraryMoreHotelServiceButton;
 	}
 	
 	

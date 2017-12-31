@@ -993,7 +993,7 @@
   
   <context-param>
     <param-name>itinerary.room.type</param-name>
-    <param-value>Room Type</param-value>
+    <param-value>Room Category</param-value>
   </context-param>
   
   <context-param>
@@ -1001,13 +1001,40 @@
     <param-value>More Land Service</param-value>
   </context-param>
   
+  <context-param>
+    <param-name>itinerary.more.hotel.service.button</param-name>
+    <param-value>More Hotel Service</param-value>
+  </context-param>
   
+  <context-param>
+    <param-name>itinerary.land.breakfast</param-name>
+    <param-value>Land Breakfast</param-value>
+  </context-param>
   
+  <context-param>
+    <param-name>itinerary.land.lunch</param-name>
+    <param-value>Land Lunch</param-value>
+  </context-param>
   
+  <context-param>
+    <param-name>itinerary.land.dinner</param-name>
+    <param-value>Land Dinner</param-value>
+  </context-param>
   
+  <context-param>
+    <param-name>itinerary.hotel.breakfast</param-name>
+    <param-value>Hotel Breakfast</param-value>
+  </context-param>
   
+  <context-param>
+    <param-name>itinerary.hotel.lunch</param-name>
+    <param-value>Hotel Lunch</param-value>
+  </context-param>
   
-  
+  <context-param>
+    <param-name>itinerary.hotel.dinner</param-name>
+    <param-value>Hotel Dinner</param-value>
+  </context-param>
   
   
   

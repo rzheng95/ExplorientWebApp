@@ -18,7 +18,7 @@ public class test {
 		else
 			System.out.println("no");
 
-
+		boolean x = Boolean.parseBoolean("1");
 		
 
 		ArrayList<Integer> test = new ArrayList<>();

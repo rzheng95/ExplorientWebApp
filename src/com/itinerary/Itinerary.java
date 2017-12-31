@@ -45,29 +45,52 @@ public class Itinerary extends HttpServlet {
 	public final static int LAND_VOUCHER_COUNTRY = 8;
 	
 	
-	public final static int HOTEL_VOUCHER_LIST_SIZE = 8;
+	public final static int HOTEL_VOUCHER_LIST_SIZE = 9;
 	public final static int HOTEL_VOUCHER_CUSTOMER_ID = 0;
 	public final static int HOTEL_VOUCHER_SERVICE_DATE = 1;
 	public final static int HOTEL_VOUCHER_HOTEL = 2;
-	public final static int HOTEL_VOUCHER_BREAKFAST = 3;
-	public final static int HOTEL_VOUCHER_LUNCH = 4;
-	public final static int HOTEL_VOUCHER_DINNER = 5;
-	public final static int HOTEL_VOUCHER_CITY = 6;
-	public final static int HOTEL_VOUCHER_COUNTRY = 7;
+	public final static int HOTEL_VOUCHER_NUMBER_OF_ROOM = 3;
+	public final static int HOTEL_VOUCHER_ROOM_TYPE = 4;
+	public final static int HOTEL_VOUCHER_ROOM_CATEGORY = 5;
+	public final static int HOTEL_VOUCHER_BREAKFAST = 6;
+	public final static int HOTEL_VOUCHER_LUNCH = 7;
+	public final static int HOTEL_VOUCHER_DINNER = 8;
 	
+	// search box variables
 	private String customerId;
 	private String searchBoxLastname;
 	private String departureDateFrom;
 	private String departureDateTo;
 	
+	// buttons
 	private String getCustomerIdsButton;
 	private String getItineraryButton;
 	private String searchButton;
 	private String getActivityButton;
 	private String moreLandServiceButton;
+	private String moreHotelServiceButton;
 	
+	// itinerary variables
 	private String searchCountry;
 	private String searchCity;
+	private String landServiceCountry;
+	private String landServiceCity;
+	private String day;
+	private String activity;
+	private String activityTemplates;
+	private String landService;
+	private String vendors;
+	private String accommodations;
+	private String roomType;
+	
+	private String landBreakfast;
+	private String landLunch;
+	private String landDinner;
+	private String hotelBreakfast;
+	private String hotelLunch;
+	private String hotelDinner;
+	
+	
 	
 	private PassengerDao pdao;
 	private NewpageDao npdao;
@@ -76,21 +99,16 @@ public class Itinerary extends HttpServlet {
 	private VendorDao vdao;
 	
 	private ArrayList<Object> tourList;
+	private ArrayList<Object> enteredTourList;
 	private ArrayList<ArrayList<String>> landVouchers;
 	private ArrayList<ArrayList<String>> hotelVouchers;
+	private ArrayList<String> activityTemplateList;
+	private ArrayList<String> tourNameList;
+	private ArrayList<String> vendorList;
+	private ArrayList<String> hotelList;
+	
 	private ArrayList<String> dates;
 	private boolean buttonClicked;
-	
-	private String day;
-	private String activity;
-	private String activityTemplates;
-	
-	private String landService;
-	private String vendors;
-	private String accommodations;
-	private String roomType;
-	
-
 	private int daysBetweenDates;
 
 	
@@ -121,6 +139,7 @@ public class Itinerary extends HttpServlet {
 		searchButton = ItineraryDao.getItinerarySearchButton();
 		getActivityButton = ItineraryDao.getItineraryGetActivityButton();
 		moreLandServiceButton = ItineraryDao.getItineraryMoreLandServiceButton();
+		moreHotelServiceButton = ItineraryDao.getItineraryMoreHotelServiceButton();
 		
 		// itinerary variables
 		day = ItineraryDao.getItineraryDay();
@@ -131,9 +150,21 @@ public class Itinerary extends HttpServlet {
 		landService = ItineraryDao.getItineraryLandService();
 		roomType = ItineraryDao.getItineraryRoomType();
 		
+		landBreakfast = ItineraryDao.getItineraryLandBreakfast();
+		landLunch = ItineraryDao.getItineraryLandLunch();
+		landDinner = ItineraryDao.getItineraryLandDinner();
+		
+		hotelBreakfast = ItineraryDao.getItineraryHotelBreakfast();
+		hotelLunch = ItineraryDao.getItineraryHotelLunch();
+		hotelDinner = ItineraryDao.getItineraryHotelDinner();
+		
+		
+		
 		// hotel search textfields
 		searchCountry = ItineraryDao.getItineraryHotelCountry();
 		searchCity = ItineraryDao.getItineraryHotelCity();
+		landServiceCountry = ItineraryDao.getItineraryHotelCountry();
+		landServiceCity = ItineraryDao.getItineraryHotelCity();
 		
 		buttonClicked = false;
 		
@@ -149,25 +180,91 @@ public class Itinerary extends HttpServlet {
  		
  		
  		
-		// entered values 
-		ArrayList<ArrayList<String>> enteredTourList = new ArrayList<>();
+		// entered tour list 
+		enteredTourList = new ArrayList<>();
  		
-		for(int i=0; i <= daysBetweenDates; i++)
+		
+		// grab entered info
+		if(tourList != null)
 		{
-	 		ArrayList<String> enteredTour = new ArrayList<>();
-	 		// create empty slots
-	 		for(int j=0; j<Itinerary.TOUR_LIST_SIZE; j++)
-	 		{
-	 			enteredTour.add("");
-	 		}
-
-	 		enteredTour.set(Itinerary.TRAVEL_DATE, request.getParameter(day+i));
-	 		enteredTour.set(Itinerary.ACTIVITY_TEMPLATE, request.getParameter(activityTemplates+i));
-	 		enteredTour.set(Itinerary.ACTIVITY, request.getParameter(activity+i));
-	 		enteredTour.set(Itinerary.CITY, request.getParameter(searchCity+i));
-	 		enteredTour.set(Itinerary.COUNTRY, request.getParameter(searchCountry+i));
-
-			enteredTourList.add(enteredTour);
+			for(int i=0; i <= daysBetweenDates; i++)
+			{
+		 		ArrayList<Object> enteredTour = new ArrayList<>();
+		 		// create empty slots for each tour
+		 		for(int j=0; j<Itinerary.TOUR_LIST_SIZE; j++)
+		 		{
+		 			enteredTour.add("");
+		 		}
+	
+		 		enteredTour.set(Itinerary.TRAVEL_DATE, request.getParameter(day+i));
+		 		enteredTour.set(Itinerary.ACTIVITY_TEMPLATE, request.getParameter(activityTemplates+i));
+		 		enteredTour.set(Itinerary.ACTIVITY, request.getParameter(activity+i));
+		 		enteredTour.set(Itinerary.CITY, request.getParameter(searchCity+i));
+		 		enteredTour.set(Itinerary.COUNTRY, request.getParameter(searchCountry+i));
+		 		
+		 		
+		 		// land and hotel Vouchers
+		 		int landVoucherSize = 0;
+		 		int hotelVoucherSize = 0;
+		 		
+		 		if(tourList != null && !tourList.isEmpty())
+		 		{
+		 			ArrayList<Object> currentTour = (ArrayList<Object>) tourList.get(i);
+		 			
+		 			ArrayList<ArrayList<String>> enteredLandVoucehrs = new ArrayList<>();
+		 			ArrayList<ArrayList<String>> enteredHotelVoucehrs = new ArrayList<>();
+		 			
+		 			if(currentTour.size() > Itinerary.LAND_VOUCHERS)
+		 			{
+		 				// get current land vouchers, each tour might have multiple land vouchers
+		 				ArrayList<ArrayList<String>> currentLandVoucehrs = (ArrayList<ArrayList<String>>)currentTour.get(Itinerary.LAND_VOUCHERS);
+		 				// get current land voucher size 
+		 				landVoucherSize = currentLandVoucehrs.size();
+		 				
+		 				
+			 			for(int l=0; l<landVoucherSize; l++)
+			 			{
+			 				ArrayList<String> temp = new ArrayList<>();
+			 				temp.add(currentLandVoucehrs.get(l).get(Itinerary.LAND_VOUCHER_CUSTOMER_ID));
+			 				temp.add(currentLandVoucehrs.get(l).get(Itinerary.LAND_VOUCHER_SERVICE_DATE));
+			 				temp.add(request.getParameter(l+landService+i));
+			 				temp.add(request.getParameter(l+vendors+i));
+			 				
+			 				if(request.getParameter(l+landBreakfast+i) != null && request.getParameter(l+landBreakfast+i).equals(landBreakfast))
+			 					temp.add("1");
+			 				else
+			 					temp.add("0");
+			 				
+			 				if(request.getParameter(l+landLunch+i) != null && request.getParameter(l+landLunch+i).equals(landLunch))
+			 					temp.add("1");
+			 				else
+			 					temp.add("0");
+			 				
+			 				if(request.getParameter(l+landDinner+i) != null && request.getParameter(l+landDinner+i).equals(landDinner))
+			 					temp.add("1");
+			 				else
+			 					temp.add("0");
+			 				
+			 				
+			 				temp.add(request.getParameter(l+landServiceCity+i));
+			 				temp.add(request.getParameter(l+landServiceCountry+i));
+			 				
+			 				// add each land voucher(temp) to enteredLandVouchers(a list of land vouchers for the tour)
+			 				enteredLandVoucehrs.add(temp);
+			 			}
+			 			// set enteredLandVouchers(a list of land vouchers for the tour) to the LAND_VOUCHERS position in enteredTour(a list of everything for the current entered tour)
+			 			enteredTour.set(Itinerary.LAND_VOUCHERS, enteredLandVoucehrs);
+		 			}
+		 			
+		 			if(currentTour.size() > Itinerary.HOTEL_VOUCHERS)
+		 				hotelVoucherSize = ((ArrayList<ArrayList<String>>)currentTour.get(Itinerary.HOTEL_VOUCHERS)).size();
+		 				
+		 			
+		 		}
+		 		
+	
+				enteredTourList.add(enteredTour);
+			}
 		}
 		
 		
@@ -314,7 +411,9 @@ public class Itinerary extends HttpServlet {
 		 			// increment day
 		 			day = day.plusDays(1);
 		 		}
-	 			System.out.println(returnTourList);
+		 		
+		 		// print list after Get Itinerary button clicked
+	 			//System.out.println(returnTourList);
 		 			 		
 		 		tourList = returnTourList;		
 				request.setAttribute(ItineraryDao.TOUR_LIST, tourList);
@@ -322,10 +421,11 @@ public class Itinerary extends HttpServlet {
 		}
 		
 
-
+		
 		// check if tourList is empty
 		if(!buttonClicked && tourList != null && !tourList.isEmpty())
 		{
+
 			String country = "";
 			String city = "";
 			// loop through all the tours
@@ -340,11 +440,12 @@ public class Itinerary extends HttpServlet {
 					country = request.getParameter(searchCountry+i);
 					city = request.getParameter(searchCity+i);
 					
-					
-					
+					activityTemplateList = idao.getActivityTemplates(country, city);
+					tourNameList = idao.getTourNames(country, city);
+					vendorList = vdao.getVendors(country, city);
+					hotelList = hdao.getHotels(country, city);
+			
 					request.setAttribute(ItineraryDao.ROW_ID, "#row"+i);
-					
-					
 					break;
 				}
 				
@@ -363,9 +464,9 @@ public class Itinerary extends HttpServlet {
 					// update activity, city and country
 					if(activityInfo.size() == 3)
 					{
-						enteredTourList.get(i).set(Itinerary.ACTIVITY, activityInfo.get(0));
-						enteredTourList.get(i).set(Itinerary.CITY, activityInfo.get(1));
-						enteredTourList.get(i).set(Itinerary.COUNTRY, activityInfo.get(2));
+						((ArrayList<String>)enteredTourList.get(i)).set(Itinerary.ACTIVITY, activityInfo.get(0));
+						((ArrayList<String>)enteredTourList.get(i)).set(Itinerary.CITY, activityInfo.get(1));
+						((ArrayList<String>)enteredTourList.get(i)).set(Itinerary.COUNTRY, activityInfo.get(2));
 					}
 					
 					request.setAttribute(ItineraryDao.ROW_ID, "#row"+i);
@@ -383,17 +484,17 @@ public class Itinerary extends HttpServlet {
 				
 			}
 			
-	 		
 			if(buttonClicked)
 			{
-				request.setAttribute(ItineraryDao.ACTIVITY_TEMPLATE_LIST, idao.getActivityTemplates(country, city));
-				request.setAttribute(ItineraryDao.TOUR_NAME_LIST, idao.getTourNames(country, city));
-				request.setAttribute(ItineraryDao.VENDOR_LIST, vdao.getVendors(country, city));
-				request.setAttribute(ItineraryDao.HOTEL_LIST, hdao.getHotels(country, city));
+					request.setAttribute(ItineraryDao.ACTIVITY_TEMPLATE_LIST, activityTemplateList);
+					request.setAttribute(ItineraryDao.TOUR_NAME_LIST, tourNameList);
+					request.setAttribute(ItineraryDao.VENDOR_LIST, vendorList);
+					request.setAttribute(ItineraryDao.HOTEL_LIST, hotelList);
 			}
-
+	 		 
+			
 			// entered tour list
-			System.out.println(enteredTourList);
+			//System.out.println(enteredTourList);
 			request.setAttribute(ItineraryDao.TOUR_LIST, enteredTourList);
 			
 		}

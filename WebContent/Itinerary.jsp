@@ -54,10 +54,20 @@
 		String accommodations = ItineraryDao.getItineraryAccommodations();
 		String roomType = ItineraryDao.getItineraryRoomType();
 		
+		String landBreakfast = ItineraryDao.getItineraryLandBreakfast();
+		String landLunch = ItineraryDao.getItineraryLandLunch();
+		String landDinner = ItineraryDao.getItineraryLandDinner();
+		
+		String hotelBreakfast = ItineraryDao.getItineraryHotelBreakfast();
+		String hotelLunch = ItineraryDao.getItineraryHotelLunch();
+		String hotelDinner = ItineraryDao.getItineraryHotelDinner();
+		
+		
 		// itinerary button
 		String searchButton = ItineraryDao.getItinerarySearchButton();
 		String getActivityButton = ItineraryDao.getItineraryGetActivityButton();
 		String moreLandServiceButton = ItineraryDao.getItineraryMoreLandServiceButton();
+		String moreHotelServiceButton = ItineraryDao.getItineraryMoreHotelServiceButton();
 		
 		// hotel search textfields
 		String landServiceCountry = ItineraryDao.getItineraryHotelCountry();
@@ -160,7 +170,7 @@
 	
 	</script>
 	
-
+	
 	<div class="content_wrap">
 	
 	
@@ -217,25 +227,49 @@
 					  	<th colspan="2">Activity Summary</th>
 					  </tr>
 					  
-					  <% if(tourList != null && !tourList.isEmpty()){ %> 
-							<% for(int i=0; i < tourList.size(); i++) { %>
-								<% ArrayList<Object> currentTour =  (ArrayList<Object>) tourList.get(i); %>
+					  <%
+					    
+					    if(tourList != null && !tourList.isEmpty())
+					  	{ 
+							for(int i=0; i < tourList.size(); i++) 
+							{
+								ArrayList<Object> currentTour =  (ArrayList<Object>) tourList.get(i);
 								
-								<% String dayValue = currentTour.get(Itinerary.TRAVEL_DATE).toString(); %>
-								<% String activityTemplatesValue = ""; %>
-								<% String activityValue = ""; %>	
-								<% String searchCityValue = ""; %>						
-								<% String searchCountryValue = ""; %>
-								<% int landServiceSize = 1; %>
-							
-								<% if(currentTour.size() > Itinerary.ACTIVITY_TEMPLATE) activityTemplatesValue = currentTour.get(Itinerary.ACTIVITY_TEMPLATE).toString(); %>
-								<% if(currentTour.size() > Itinerary.ACTIVITY) activityValue = currentTour.get(Itinerary.ACTIVITY).toString(); %>
-								<% if(currentTour.size() > Itinerary.CITY) searchCityValue = currentTour.get(Itinerary.CITY).toString(); %>
-								<% if(currentTour.size() > Itinerary.COUNTRY) searchCountryValue = currentTour.get(Itinerary.COUNTRY).toString(); %>
-								<% if(currentTour.size() > Itinerary.LAND_VOUCHERS && currentTour.get(Itinerary.LAND_VOUCHERS) instanceof ArrayList) landServiceSize = ((ArrayList<String>) currentTour.get(Itinerary.LAND_VOUCHERS)).size(); %>
+								ArrayList<ArrayList<String>> landVouchers = new ArrayList<>();
+								ArrayList<ArrayList<String>> hotelVouchers = new ArrayList<>();
 								
+								String dayValue = currentTour.get(Itinerary.TRAVEL_DATE).toString();
+								String activityTemplatesValue = "";
+								String activityValue = "";	
+								String searchCityValue = "";						
+								String searchCountryValue = "";
+								int landServiceSize = 1; 
+								int hotelSize = 1;
 								
- 							  
+	
+								if(currentTour.size() > Itinerary.ACTIVITY_TEMPLATE) activityTemplatesValue = currentTour.get(Itinerary.ACTIVITY_TEMPLATE).toString();
+								if(currentTour.size() > Itinerary.ACTIVITY) activityValue = currentTour.get(Itinerary.ACTIVITY).toString();
+								if(currentTour.size() > Itinerary.CITY) searchCityValue = currentTour.get(Itinerary.CITY).toString();
+								if(currentTour.size() > Itinerary.COUNTRY) searchCountryValue = currentTour.get(Itinerary.COUNTRY).toString();
+								if(currentTour.size() > Itinerary.LAND_VOUCHERS && currentTour.get(Itinerary.LAND_VOUCHERS) instanceof ArrayList)
+								{
+									int tempSize = ((ArrayList<ArrayList<String>>) currentTour.get(Itinerary.LAND_VOUCHERS)).size();
+									if(tempSize > landServiceSize) landServiceSize = tempSize;
+
+									landVouchers = ((ArrayList<ArrayList<String>>) currentTour.get(Itinerary.LAND_VOUCHERS));
+									
+								}
+								if(currentTour.size() > Itinerary.HOTEL_VOUCHERS && currentTour.get(Itinerary.HOTEL_VOUCHERS) instanceof ArrayList)
+								{	
+									int tempSize = ((ArrayList<ArrayList<String>>) currentTour.get(Itinerary.HOTEL_VOUCHERS)).size();
+									if(tempSize > landServiceSize) hotelSize = tempSize;
+
+									hotelVouchers = ((ArrayList<ArrayList<String>>) currentTour.get(Itinerary.HOTEL_VOUCHERS));
+									
+								}
+			
+						%>
+			  
 							  <tr>
 								
 							    <td rowspan="3" id="row<%=i%>">
@@ -289,13 +323,38 @@
 							  <tr>		  	
 							    <td>	  
 							    
-							     <% //if(tourList != null && !tourList.isEmpty()) { %> 
-							    	 <% for(int l=0; l < landServiceSize; l++)  { %>
+							    	<% 
 							    	
+							    	
+							    	for(int l=0; l < landServiceSize; l++)  
+							    	{ 
+							    		
+							    		String serviceValue = "";
+							    		String vendorValue = "";
+							    		String breakfast = "";
+							    		String lunch = "";
+							    		String dinner = "";
+
+							    		
+							    		if(landVouchers.size() > 0)
+							    		{
+							    			int landVoucherSize = landVouchers.get(l).size();
+							    			
+							    			if(landVoucherSize > Itinerary.LAND_VOUCHER_SERVICE) serviceValue = landVouchers.get(l).get(Itinerary.LAND_VOUCHER_SERVICE);
+							    			if(landVoucherSize > Itinerary.LAND_VOUCHER_VENDOR) vendorValue = landVouchers.get(l).get(Itinerary.LAND_VOUCHER_VENDOR);
+							    			if(landVoucherSize > Itinerary.LAND_VOUCHER_BREAKFAST) breakfast = landVouchers.get(l).get(Itinerary.LAND_VOUCHER_BREAKFAST);	
+							    			if(landVoucherSize > Itinerary.LAND_VOUCHER_LUNCH) lunch = landVouchers.get(l).get(Itinerary.LAND_VOUCHER_LUNCH);
+							    			if(landVoucherSize > Itinerary.LAND_VOUCHER_DINNER) dinner = landVouchers.get(l).get(Itinerary.LAND_VOUCHER_DINNER);
+
+							    		}
+							    	 
+							    	 
+							    	%>
+							    		
 								    	<div class="service_div full_width_div">
 											
 								    		<div class="float_left text larger_width_text"><%=landService+" "+(l+1) %>: </div>
-								    		<select class="float_left larger_width_textfield editable-select land_services"  name="<%=l+landService+i %>" value="" >
+								    		<select class="float_left editable-select land_services"  name="<%=l+landService+i %>" value="<%=serviceValue %>" >
 												<%if(tourNameList != null && !tourNameList.isEmpty()) { %>
 													<% for(int j=0; j < tourNameList.size(); j++) { %>
 														<option class="selected"><%=tourNameList.get(j) %></option>
@@ -303,11 +362,15 @@
 												<% } %>
 									    		
 									    	</select>
+									    	
+									    	<input class="float_left meals" type="checkbox" name="<%=l+landBreakfast+i %>" value="<%=landBreakfast%>" <%= breakfast.equals("1") ? "checked='checked'" : "" %>><div class="float_left text meal_text">B</div>
+									    	<input class="float_left meals" type="checkbox" name="<%=l+landLunch+i %>" value="<%=landLunch%>" <%= lunch.equals("1") ? "checked='checked'" : "" %>><div class="float_left text meal_text">L</div>
+									    	<input class="float_left meals" type="checkbox" name="<%=l+landDinner+i %>" value="<%=landDinner%>" <%= dinner.equals("1") ? "checked='checked'" : "" %>><div class="float_left text meal_text">D</div>
 								    	</div> 
 								    	
 								    	<div class="vendor_div full_width_div">
 								    		<div class="float_left text larger_width_text"><%=vendors+" "+(l+1) %>: </div>
-								    		<select class="float_left larger_width_textfield editable-select vendors"  name="<%=l+vendors+i %>" value="" >
+								    		<select class="float_left larger_width_textfield editable-select vendors"  name="<%=l+vendors+i %>" value="<%=vendorValue %>" >
 												<%if(vendorList != null && !vendorList.isEmpty()) { %>
 													<% for(int j=0; j < vendorList.size(); j++) { %>
 														<option class="selected"><%=vendorList.get(j) %></option>
@@ -323,7 +386,7 @@
 		    		
 							    	<div class="accommodations_div full_width_div">
 								    	<div class="float_left text larger_width_text"><%=accommodations %>: </div> 
-								    	<select class="float_left larger_width_textfield editable-select hotels"  name="<%=accommodations+i %>" value="" >
+								    	<select class="float_left editable-select hotels"  name="<%=accommodations+i %>" value="" >
 											<%if(hotelList != null && !hotelList.isEmpty()) { %>
 												<% for(int j=0; j < hotelList.size(); j++) { %>
 													<option class="selected"><%=hotelList.get(j) %></option>
@@ -332,20 +395,35 @@
 								    		
 								    	</select>
 								    	
+								    	<input class="float_left meals" type="checkbox" name="<%=hotelBreakfast+i %>" value="<%=hotelBreakfast %>" checked><div class="float_left text meal_text">B</div>
+									    <input class="float_left meals" type="checkbox" name="<%=hotelLunch+i %>" value="<%=hotelLunch %>"><div class="float_left text meal_text">L</div>
+									    <input class="float_left meals" type="checkbox" name="<%=hotelDinner+i %>" value="<%=hotelDinner %>"><div class="float_left text meal_text">D</div>
 							    	</div>
-							    	
+							    	<div class="full_width_div"><input type="submit" class="itinerary_buttons more_land_service_button" name="<%=moreHotelServiceButton+i %>" value="<%=moreHotelServiceButton %>"></div>
 							    </td>
 							    
 							    
 							    
 							    <td>
 							    
-							    	<% //if(tourList != null && !tourList.isEmpty()) { %> 
-							    	 	<% for(int l=0; l < landServiceSize; l++)  { %>
+							    	 	<% 
+							    	 	for(int l=0; l < landServiceSize; l++)  
+							    	 	{ 
+								    		String landCityValue = "";
+								    		String landCountryValue = "";
+								    		
+								    		if(landVouchers.size() > 0)
+								    		{
+								    			if(landVouchers.get(l).size() > Itinerary.LAND_VOUCHER_CITY) landCityValue = landVouchers.get(l).get(Itinerary.LAND_VOUCHER_CITY);
+								    			if(landVouchers.get(l).size() > Itinerary.LAND_VOUCHER_COUNTRY) landCountryValue = landVouchers.get(l).get(Itinerary.LAND_VOUCHER_COUNTRY);
+								    			
+								    		}
+							    	 	
+							    	 	%>
 							    	 	
 									    	<div class="land_country_div full_width_div">
 										    	<div class="float_left text larger_width_text"><%=landServiceCity+" "+(l+1) %>: </div> 
-										    	<select class="float_left larger_width_textfield editable-select land_service_city" name="<%=l+landServiceCity+i %>"  value="" >
+										    	<select class="float_left larger_width_textfield editable-select land_service_city" name="<%=l+landServiceCity+i %>"  value="<%=landCityValue %>" >
 											    		<% for(int c=0; c < tourCities.size(); c++) { %>
 															<option class="selected"><%=tourCities.get(c) %></option>
 														<% } %>
@@ -356,7 +434,7 @@
 										    
 										    <div class="land_city_div full_width_div">							    
 										    	<div class="float_left text larger_width_text"><%=landServiceCountry+" "+(l+1) %>: </div> 
-										    	<select class="float_left larger_width_textfield editable-select land_service_country" name="<%=l+landServiceCountry+i %>" value="" >
+										    	<select class="float_left larger_width_textfield editable-select land_service_country" name="<%=l+landServiceCountry+i %>" value="<%=landCountryValue %>" >
 											    	<% for(int t=0; t < tourCountries.size(); t++) { %>
 														<option class="selected"><%=tourCountries.get(t) %></option>
 													<% } %>	
@@ -369,7 +447,10 @@
 								    
 								    <div class="room_type_div full_width_div">
 								    	<div class="float_left text larger_width_text"><%=roomType %>: </div> 
-								    	<select class="float_left larger_width_textfield editable-select room_type"  name="<%=roomType+i %>" value="" >
+								    	
+								    	<input class="float_left number_of_room" type="number" name="room_number" min="1" max="1000" value="1">
+								    	
+								    	<select class="float_left editable-select room_type"  name="<%=roomType+i %>" value="" >
 											<%if(hotelList != null && !hotelList.isEmpty()) { %>
 												<% for(int j=0; j < hotelList.size(); j++) { %>
 													<option class="selected"><%=hotelList.get(j) %></option>
@@ -377,8 +458,19 @@
 											<% } %>
 								    		
 								    	</select>
+								    	
+								    	<select class="float_left editable-select room_category"  name="room_category" value="" >
+											<%if(hotelList != null && !hotelList.isEmpty()) { %>
+												<% for(int j=0; j < hotelList.size(); j++) { %>
+													<option class="selected"><%=hotelList.get(j) %></option>
+												<% } %>
+											<% } %>
+								    		
+								    	</select>
+								    	
 								    
 								    </div>
+								    <div class="full_width_div"><input type="submit" class="itinerary_buttons more_land_service_button" name="<%=moreHotelServiceButton+i %>" value="<%=moreHotelServiceButton %>"></div>
 							    </td>
 							    
 							  </tr>
