@@ -1,3 +1,12 @@
+/*
+ * This file is part of Explorient Web App
+ * Copyright (C) 2016-2019 Richard R. Zheng
+ *
+ * https://github.com/rzheng95/ExplorientWebApp
+ * 
+ * All Right Reserved.
+ */
+
 package com.rzheng.login;
 
 

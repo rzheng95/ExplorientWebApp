@@ -1,4 +1,13 @@
-	package com.rzheng.passenger;
+/*
+ * This file is part of Explorient Web App
+ * Copyright (C) 2016-2019 Richard R. Zheng
+ *
+ * https://github.com/rzheng95/ExplorientWebApp
+ * 
+ * All Right Reserved.
+ */
+
+package com.rzheng.passenger;
 
 import java.io.IOException;
 import java.util.ArrayList;

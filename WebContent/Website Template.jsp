@@ -1,4 +1,13 @@
+ <!-- 
+
+  This file is part of Explorient Web App
+  Copyright (C) 2016-2019 Richard R. Zheng
  
+  https://github.com/rzheng95/ExplorientWebApp
+  
+  All Right Reserved.
+ 
+ -->
 
 
 
@@ -38,14 +47,14 @@
 
 
 <link rel="stylesheet" href="CSS/Website Template.css" type="text/css">
-<%@ page import="com.login.LoginDao"%>
-<%@ page import="com.homepage.HomepageDao"%>
-<%@ page import="com.newpage.NewpageDao"%>
-<%@ page import="com.passenger.PassengerDao"%>
-<%@ page import="com.itinerary.ItineraryDao"%>
-<%@ page import="com.vendor.VendorDao"%>
-<%@ page import="com.agent.AgentDao"%>
-<%@ page import="com.hotel.HotelDao"%>
+<%@ page import="com.rzheng.login.LoginDao"%>
+<%@ page import="com.rzheng.homepage.HomepageDao"%>
+<%@ page import="com.rzheng.newpage.NewpageDao"%>
+<%@ page import="com.rzheng.passenger.PassengerDao"%>
+<%@ page import="com.rzheng.itinerary.ItineraryDao"%>
+<%@ page import="com.rzheng.vendor.VendorDao"%>
+<%@ page import="com.rzheng.agent.AgentDao"%>
+<%@ page import="com.rzheng.hotel.HotelDao"%>
 <%@ page import="java.util.*"%>
 <%@ page import="java.time.*"%>
 

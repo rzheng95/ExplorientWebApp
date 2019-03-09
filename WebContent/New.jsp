@@ -1,3 +1,14 @@
+<!-- 
+
+  This file is part of Explorient Web App
+  Copyright (C) 2016-2019 Richard R. Zheng
+ 
+  https://github.com/rzheng95/ExplorientWebApp
+  
+  All Right Reserved.
+ 
+ -->
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 
