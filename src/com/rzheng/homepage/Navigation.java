@@ -1,4 +1,4 @@
-package com.homepage;
+package com.rzheng.homepage;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.login.LoginDao;
-import com.newpage.NewpageDao;
-import com.passenger.PassengerDao;
+import com.rzheng.login.LoginDao;
+import com.rzheng.newpage.NewpageDao;
+import com.rzheng.passenger.PassengerDao;
 
 @WebServlet("/Navigation")
 public class Navigation extends HttpServlet {

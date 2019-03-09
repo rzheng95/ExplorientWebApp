@@ -1,4 +1,4 @@
-package com.hotel;
+package com.rzheng.hotel;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 import org.mariadb.jdbc.Driver;
-import com.newpage.NewpageDao;
+
+import com.rzheng.newpage.NewpageDao;
 
 public class HotelDao extends HttpServlet
 {			

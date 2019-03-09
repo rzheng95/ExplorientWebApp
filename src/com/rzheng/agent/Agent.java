@@ -1,4 +1,4 @@
-package com.agent;
+package com.rzheng.agent;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,10 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.hotel.HotelDao;
-import com.login.EmailChecker;
-import com.login.LoginDao;
-
+import com.rzheng.hotel.HotelDao;
+import com.rzheng.login.EmailChecker;
+import com.rzheng.login.LoginDao;
 
 @WebServlet("/Agent")
 public class Agent extends HttpServlet {

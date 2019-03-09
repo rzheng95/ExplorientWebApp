@@ -1,4 +1,4 @@
-package com.login;
+package com.rzheng.login;
 
 import java.security.SecureRandom;
 import java.math.BigInteger;

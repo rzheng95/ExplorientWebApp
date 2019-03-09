@@ -1,4 +1,4 @@
-	package com.passenger;
+	package com.rzheng.passenger;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,9 +8,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.login.*;
 
-import com.newpage.NewpageDao;
+import com.rzheng.login.*;
+import com.rzheng.newpage.NewpageDao;
 
 @WebServlet("/Passenger")
 public class Passenger extends HttpServlet {

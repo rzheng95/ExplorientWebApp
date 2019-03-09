@@ -1,4 +1,4 @@
-package com.login;
+package com.rzheng.login;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

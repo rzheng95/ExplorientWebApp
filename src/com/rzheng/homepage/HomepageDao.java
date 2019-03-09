@@ -1,4 +1,4 @@
-package com.homepage;
+package com.rzheng.homepage;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServlet;
 
 import org.mariadb.jdbc.Driver;
 
-import com.login.SHA512;
+import com.rzheng.login.SHA512;
 
 public class HomepageDao extends HttpServlet
 {	

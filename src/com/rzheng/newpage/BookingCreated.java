@@ -1,4 +1,4 @@
-package com.newpage;
+package com.rzheng.newpage;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.login.LoginDao;
-import com.passenger.PassengerDao;
+import com.rzheng.login.LoginDao;
+import com.rzheng.passenger.PassengerDao;
 
 
 @WebServlet("/BookingCreated")

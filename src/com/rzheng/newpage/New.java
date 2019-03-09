@@ -1,4 +1,4 @@
-package com.newpage;
+package com.rzheng.newpage;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.itinerary.ItineraryDao;
-import com.login.LoginDao;
-import com.passenger.PassengerDao;
+import com.rzheng.itinerary.ItineraryDao;
+import com.rzheng.login.LoginDao;
+import com.rzheng.passenger.PassengerDao;
 
 @WebServlet("/New")
 public class New extends HttpServlet {

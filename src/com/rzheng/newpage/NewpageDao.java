@@ -1,4 +1,4 @@
-package com.newpage;
+package com.rzheng.newpage;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
