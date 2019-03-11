@@ -7,7 +7,7 @@
  * All Right Reserved.
  */
 
-package com.rzheng.homepage;
+package com.homepage;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServlet;
 
 import org.mariadb.jdbc.Driver;
 
-import com.rzheng.login.SHA512;
+import com.login.SHA512;
 
 public class HomepageDao extends HttpServlet
 {	

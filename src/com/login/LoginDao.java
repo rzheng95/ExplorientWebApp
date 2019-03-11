@@ -7,7 +7,7 @@
  * All Right Reserved.
  */
 
-package com.rzheng.login;
+package com.login;
 
 import java.sql.*;
 import javax.servlet.*;  

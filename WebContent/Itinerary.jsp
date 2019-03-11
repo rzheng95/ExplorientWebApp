@@ -22,7 +22,7 @@
 
 <body>
 
-<%@ page import="com.rzheng.itinerary.Itinerary"%>
+<%@ page import="com.itinerary.Itinerary"%>
 
 <%@include file="Website Template.jsp"%>
 

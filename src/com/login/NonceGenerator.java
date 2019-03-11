@@ -7,7 +7,7 @@
  * All Right Reserved.
  */
 
-package com.rzheng.login;
+package com.login;
 
 import java.security.SecureRandom;
 import java.math.BigInteger;

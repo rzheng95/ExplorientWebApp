@@ -7,7 +7,7 @@
  * All Right Reserved.
  */
 
-package com.rzheng.itinerary;
+package com.itinerary;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -21,7 +21,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 import org.mariadb.jdbc.Driver;
 
-import com.rzheng.newpage.NewpageDao;
+import com.newpage.NewpageDao;
 
 public class ItineraryDao extends HttpServlet
 {			

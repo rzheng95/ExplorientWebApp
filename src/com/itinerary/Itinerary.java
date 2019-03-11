@@ -7,7 +7,7 @@
  * All Right Reserved.
  */
 
-package com.rzheng.itinerary;
+package com.itinerary;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -19,11 +19,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.rzheng.hotel.HotelDao;
-import com.rzheng.newpage.NewpageDao;
-import com.rzheng.passenger.PassengerDao;
-import com.rzheng.vendor.VendorDao;
+import com.hotel.HotelDao;
+import com.newpage.NewpageDao;
+import com.passenger.PassengerDao;
 import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
+import com.vendor.VendorDao;
 
 @WebServlet("/Itinerary")
 public class Itinerary extends HttpServlet {

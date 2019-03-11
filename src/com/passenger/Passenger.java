@@ -7,7 +7,7 @@
  * All Right Reserved.
  */
 
-package com.rzheng.passenger;
+package com.passenger;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.rzheng.login.*;
-import com.rzheng.newpage.NewpageDao;
+import com.login.*;
+import com.newpage.NewpageDao;
 
 @WebServlet("/Passenger")
 public class Passenger extends HttpServlet {

@@ -7,7 +7,7 @@
  * All Right Reserved.
  */
 
-package com.rzheng.passenger;
+package com.passenger;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -19,7 +19,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 import org.mariadb.jdbc.Driver;
 
-import com.rzheng.newpage.NewpageDao;
+import com.newpage.NewpageDao;
 
 public class PassengerDao extends HttpServlet
 {			

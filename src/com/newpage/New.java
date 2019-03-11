@@ -7,7 +7,7 @@
  * All Right Reserved.
  */
 
-package com.rzheng.newpage;
+package com.newpage;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,9 +19,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.rzheng.itinerary.ItineraryDao;
-import com.rzheng.login.LoginDao;
-import com.rzheng.passenger.PassengerDao;
+import com.itinerary.ItineraryDao;
+import com.login.LoginDao;
+import com.passenger.PassengerDao;
 
 @WebServlet("/New")
 public class New extends HttpServlet {

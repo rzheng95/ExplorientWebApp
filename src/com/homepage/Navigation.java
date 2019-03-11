@@ -7,7 +7,7 @@
  * All Right Reserved.
  */
 
-package com.rzheng.homepage;
+package com.homepage;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -17,9 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.rzheng.login.LoginDao;
-import com.rzheng.newpage.NewpageDao;
-import com.rzheng.passenger.PassengerDao;
+import com.login.LoginDao;
+import com.newpage.NewpageDao;
+import com.passenger.PassengerDao;
 
 @WebServlet("/Navigation")
 public class Navigation extends HttpServlet {

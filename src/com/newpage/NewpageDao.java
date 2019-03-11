@@ -7,7 +7,7 @@
  * All Right Reserved.
  */
 
-package com.rzheng.newpage;
+package com.newpage;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

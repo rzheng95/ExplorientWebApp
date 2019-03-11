@@ -7,7 +7,7 @@
  * All Right Reserved.
  */
 
-package com.rzheng.login;
+package com.login;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

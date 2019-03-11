@@ -7,7 +7,7 @@
  * All Right Reserved.
  */
 
-package com.rzheng.login;
+package com.login;
 
 import java.io.*;
 import javax.servlet.annotation.*;

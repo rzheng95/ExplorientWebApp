@@ -7,7 +7,7 @@
  * All Right Reserved.
  */
 
-package com.rzheng.hotel;
+package com.hotel;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,9 +18,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.rzheng.login.EmailChecker;
-import com.rzheng.login.LoginDao;
-import com.rzheng.passenger.PassengerDao;
+import com.login.EmailChecker;
+import com.login.LoginDao;
+import com.passenger.PassengerDao;
 
 @WebServlet("/Hotel")
 public class Hotel extends HttpServlet {

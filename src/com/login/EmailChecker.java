@@ -7,7 +7,7 @@
  * All Right Reserved.
  */
 
-package com.rzheng.login;
+package com.login;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
